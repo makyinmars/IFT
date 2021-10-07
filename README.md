@@ -1,7 +1,8 @@
 # IFoundThis
 
-- Project with the following technologies:
+Do you ever just find weird stuff on the street. Well, this is the perfect place to post it ;)
 
+#Techologies
 ## Backend
 - NestJS
 - JWT
@@ -11,4 +12,3 @@
 ## Frontend
 - NextJS
 - Chakar-UI
-
