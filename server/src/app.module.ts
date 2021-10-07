@@ -8,7 +8,7 @@ import config from '../ormconfig';
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot(config),
+    TypeOrmModule.forRoot({ ...config, autoLoadEntities: true }),
   ],
   controllers: [AppController],
   providers: [AppService],
