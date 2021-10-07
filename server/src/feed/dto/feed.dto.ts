@@ -1,5 +1,5 @@
 export class FeedDto {
   id?: number;
-  body?: string;
+  body: string;
   createAt?: Date;
 }

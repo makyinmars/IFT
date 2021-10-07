@@ -6,8 +6,9 @@ import {
   Param,
   Delete,
   Put,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { DeleteResult, UpdateResult } from 'typeorm';
 import { FeedDto } from './dto/feed.dto';
 import { FeedService } from './feed.service';
@@ -17,26 +18,34 @@ export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
   @Post()
-  create(@Body() feedDto: FeedDto): Observable<FeedDto> {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  create(@Body() feedDto: FeedDto): Promise<FeedDto> {
     return this.feedService.createFeed(feedDto);
   }
 
   @Get()
-  findAll(): Observable<FeedDto[]> {
+  findAll(): Promise<FeedDto[]> {
     return this.feedService.findAllFeeds();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: number): Promise<FeedDto> {
+    return this.feedService.findFeed(id);
+  }
+
   @Put(':id')
+  @UsePipes(new ValidationPipe({ transform: true }))
   update(
     @Param('id') id: number,
     @Body()
     feedDto: FeedDto,
-  ): Observable<UpdateResult> {
+  ): Promise<UpdateResult> {
     return this.feedService.updateFeed(id, feedDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number): Observable<DeleteResult> {
+  @UsePipes(new ValidationPipe({ transform: true }))
+  delete(@Param('id') id: number): Promise<DeleteResult> {
     return this.feedService.deleteFeed(id);
   }
 }
