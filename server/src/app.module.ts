@@ -4,6 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { FeedModule } from './feed/feed.module';
+import { AuthModule } from './auth/auth.module';
+import { AuthService } from './auth.service';
 import config from '../ormconfig';
 
 @Module({
@@ -11,8 +13,9 @@ import config from '../ormconfig';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({ ...config, autoLoadEntities: true }),
     FeedModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService],
 })
 export class AppModule {}
