@@ -1,3 +1,3 @@
-export class CreateFeedDto {
+export class CreateFeedPostDto {
   body: string;
 }

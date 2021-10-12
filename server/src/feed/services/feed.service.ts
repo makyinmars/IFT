@@ -2,38 +2,38 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
-import { CreateFeedDto } from './dto/create-feed.dto';
-import { UpdateFeedDto } from './dto/update-feed.dto';
-import { FeedEntity } from './entities/feed.entity';
-import { Feed } from './interfaces/feed.interface';
+import { CreateFeedPostDto } from '../models/create-feed.dto';
+import { UpdateFeedPostDto } from '../models/update-feed.dto';
+import { FeedPostEntity } from '../models/feed.entity';
+import { FeedPost } from '../models/feed.interface';
 
 @Injectable()
 export class FeedService {
   constructor(
-    @InjectRepository(FeedEntity)
-    private readonly feedRepository: Repository<FeedEntity>,
+    @InjectRepository(FeedPostEntity)
+    private readonly feedPostRepository: Repository<FeedPostEntity>,
   ) {}
 
-  async createFeed(createFeedDto: CreateFeedDto) {
-    return this.feedRepository.save(createFeedDto);
+  async createPost(createFeedPostDto: CreateFeedPostDto) {
+    return this.feedPostRepository.save(createFeedPostDto);
   }
 
-  async findAllFeeds(): Promise<Feed[]> {
-    return this.feedRepository.find();
+  async findAllPosts(): Promise<FeedPost[]> {
+    return this.feedPostRepository.find();
   }
 
-  async findFeed(id: number): Promise<Feed> {
-    return this.feedRepository.findOne(id);
+  async findPost(id: number): Promise<FeedPost> {
+    return this.feedPostRepository.findOne(id);
   }
 
-  async updateFeed(
+  async updatePost(
     id: number,
-    updateFeedDto: UpdateFeedDto,
+    updateFeedPostDto: UpdateFeedPostDto,
   ): Promise<UpdateResult> {
-    return this.feedRepository.update(id, updateFeedDto);
+    return this.feedPostRepository.update(id, updateFeedPostDto);
   }
 
-  async deleteFeed(id: number): Promise<DeleteResult> {
-    return this.feedRepository.delete(id);
+  async deletePost(id: number): Promise<DeleteResult> {
+    return this.feedPostRepository.delete(id);
   }
 }
