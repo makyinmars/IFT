@@ -15,6 +15,7 @@ import { CreateFeedPostDto } from '../models/create-feed.dto';
 import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/feed.interface';
+import { from, Observable } from 'rxjs';
 
 @Controller('feed')
 export class FeedController {
@@ -24,18 +25,18 @@ export class FeedController {
   @UsePipes(new ValidationPipe({ transform: true }))
   create(
     @Body() createFeedPostDto: CreateFeedPostDto,
-  ): Promise<CreateFeedPostDto> {
-    return this.feedService.createPost(createFeedPostDto);
+  ): Observable<CreateFeedPostDto> {
+    return from(this.feedService.createPost(createFeedPostDto));
   }
 
   @Get()
-  findAll(): Promise<FeedPost[]> {
-    return this.feedService.findAllPosts();
+  findAll(): Observable<FeedPost[]> {
+    return from(this.feedService.findAllPosts());
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<FeedPost> {
-    return this.feedService.findPost(id);
+  findOne(@Param('id') id: number): Observable<FeedPost> {
+    return from(this.feedService.findPost(id));
   }
 
   @Put(':id')
@@ -44,13 +45,13 @@ export class FeedController {
     @Param('id') id: number,
     @Body()
     updateFeedPostDto: UpdateFeedPostDto,
-  ): Promise<UpdateResult> {
-    return this.feedService.updatePost(id, updateFeedPostDto);
+  ): Observable<UpdateResult> {
+    return from(this.feedService.updatePost(id, updateFeedPostDto));
   }
 
   @Delete(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
-  delete(@Param('id') id: number): Promise<DeleteResult> {
-    return this.feedService.deletePost(id);
+  delete(@Param('id') id: number): Observable<DeleteResult> {
+    return from(this.feedService.deletePost(id));
   }
 }
