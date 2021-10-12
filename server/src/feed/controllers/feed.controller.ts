@@ -11,10 +11,10 @@ import {
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
-import { CreateFeedPostDto } from '../models/create-feed.dto';
-import { UpdateFeedPostDto } from '../models/update-feed.dto';
-import { FeedService } from '../services/feed.service';
-import { FeedPost } from '../models/feed.interface';
+import { CreateFeedDto } from './dto/create-feed.dto';
+import { UpdateFeedDto } from './dto/update-feed.dto';
+import { FeedService } from './feed.service';
+import { Feed } from './interfaces/feed.interface';
 
 @Controller('feed')
 export class FeedController {
@@ -22,20 +22,18 @@ export class FeedController {
 
   @Post()
   @UsePipes(new ValidationPipe({ transform: true }))
-  create(
-    @Body() createFeedPostDto: CreateFeedPostDto,
-  ): Promise<CreateFeedPostDto> {
-    return this.feedService.createPost(createFeedPostDto);
+  create(@Body() createFeedDto: CreateFeedDto): Promise<CreateFeedDto> {
+    return this.feedService.createFeed(createFeedDto);
   }
 
   @Get()
-  findAll(): Promise<FeedPost[]> {
-    return this.feedService.findAllPosts();
+  findAll(): Promise<Feed[]> {
+    return this.feedService.findAllFeeds();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Promise<FeedPost> {
-    return this.feedService.findPost(id);
+  findOne(@Param('id') id: number): Promise<Feed> {
+    return this.feedService.findFeed(id);
   }
 
   @Put(':id')
@@ -43,14 +41,14 @@ export class FeedController {
   update(
     @Param('id') id: number,
     @Body()
-    updateFeedPostDto: UpdateFeedPostDto,
+    updateFeedDto: UpdateFeedDto,
   ): Promise<UpdateResult> {
-    return this.feedService.updatePost(id, updateFeedPostDto);
+    return this.feedService.updateFeed(id, updateFeedDto);
   }
 
   @Delete(':id')
   @UsePipes(new ValidationPipe({ transform: true }))
   delete(@Param('id') id: number): Promise<DeleteResult> {
-    return this.feedService.deletePost(id);
+    return this.feedService.deleteFeed(id);
   }
 }

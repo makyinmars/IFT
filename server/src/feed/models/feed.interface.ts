@@ -1,6 +1,4 @@
-import User from '../../auth/models/user.class';
-
-export interface FeedPost {
+export interface Feed {
   id?: number;
   body?: string;
   createdAt?: Date;

@@ -1,3 +1,3 @@
-export class UpdateFeedPostDto {
+export class UpdateFeedDto {
   body: string;
 }
