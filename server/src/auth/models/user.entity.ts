@@ -1,6 +1,6 @@
-import { FeedEntity } from 'src/feed/entities/feed.entity';
+import { FeedPostEntity } from '../../feed/models/feed.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { Role } from '../enums/role.enum';
+import { Role } from './role.enum';
 
 @Entity('user')
 export class UserEntity {
@@ -19,6 +19,6 @@ export class UserEntity {
   @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
 
-  @OneToMany(() => FeedEntity, (feedEntity) => feedEntity.author)
-  feeds: FeedEntity[];
+  @OneToMany(() => FeedPostEntity, (feedEntity) => feedEntity.author)
+  feeds: FeedPostEntity[];
 }

@@ -1,4 +1,4 @@
-import { UserEntity } from 'src/auth/entities/user.entity';
+import { UserEntity } from '../../auth/models/user.entity';
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 @Entity()
-export class FeedEntity {
+export class FeedPostEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
