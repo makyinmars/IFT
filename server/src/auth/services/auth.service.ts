@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import * as bcrypt from 'bcrypt';
-import { from, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
+import { RegisterUserDto } from '../models/register-user.dto';
 import { UserEntity } from '../models/user.entity';
 import { User } from '../models/user.interface';
 
@@ -14,11 +14,17 @@ export class AuthService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  hashPassword(password: string): Observable<string> {
-    return from(bcrypt.hash(password, 12));
+  async hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, 12);
   }
 
-  registerAccount(user: User): Observable<User> {
-    const { firstName, lastName, email, password } = user;
+  async registerAccount(
+    registerUserDto: RegisterUserDto,
+  ): Promise<RegisterUserDto> {
+    const hashedPassword = await this.hashPassword(registerUserDto.password);
+
+    registerUserDto.password = hashedPassword;
+
+    return this.userRepository.save(registerUserDto);
   }
 }
