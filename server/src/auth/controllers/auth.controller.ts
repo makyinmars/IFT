@@ -1,4 +1,5 @@
 import { Body, Controller, Post } from '@nestjs/common';
+import { LoginUserDto } from '../models/login-user.dto';
 import { RegisterUserDto } from '../models/register-user.dto';
 import { AuthService } from '../services/auth.service';
 
@@ -9,5 +10,12 @@ export class AuthController {
   @Post('register')
   register(@Body() registerUserDto: RegisterUserDto): Promise<RegisterUserDto> {
     return this.authService.registerAccount(registerUserDto);
+  }
+
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto): Promise<{ token: string }> {
+    const token = this.authService.login(loginUserDto);
+
+    return token.jwt;
   }
 }
