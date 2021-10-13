@@ -6,8 +6,8 @@ import {
   Param,
   Delete,
   Put,
-  UsePipes,
-  ValidationPipe,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -16,17 +16,19 @@ import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/feed.interface';
 import { from, Observable } from 'rxjs';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('feed')
 export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
+  @UseGuards(JwtGuard)
   @Post()
-  @UsePipes(new ValidationPipe({ transform: true }))
   create(
     @Body() createFeedPostDto: CreateFeedPostDto,
+    @Request() req,
   ): Observable<CreateFeedPostDto> {
-    return from(this.feedService.createPost(createFeedPostDto));
+    return from(this.feedService.createPost(req.user, createFeedPostDto));
   }
 
   @Get()
@@ -40,7 +42,6 @@ export class FeedController {
   }
 
   @Put(':id')
-  @UsePipes(new ValidationPipe({ transform: true }))
   update(
     @Param('id') id: number,
     @Body()
@@ -50,7 +51,6 @@ export class FeedController {
   }
 
   @Delete(':id')
-  @UsePipes(new ValidationPipe({ transform: true }))
   delete(@Param('id') id: number): Observable<DeleteResult> {
     return from(this.feedService.deletePost(id));
   }

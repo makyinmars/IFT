@@ -7,6 +7,7 @@ import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedPostEntity } from '../models/feed.entity';
 import { FeedPost } from '../models/feed.interface';
 import { from, Observable } from 'rxjs';
+import { User } from 'src/auth/models/user.interface';
 
 @Injectable()
 export class FeedService {
@@ -15,7 +16,9 @@ export class FeedService {
     private readonly feedPostRepository: Repository<FeedPostEntity>,
   ) {}
 
-  createPost(createFeedPostDto: CreateFeedPostDto) {
+  createPost(user: User, createFeedPostDto: CreateFeedPostDto) {
+    createFeedPostDto.author = user;
+
     return this.feedPostRepository.save(createFeedPostDto);
   }
 
