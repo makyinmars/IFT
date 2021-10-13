@@ -6,6 +6,7 @@ import { CreateFeedPostDto } from '../models/create-feed.dto';
 import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedPostEntity } from '../models/feed.entity';
 import { FeedPost } from '../models/feed.interface';
+import { from, Observable } from 'rxjs';
 
 @Injectable()
 export class FeedService {
@@ -18,22 +19,22 @@ export class FeedService {
     return this.feedPostRepository.save(createFeedPostDto);
   }
 
-  async findAllPosts(): Promise<FeedPost[]> {
-    return this.feedPostRepository.find();
+  findAllPosts(): Observable<FeedPost[]> {
+    return from(this.feedPostRepository.find());
   }
 
-  async findPost(id: number): Promise<FeedPost> {
-    return this.feedPostRepository.findOne(id);
+  findPost(id: number): Observable<FeedPost> {
+    return from(this.feedPostRepository.findOne(id));
   }
 
-  async updatePost(
+  updatePost(
     id: number,
     updateFeedPostDto: UpdateFeedPostDto,
-  ): Promise<UpdateResult> {
-    return this.feedPostRepository.update(id, updateFeedPostDto);
+  ): Observable<UpdateResult> {
+    return from(this.feedPostRepository.update(id, updateFeedPostDto));
   }
 
-  async deletePost(id: number): Promise<DeleteResult> {
-    return this.feedPostRepository.delete(id);
+  deletePost(id: number): Observable<DeleteResult> {
+    return from(this.feedPostRepository.delete(id));
   }
 }
