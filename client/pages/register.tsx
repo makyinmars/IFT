@@ -30,26 +30,26 @@ const Register: NextPage = () => {
       <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
         <GridItem colSpan={colSpan}>
           <FormControl id="firstName" isRequired>
-            <FormLabel>First Name</FormLabel>
+            <FormLabel htmlFor="firstName">First Name</FormLabel>
             <Input type="text" placeholder="John" />
           </FormControl>
         </GridItem>
         <GridItem colSpan={colSpan}>
           <FormControl id="lastName" isRequired>
-            <FormLabel>Last Name</FormLabel>
+            <FormLabel htmlFor="lastName">Last Name</FormLabel>
             <Input type="text" placeholder="Doe" />
           </FormControl>
         </GridItem>
         <GridItem colSpan={2}>
           <FormControl id="email" isRequired>
-            <FormLabel>Email</FormLabel>
+            <FormLabel htmlFor="email">Email</FormLabel>
             <Input type="email" placeholder="johndoe@gmail.com" />
             <FormHelperText>We will never share your email.</FormHelperText>
           </FormControl>
         </GridItem>
         <GridItem colSpan={2}>
           <FormControl id="password" isRequired>
-            <FormLabel>Password</FormLabel>
+            <FormLabel htmlFor="password">Password</FormLabel>
             <Input type="password" placeholder="123456" />
             <FormHelperText>Please use a secure password.</FormHelperText>
           </FormControl>
