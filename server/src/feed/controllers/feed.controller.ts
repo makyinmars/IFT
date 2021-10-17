@@ -17,12 +17,16 @@ import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/feed.interface';
 import { from, Observable } from 'rxjs';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/role.enum';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Controller('feed')
 export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(JwtGuard, RolesGuard)
   @Post()
   create(
     @Body() createFeedPostDto: CreateFeedPostDto,
