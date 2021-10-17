@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { registerUser } from "../app/features/auth/registerSlice";
 import {
@@ -47,14 +47,15 @@ const Register: NextPage = () => {
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData(userFormData);
     dispatch(registerUser({ firstName, lastName, email, password }));
+    setFormData(userFormData);
+  };
 
+  useEffect(() => {
     if (message === "Success") {
       router.push("/");
     }
-  };
+  }, [message, router]);
 
   return (
     <VStack w="full" h="full" p={10}>
