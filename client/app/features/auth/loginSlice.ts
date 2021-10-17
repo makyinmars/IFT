@@ -1,17 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { URL } from "../../constants";
+import { DefaultStatus, URL } from "../../constants";
+import { Status } from "../../interfaces";
 
 export interface LoginState {
   email: string;
   password: string;
-  message: string;
+  status: Status;
 }
 
 const initialState: LoginState = {
   email: "",
   password: "",
-  message: "",
+  status: DefaultStatus,
 };
 
 interface UserResponse {
@@ -39,15 +40,17 @@ const loginSlice = createSlice({
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       state.email = payload.email;
       state.password = payload.password;
-      state.message = "Success";
+
+      state.status.isSuccess = true;
     });
 
     builder.addCase(loginUser.pending, (state) => {
-      state.message = "Pending";
+      state.status.isFetching = true;
     });
 
     builder.addCase(loginUser.rejected, (state, { error }) => {
-      state.message = error.message || "";
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
     });
   },
 });

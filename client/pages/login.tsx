@@ -21,7 +21,9 @@ const userFormData = {
 const Login = () => {
   const dispatch = useAppDispatch();
 
-  const message = useAppSelector((state) => state.login.message);
+  const { isSuccess, isError, isFetching, errorMessage } = useAppSelector(
+    (state) => state.login.status
+  );
 
   const router = useRouter();
 
@@ -43,11 +45,10 @@ const Login = () => {
   };
 
   useEffect(() => {
-    console.log(message);
-    if (message === "Success") {
+    if (isSuccess) {
       router.push("/");
     }
-  }, [message, router]);
+  }, [isSuccess, router]);
 
   return (
     <VStack w="full" h="full" p={10}>

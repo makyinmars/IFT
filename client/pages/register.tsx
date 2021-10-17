@@ -28,7 +28,9 @@ const userFormData = {
 const Register: NextPage = () => {
   const dispatch = useAppDispatch();
 
-  const message = useAppSelector((state) => state.register.message);
+  const { isFetching, isError, isSuccess, errorMessage } = useAppSelector(
+    (state) => state.register.status
+  );
 
   const router = useRouter();
 
@@ -52,10 +54,10 @@ const Register: NextPage = () => {
   };
 
   useEffect(() => {
-    if (message === "Success") {
+    if (isSuccess) {
       router.push("/");
     }
-  }, [message, router]);
+  }, [isSuccess, router]);
 
   return (
     <VStack w="full" h="full" p={10}>
