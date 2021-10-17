@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import Link from "next/link";
+import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { registerUser } from "../app/features/auth/registerSlice";
 import {
   VStack,
   Heading,
@@ -23,6 +26,12 @@ const userFormData = {
 };
 
 const Register: NextPage = () => {
+  const dispatch = useAppDispatch();
+
+  const message = useAppSelector((state) => state.register.message);
+
+  const router = useRouter();
+
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
 
   const [formData, setFormData] = useState(userFormData);
@@ -40,6 +49,11 @@ const Register: NextPage = () => {
     e.preventDefault();
     console.log(formData);
     setFormData(userFormData);
+    dispatch(registerUser({ firstName, lastName, email, password }));
+
+    if (message === "Success") {
+      router.push("/");
+    }
   };
 
   return (

@@ -10,10 +10,14 @@ import {
   Image,
   useColorMode,
   useColorModeValue,
+  Avatar,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
+  const { firstName, lastName } = useAppSelector((state) => state.register);
+
   const { toggleColorMode, colorMode } = useColorMode();
 
   return (
@@ -36,14 +40,19 @@ const Header = () => {
         </Button>
       </Box>
       <Spacer />
-      <Box>
-        <Button mr="5" variant="primary" size="sm">
-          <Link href="/register">Register</Link>
-        </Button>
-        <Button variant="primary" size="sm">
-          <Link href="/login">Log In</Link>
-        </Button>
-      </Box>
+
+      {firstName !== "" ? (
+        <Avatar name={`${firstName} ${lastName}`} size="sm" bg="red.500" />
+      ) : (
+        <Box>
+          <Button mr="5" variant="primary" size="sm">
+            <Link href="/register">Register</Link>
+          </Button>
+          <Button variant="primary" size="sm">
+            <Link href="/login">Log In</Link>
+          </Button>
+        </Box>
+      )}
     </Flex>
   );
 };
