@@ -49,6 +49,7 @@ const loginSlice = createSlice({
     });
 
     builder.addCase(loginUser.rejected, (state, { error }) => {
+      state.status.isFetching = false;
       state.status.isError = true;
       state.status.errorMessage = error.message || "";
     });

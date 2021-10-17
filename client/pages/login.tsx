@@ -12,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { loginUser } from "../app/features/auth/loginSlice";
+import Spinner from "../src/components/spinner";
+import Alert from "../src/components/alert";
 
 const userFormData = {
   email: "",
@@ -56,6 +58,8 @@ const Login = () => {
         <Heading>Log in to your account</Heading>
       </VStack>
 
+      {isFetching && <Spinner />}
+      {isError && <Alert status="error" description={errorMessage} />}
       <form onSubmit={onSubmit}>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={2}>

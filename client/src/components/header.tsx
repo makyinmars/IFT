@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 import {
   Button,
   Flex,
@@ -12,11 +11,12 @@ import {
   useColorModeValue,
   Avatar,
 } from "@chakra-ui/react";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { EmailIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
-  const { firstName, lastName } = useAppSelector((state) => state.register);
+  const { email: emailRegister } = useAppSelector((state) => state.register);
+  const { email: emailLogin } = useAppSelector((state) => state.login);
 
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -41,8 +41,8 @@ const Header = () => {
       </Box>
       <Spacer />
 
-      {firstName !== "" ? (
-        <Avatar name={`${firstName} ${lastName}`} size="sm" bg="red.500" />
+      {emailRegister !== "" || emailLogin !== "" ? (
+        <Avatar size="sm" bg="brand.500" />
       ) : (
         <Box>
           <Button mr="5" variant="primary" size="sm">

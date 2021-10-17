@@ -17,6 +17,8 @@ import {
   FormHelperText,
   Button,
 } from "@chakra-ui/react";
+import Spinner from "../src/components/spinner";
+import Alert from "../src/components/alert";
 
 const userFormData = {
   firstName: "",
@@ -68,6 +70,8 @@ const Register: NextPage = () => {
         </Text>
       </VStack>
 
+      {isFetching && <Spinner />}
+      {isError && <Alert status="error" description={errorMessage} />}
       <form onSubmit={onSubmit}>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={colSpan}>
