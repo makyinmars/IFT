@@ -10,17 +10,14 @@ import {
   AspectRatio,
   Image,
   useColorMode,
-  useColorModeValue,
-  Avatar,
 } from "@chakra-ui/react";
-import { EmailIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { useAppSelector } from "../../app/hooks";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+
 import { User, UserResponse } from "../interfaces/interfaces";
 import { DefaultUserInfo } from "../constants/constants";
+import Menu from "../components/menu";
 
 const Header = () => {
-  const { email: emailRegister } = useAppSelector((state) => state.register);
-
   const [userInfoData, setUserInfoData] = useState<UserResponse | null>(
     DefaultUserInfo
   );
@@ -36,7 +33,6 @@ const Header = () => {
   }, []);
 
   // Store user fron localForaget userInfo
-  const user: User | undefined = userInfoData?.user;
 
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -61,8 +57,9 @@ const Header = () => {
       </Box>
       <Spacer />
 
-      {user?.email !== "" ? (
-        <Avatar size="sm" bg="brand.500" />
+      {userInfoData?.user.email !== undefined &&
+      userInfoData.user.email !== "" ? (
+        <Menu />
       ) : (
         <Box>
           <Button mr="5" variant="primary" size="sm">

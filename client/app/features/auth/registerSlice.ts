@@ -1,25 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { URL, DefaultStatus } from "../../../src/constants/constants";
-import { Status } from "../../../src/interfaces/interfaces";
+import localForage from "localforage";
+
+import {
+  URL,
+  DefaultStatus,
+  DefaultUserInfo,
+} from "../../../src/constants/constants";
+import { Status, UserResponse } from "../../../src/interfaces/interfaces";
 
 export interface RegisterState {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+  userInfo: UserResponse;
   status: Status;
 }
 
 const initialState: RegisterState = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  password: "",
+  userInfo: DefaultUserInfo,
   status: DefaultStatus,
 };
 
-interface UserResponse {
+interface RegisterResponse {
   firstName: string;
   lastName: string;
   email: string;
@@ -28,11 +28,17 @@ interface UserResponse {
 
 export const registerUser = createAsyncThunk(
   "register/registerUser",
-  async ({ firstName, lastName, email, password }: UserResponse) => {
+  async ({ firstName, lastName, email, password }: RegisterResponse) => {
     const { data } = await axios.post<UserResponse>(
       `${URL}/api/auth/register`,
       { firstName, lastName, email, password }
     );
+
+    try {
+      await localForage.setItem("userInfo", data);
+    } catch (err) {
+      console.log(err);
+    }
 
     return data;
   }
@@ -44,10 +50,7 @@ const registerSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
-      state.firstName = payload.firstName;
-      state.lastName = payload.lastName;
-      state.email = payload.email;
-      state.password = payload.password;
+      state.userInfo = payload;
 
       state.status.isSuccess = true;
     });

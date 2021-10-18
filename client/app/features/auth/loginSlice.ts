@@ -41,6 +41,7 @@ export const loginUser = createAsyncThunk(
 
     const decodedToken: UserResponse = jwt_decode(data.token);
 
+    // It stores the information in LocalForage storage
     try {
       await localForage.setItem("token", data.token);
       await localForage.setItem("userInfo", decodedToken);
@@ -58,6 +59,7 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
+      // It stores the information in redux store
       const decodedToken: UserResponse = jwt_decode(payload);
       state.userInfo = decodedToken;
       state.token = payload;
