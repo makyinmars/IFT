@@ -1,12 +1,14 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
+import localForage from "localforage";
+
 import {
   DefaultStatus,
   DefaultUserInfo,
   URL,
 } from "../../../src/constants/constants";
 import { Status } from "../../../src/interfaces/interfaces";
-import jwt_decode from "jwt-decode";
 import { UserResponse } from "../../../src/interfaces/interfaces";
 
 export interface LoginState {
@@ -38,7 +40,13 @@ export const loginUser = createAsyncThunk(
     );
 
     const decodedToken: UserResponse = jwt_decode(data.token);
-    localStorage.setItem("token", data.token);
+
+    try {
+      await localForage.setItem("token", data.token);
+      await localForage.setItem("userInfo", decodedToken);
+    } catch (err) {
+      console.log(err);
+    }
 
     return data.token;
   }

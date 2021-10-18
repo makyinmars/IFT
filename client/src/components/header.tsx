@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { useEffect, useState } from "react";
+import localForage from "localforage";
 import {
   Button,
   Flex,
@@ -13,9 +15,28 @@ import {
 } from "@chakra-ui/react";
 import { EmailIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useAppSelector } from "../../app/hooks";
+import { User, UserResponse } from "../interfaces/interfaces";
+import { DefaultUserInfo } from "../constants/constants";
 
 const Header = () => {
   const { email: emailRegister } = useAppSelector((state) => state.register);
+
+  const [userInfoData, setUserInfoData] = useState<UserResponse | null>(
+    DefaultUserInfo
+  );
+
+  useEffect(() => {
+    const getUserInfo = async () => {
+      const userInfo: UserResponse | null = await localForage.getItem(
+        "userInfo"
+      );
+      setUserInfoData(userInfo);
+    };
+    getUserInfo();
+  }, []);
+
+  // Store user fron localForaget userInfo
+  const user: User | undefined = userInfoData?.user;
 
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -40,7 +61,7 @@ const Header = () => {
       </Box>
       <Spacer />
 
-      {emailRegister !== "" ? (
+      {user?.email !== "" ? (
         <Avatar size="sm" bg="brand.500" />
       ) : (
         <Box>
