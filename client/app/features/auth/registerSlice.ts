@@ -1,8 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { URL } from "../../constants";
-import { Status } from "../../interfaces";
-import { DefaultStatus } from "../../constants";
+import { URL, DefaultStatus } from "../../../src/constants/constants";
+import { Status } from "../../../src/interfaces/interfaces";
 
 export interface RegisterState {
   firstName: string;

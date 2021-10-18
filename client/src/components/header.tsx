@@ -16,7 +16,6 @@ import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
   const { email: emailRegister } = useAppSelector((state) => state.register);
-  const { email: emailLogin } = useAppSelector((state) => state.login);
 
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -41,7 +40,7 @@ const Header = () => {
       </Box>
       <Spacer />
 
-      {emailRegister !== "" || emailLogin !== "" ? (
+      {emailRegister !== "" ? (
         <Avatar size="sm" bg="brand.500" />
       ) : (
         <Box>

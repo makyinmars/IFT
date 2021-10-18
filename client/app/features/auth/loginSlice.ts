@@ -1,34 +1,46 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { DefaultStatus, URL } from "../../constants";
-import { Status } from "../../interfaces";
+import {
+  DefaultStatus,
+  DefaultUserInfo,
+  URL,
+} from "../../../src/constants/constants";
+import { Status } from "../../../src/interfaces/interfaces";
+import jwt_decode from "jwt-decode";
+import { UserResponse } from "../../../src/interfaces/interfaces";
 
 export interface LoginState {
-  email: string;
-  password: string;
+  userInfo: UserResponse;
   status: Status;
+  token: string;
 }
 
 const initialState: LoginState = {
-  email: "",
-  password: "",
+  userInfo: DefaultUserInfo,
   status: DefaultStatus,
+  token: "",
 };
 
-interface UserResponse {
+interface LoginResponse {
   email: string;
   password: string;
 }
 
 export const loginUser = createAsyncThunk(
   "login/loginUser",
-  async ({ email, password }: UserResponse) => {
-    const { data } = await axios.post<UserResponse>(`${URL}/api/auth/login`, {
-      email,
-      password,
-    });
+  async ({ email, password }: LoginResponse) => {
+    const { data } = await axios.post<{ token: string }>(
+      `${URL}/api/auth/login`,
+      {
+        email,
+        password,
+      }
+    );
 
-    return data;
+    const decodedToken: UserResponse = jwt_decode(data.token);
+    localStorage.setItem("token", data.token);
+
+    return data.token;
   }
 );
 
@@ -38,9 +50,9 @@ const loginSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
-      state.email = payload.email;
-      state.password = payload.password;
-
+      const decodedToken: UserResponse = jwt_decode(payload);
+      state.userInfo = decodedToken;
+      state.token = payload;
       state.status.isSuccess = true;
     });
 
