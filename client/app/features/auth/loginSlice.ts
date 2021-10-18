@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import jwt_decode from "jwt-decode";
+import jwtDecode, { JwtPayload } from "jwt-decode";
 import localForage from "localforage";
 
 import {
@@ -39,7 +39,7 @@ export const loginUser = createAsyncThunk(
       }
     );
 
-    const decodedToken: UserResponse = jwt_decode(data.token);
+    const decodedToken = jwtDecode<JwtPayload>(data.token);
 
     // It stores the information in LocalForage storage
     try {
@@ -60,7 +60,7 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       // It stores the information in redux store
-      const decodedToken: UserResponse = jwt_decode(payload);
+      const decodedToken = jwtDecode<UserResponse>(payload);
       state.userInfo = decodedToken;
       state.token = payload;
       state.status.isSuccess = true;

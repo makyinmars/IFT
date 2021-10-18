@@ -6,7 +6,6 @@ import { CreateFeedPostDto } from '../models/create-feed.dto';
 import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedPostEntity } from '../models/feed.entity';
 import { FeedPost } from '../models/feed.interface';
-import { from, Observable } from 'rxjs';
 import { User } from 'src/auth/models/user.interface';
 
 @Injectable()
@@ -16,28 +15,31 @@ export class FeedService {
     private readonly feedPostRepository: Repository<FeedPostEntity>,
   ) {}
 
-  createPost(user: User, createFeedPostDto: CreateFeedPostDto) {
+  createPost(
+    user: User,
+    createFeedPostDto: CreateFeedPostDto,
+  ): Promise<CreateFeedPostDto & FeedPostEntity> {
     createFeedPostDto.author = user;
 
     return this.feedPostRepository.save(createFeedPostDto);
   }
 
-  findAllPosts(): Observable<FeedPost[]> {
-    return from(this.feedPostRepository.find());
+  findAllPosts(): Promise<FeedPost[]> {
+    return this.feedPostRepository.find();
   }
 
-  findPost(id: number): Observable<FeedPost> {
-    return from(this.feedPostRepository.findOne(id));
+  findPost(id: number): Promise<FeedPost> {
+    return this.feedPostRepository.findOne(id);
   }
 
   updatePost(
     id: number,
     updateFeedPostDto: UpdateFeedPostDto,
-  ): Observable<UpdateResult> {
-    return from(this.feedPostRepository.update(id, updateFeedPostDto));
+  ): Promise<UpdateResult> {
+    return this.feedPostRepository.update(id, updateFeedPostDto);
   }
 
-  deletePost(id: number): Observable<DeleteResult> {
-    return from(this.feedPostRepository.delete(id));
+  deletePost(id: number): Promise<DeleteResult> {
+    return this.feedPostRepository.delete(id);
   }
 }

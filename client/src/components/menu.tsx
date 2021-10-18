@@ -12,6 +12,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logoutUser } from "../../app/features/auth/logoutSlice";
+import { clearState } from "../../app/features/auth/logoutSlice";
 
 const Menu = () => {
   const dispatch = useAppDispatch();
@@ -21,13 +22,14 @@ const Menu = () => {
 
   const onLogout = () => {
     dispatch(logoutUser());
+    dispatch(clearState());
   };
 
   useEffect(() => {
     if (isSuccess) {
       router.push("/register");
     }
-  }, [isSuccess, router]);
+  }, [isSuccess, router, dispatch]);
 
   return (
     <MenuChakra isLazy id="1">

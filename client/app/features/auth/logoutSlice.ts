@@ -20,7 +20,14 @@ export const logoutUser = createAsyncThunk("logout/logoutUser", async () => {
 const logoutSlice = createSlice({
   name: "logout",
   initialState,
-  reducers: {},
+  reducers: {
+    clearState: (state) => {
+      state.status.isError = false;
+      state.status.isSuccess = false;
+      state.status.isFetching = false;
+      state.status.errorMessage = "";
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(logoutUser.fulfilled, (state) => {
       state.status.isSuccess = true;
@@ -38,4 +45,5 @@ const logoutSlice = createSlice({
   },
 });
 
+export const { clearState } = logoutSlice.actions;
 export default logoutSlice.reducer;

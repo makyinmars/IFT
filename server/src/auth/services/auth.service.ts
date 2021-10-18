@@ -3,8 +3,6 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import * as bcrypt from 'bcrypt';
-import { Observable, from } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
 import { Repository } from 'typeorm';
 import { LoginUserDto } from '../models/login-user.dto';
 import { RegisterUserDto } from '../models/register-user.dto';
@@ -19,61 +17,42 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  hashPassword(password: string): Observable<string> {
-    return from(bcrypt.hash(password, 12));
+  async hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, 12);
   }
 
-  registerAccount(
+  async registerAccount(
     registerUserDto: RegisterUserDto,
-  ): Observable<RegisterUserDto> {
-    const { firstName, lastName, email, password } = registerUserDto;
+  ): Promise<RegisterUserDto> {
+    const hashedPassword = await this.hashPassword(registerUserDto.password);
 
-    return this.hashPassword(password).pipe(
-      switchMap((hashedPassword: string) => {
-        return from(
-          this.userRepository.save({
-            firstName,
-            lastName,
-            email,
-            password: hashedPassword,
-          }),
-        );
-      }),
-    );
+    registerUserDto.password = hashedPassword;
+
+    return this.userRepository.save(registerUserDto);
   }
 
-  validateUser(email: string, password: string): Observable<User> {
-    return from(
-      this.userRepository.findOne(
-        { email },
-        {
-          select: ['id', 'firstName', 'lastName', 'email', 'password', 'role'],
-        },
-      ),
-    ).pipe(
-      switchMap((user: User) =>
-        from(bcrypt.compare(password, user.password)).pipe(
-          map((isValidPassword: boolean) => {
-            if (isValidPassword) {
-              delete user.password;
-              return user;
-            }
-          }),
-        ),
-      ),
+  async validateUser(email: string, password: string): Promise<User> {
+    const user: User = await this.userRepository.findOne(
+      { email },
+      {
+        select: ['id', 'firstName', 'lastName', 'email', 'password', 'role'],
+      },
     );
+
+    if (user && (await bcrypt.compare(password, user.password))) {
+      delete user.password;
+      return user;
+    }
   }
 
-  login(loginUserDto: LoginUserDto): Observable<string> {
+  async login(loginUserDto: LoginUserDto): Promise<string> {
     const { email, password } = loginUserDto;
 
-    return this.validateUser(email, password).pipe(
-      switchMap((user: User) => {
-        if (user) {
-          // create a jwt for credentials
-          return from(this.jwtService.signAsync({ user }));
-        }
-      }),
-    );
+    const user = await this.validateUser(email, password);
+
+    if (user) {
+      // Create JWT - credentials
+      return this.jwtService.signAsync({ user });
+    }
   }
 }

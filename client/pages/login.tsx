@@ -10,7 +10,9 @@ import {
   SimpleGrid,
   VStack,
 } from "@chakra-ui/react";
+
 import { useAppSelector, useAppDispatch } from "../app/hooks";
+import { clearState } from "../app/features/auth/logoutSlice";
 import { loginUser } from "../app/features/auth/loginSlice";
 import Spinner from "../src/components/spinner";
 import Alert from "../src/components/alert";
@@ -49,8 +51,9 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       router.push("/");
+      dispatch(clearState());
     }
-  }, [isSuccess, router]);
+  }, [isSuccess, router, dispatch]);
 
   return (
     <VStack w="full" h="full" p={10}>

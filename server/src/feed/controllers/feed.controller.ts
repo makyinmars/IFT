@@ -15,7 +15,6 @@ import { CreateFeedPostDto } from '../models/create-feed.dto';
 import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedService } from '../services/feed.service';
 import { FeedPost } from '../models/feed.interface';
-import { from, Observable } from 'rxjs';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/role.enum';
@@ -28,34 +27,34 @@ export class FeedController {
   @Roles(Role.ADMIN, Role.USER)
   @UseGuards(JwtGuard, RolesGuard)
   @Post()
-  create(
+  async create(
     @Body() createFeedPostDto: CreateFeedPostDto,
     @Request() req,
-  ): Observable<CreateFeedPostDto> {
-    return from(this.feedService.createPost(req.user, createFeedPostDto));
+  ): Promise<CreateFeedPostDto> {
+    return await this.feedService.createPost(req.user, createFeedPostDto);
   }
 
   @Get()
-  findAll(): Observable<FeedPost[]> {
-    return from(this.feedService.findAllPosts());
+  async findAll(): Promise<FeedPost[]> {
+    return await this.feedService.findAllPosts();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number): Observable<FeedPost> {
-    return from(this.feedService.findPost(id));
+  async findOne(@Param('id') id: number): Promise<FeedPost> {
+    return await this.feedService.findPost(id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @Param('id') id: number,
     @Body()
     updateFeedPostDto: UpdateFeedPostDto,
-  ): Observable<UpdateResult> {
-    return from(this.feedService.updatePost(id, updateFeedPostDto));
+  ): Promise<UpdateResult> {
+    return await this.feedService.updatePost(id, updateFeedPostDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: number): Observable<DeleteResult> {
-    return from(this.feedService.deletePost(id));
+  async delete(@Param('id') id: number): Promise<DeleteResult> {
+    return await this.feedService.deletePost(id);
   }
 }
