@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-import jwtDecode, { JwtPayload } from "jwt-decode";
-import localForage from "localforage";
-import { loadUserInfo } from "../../../lib/loadFromStorage";
+import jwtDecode from "jwt-decode";
 
 import {
   URL,
@@ -20,9 +18,9 @@ export const registerUser = createAsyncThunk(
       registerResponse
     );
 
-    const decodedToken = jwtDecode<JwtPayload>(data.token);
+    // const decodedToken = jwtDecode<JwtPayload>(data.token);
 
-    localStorage.setItem("userInfo", JSON.stringify(decodedToken));
+    // localStorage.setItem("userInfo", JSON.stringify(decodedToken));
 
     return data.token;
   }
@@ -30,15 +28,15 @@ export const registerUser = createAsyncThunk(
 
 export const loginUser = createAsyncThunk(
   "auth/loginUser",
-  async (loginRespone: LoginResponse) => {
+  async (loginResponse: LoginResponse) => {
     const { data } = await axios.post<{ token: string }>(
       `${URL}/api/auth/login`,
-      loginRespone
+      loginResponse
     );
 
-    const decodedToken = jwtDecode<JwtPayload>(data.token);
+    // const decodedToken = jwtDecode<JwtPayload>(data.token);
 
-    localStorage.setItem("userInfo", JSON.stringify(decodedToken));
+    // localStorage.setItem("userInfo", JSON.stringify(decodedToken));
 
     return data.token;
   }
