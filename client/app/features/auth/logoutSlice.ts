@@ -22,10 +22,7 @@ const logoutSlice = createSlice({
   initialState,
   reducers: {
     clearState: (state) => {
-      state.status.isError = false;
-      state.status.isSuccess = false;
-      state.status.isFetching = false;
-      state.status.errorMessage = "";
+      state.status = DefaultStatus;
     },
   },
   extraReducers: (builder) => {

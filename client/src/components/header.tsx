@@ -16,23 +16,10 @@ import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { User, UserResponse } from "../interfaces/interfaces";
 import { DefaultUserInfo } from "../constants/constants";
 import Menu from "../components/menu";
+import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
-  const [userInfoData, setUserInfoData] = useState<UserResponse | null>(
-    DefaultUserInfo
-  );
-
-  useEffect(() => {
-    const getUserInfo = async () => {
-      const userInfo: UserResponse | null = await localForage.getItem(
-        "userInfo"
-      );
-      setUserInfoData(userInfo);
-    };
-    getUserInfo();
-  }, []);
-
-  // Store user fron localForaget userInfo
+  const { isSuccess } = useAppSelector((state) => state.auth.status);
 
   const { toggleColorMode, colorMode } = useColorMode();
 
@@ -57,8 +44,7 @@ const Header = () => {
       </Box>
       <Spacer />
 
-      {userInfoData?.user.email !== undefined &&
-      userInfoData.user.email !== "" ? (
+      {isSuccess ? (
         <Menu />
       ) : (
         <Box>

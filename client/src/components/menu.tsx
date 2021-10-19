@@ -11,25 +11,26 @@ import {
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { logoutUser } from "../../app/features/auth/logoutSlice";
-import { clearState } from "../../app/features/auth/logoutSlice";
+import {
+  logoutUser,
+  clearStatus,
+  clearUserInfo,
+} from "../../app/features/auth/authSlice";
 
 const Menu = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { isSuccess } = useAppSelector((state) => state.logout.status);
+  const { isSuccess } = useAppSelector((state) => state.auth.status);
 
   const onLogout = () => {
     dispatch(logoutUser());
-    dispatch(clearState());
-  };
-
-  useEffect(() => {
     if (isSuccess) {
-      router.push("/register");
+      dispatch(clearStatus());
+      dispatch(clearUserInfo());
+      router.push("/");
     }
-  }, [isSuccess, router, dispatch]);
+  };
 
   return (
     <MenuChakra isLazy id="1">

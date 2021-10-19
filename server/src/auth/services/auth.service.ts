@@ -21,14 +21,26 @@ export class AuthService {
     return bcrypt.hash(password, 12);
   }
 
-  async registerAccount(
-    registerUserDto: RegisterUserDto,
-  ): Promise<RegisterUserDto> {
+  async registerAccount(registerUserDto: RegisterUserDto): Promise<string> {
     const hashedPassword = await this.hashPassword(registerUserDto.password);
 
     registerUserDto.password = hashedPassword;
 
-    return this.userRepository.save(registerUserDto);
+    await this.userRepository.save(registerUserDto);
+
+    const { email } = registerUserDto;
+
+    const user = await this.userRepository.findOne(
+      { email },
+      {
+        select: ['id', 'firstName', 'lastName', 'email', 'password', 'role'],
+      },
+    );
+
+    if (user) {
+      // Create JWT - credentials
+      return this.jwtService.signAsync({ user });
+    }
   }
 
   async validateUser(email: string, password: string): Promise<User> {

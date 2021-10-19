@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { registerUser } from "../app/features/auth/registerSlice";
+import { registerUser } from "../app/features/auth/authSlice";
 import {
   VStack,
   Heading,
@@ -31,7 +31,7 @@ const Register: NextPage = () => {
   const dispatch = useAppDispatch();
 
   const { isFetching, isError, isSuccess, errorMessage } = useAppSelector(
-    (state) => state.register.status
+    (state) => state.auth.status
   );
 
   const router = useRouter();

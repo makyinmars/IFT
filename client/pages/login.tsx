@@ -12,8 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { clearState } from "../app/features/auth/logoutSlice";
-import { loginUser } from "../app/features/auth/loginSlice";
+import { loginUser } from "../app/features/auth/authSlice";
 import Spinner from "../src/components/spinner";
 import Alert from "../src/components/alert";
 
@@ -26,7 +25,7 @@ const Login = () => {
   const dispatch = useAppDispatch();
 
   const { isSuccess, isError, isFetching, errorMessage } = useAppSelector(
-    (state) => state.login.status
+    (state) => state.auth.status
   );
 
   const router = useRouter();
@@ -51,9 +50,10 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       router.push("/");
-      dispatch(clearState());
+    } else {
+      <Alert status="error" description={errorMessage} />;
     }
-  }, [isSuccess, router, dispatch]);
+  }, [isSuccess, router, errorMessage]);
 
   return (
     <VStack w="full" h="full" p={10}>

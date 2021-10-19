@@ -8,8 +8,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  register(@Body() registerUserDto: RegisterUserDto): Promise<RegisterUserDto> {
-    return this.authService.registerAccount(registerUserDto);
+  async register(
+    @Body() registerUserDto: RegisterUserDto,
+  ): Promise<{ token: string }> {
+    const jwt: string = await this.authService.registerAccount(registerUserDto);
+
+    return { token: jwt };
   }
 
   @Post('login')

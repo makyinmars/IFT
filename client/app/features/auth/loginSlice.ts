@@ -56,18 +56,23 @@ export const loginUser = createAsyncThunk(
 const loginSlice = createSlice({
   name: "login",
   initialState,
-  reducers: {},
+  reducers: {
+    clearState: (state) => {
+      state.status = DefaultStatus;
+    },
+  },
   extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       // It stores the information in redux store
       const decodedToken = jwtDecode<UserResponse>(payload);
       state.userInfo = decodedToken;
       state.token = payload;
       state.status.isSuccess = true;
-    });
-
-    builder.addCase(loginUser.pending, (state) => {
-      state.status.isFetching = true;
+      state.status.isFetching = false;
     });
 
     builder.addCase(loginUser.rejected, (state, { error }) => {
@@ -78,4 +83,5 @@ const loginSlice = createSlice({
   },
 });
 
+export const { clearState } = loginSlice.actions;
 export default loginSlice.reducer;

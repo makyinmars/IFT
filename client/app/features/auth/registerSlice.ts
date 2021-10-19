@@ -49,14 +49,15 @@ const registerSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: (builder) => {
+    builder.addCase(registerUser.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
     builder.addCase(registerUser.fulfilled, (state, { payload }) => {
       state.userInfo = payload;
 
       state.status.isSuccess = true;
-    });
-
-    builder.addCase(registerUser.pending, (state) => {
-      state.status.isFetching = true;
+      state.status.isFetching = false;
     });
 
     builder.addCase(registerUser.rejected, (state, { error }) => {
