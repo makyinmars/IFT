@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -65,6 +65,8 @@ export class AuthService {
     if (user) {
       // Create JWT - credentials
       return this.jwtService.signAsync({ user });
+    } else {
+      throw new BadRequestException();
     }
   }
 }
