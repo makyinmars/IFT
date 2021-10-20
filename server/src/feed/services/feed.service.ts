@@ -24,11 +24,17 @@ export class FeedService {
     return this.feedPostRepository.save(createFeedPostDto);
   }
 
-  findAllPosts(): Promise<FeedPost[]> {
-    return this.feedPostRepository.find();
+  // Using pagination instead
+  // findAllPosts(): Promise<FeedPost[]> {
+  //   return this.feedPostRepository.find();
+  // }
+
+  async findPosts(take: number, skip: number): Promise<FeedPost[]> {
+    const posts = await this.feedPostRepository.findAndCount({ take, skip });
+    return <FeedPost[]>posts;
   }
 
-  findPost(id: number): Promise<FeedPost> {
+  findPostById(id: number): Promise<FeedPost> {
     return this.feedPostRepository.findOne(id);
   }
 

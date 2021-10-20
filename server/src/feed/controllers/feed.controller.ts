@@ -8,6 +8,7 @@ import {
   Put,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -24,8 +25,9 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 export class FeedController {
   constructor(private readonly feedService: FeedService) {}
 
-  @Roles(Role.ADMIN, Role.USER)
-  @UseGuards(JwtGuard, RolesGuard)
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(JwtGuard, RolesGuard)
+  @UseGuards(JwtGuard)
   @Post()
   async create(
     @Body() createFeedPostDto: CreateFeedPostDto,
@@ -34,14 +36,25 @@ export class FeedController {
     return await this.feedService.createPost(req.user, createFeedPostDto);
   }
 
+  // Using pagination instead
+  // @Get()
+  // async findAll(): Promise<FeedPost[]> {
+  //   return await this.feedService.findAllPosts();
+  // }
+
   @Get()
-  async findAll(): Promise<FeedPost[]> {
-    return await this.feedService.findAllPosts();
+  async findSelected(
+    @Query('take') take = 1,
+    @Query('skip') skip = 1,
+  ): Promise<FeedPost[]> {
+    // If take is 20 posts by default
+    take = take > 20 ? 20 : take;
+    return this.feedService.findPosts(take, skip);
   }
 
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<FeedPost> {
-    return await this.feedService.findPost(id);
+    return await this.feedService.findPostById(id);
   }
 
   @Put(':id')
