@@ -11,6 +11,7 @@ export const DefaultUserInfo = {
     firstName: "",
     lastName: "",
     email: "",
+    imagePath: "",
     role: "",
   },
   exp: 0,

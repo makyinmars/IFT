@@ -10,6 +10,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  imagePath: string;
   role: string;
 }
 export interface UserResponse {

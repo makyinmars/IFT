@@ -47,7 +47,15 @@ export class AuthService {
     const user: User = await this.userRepository.findOne(
       { email },
       {
-        select: ['id', 'firstName', 'lastName', 'email', 'password', 'role'],
+        select: [
+          'id',
+          'firstName',
+          'lastName',
+          'email',
+          'imagePath',
+          'password',
+          'role',
+        ],
       },
     );
 

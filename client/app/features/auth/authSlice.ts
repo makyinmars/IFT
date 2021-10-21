@@ -17,10 +17,6 @@ export const registerUser = createAsyncThunk(
       registerResponse
     );
 
-    // const decodedToken = jwtDecode<JwtPayload>(data.token);
-
-    // localStorage.setItem("userInfo", JSON.stringify(decodedToken));
-
     return data.token;
   }
 );
@@ -32,10 +28,6 @@ export const loginUser = createAsyncThunk(
       `${process.env.API_URL}/api/auth/login`,
       loginResponse
     );
-
-    // const decodedToken = jwtDecode<JwtPayload>(data.token);
-
-    // localStorage.setItem("userInfo", JSON.stringify(decodedToken));
 
     return data.token;
   }
@@ -92,6 +84,7 @@ const authSlice = createSlice({
 
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       const decodedToken = jwtDecode<UserResponse>(payload);
+      console.log(decodedToken);
       state.userInfo = decodedToken;
       state.status.isSuccess = true;
       state.status.isFetching = false;
