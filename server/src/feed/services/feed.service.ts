@@ -29,13 +29,20 @@ export class FeedService {
   //   return this.feedPostRepository.find();
   // }
 
-  async findPosts(take: number, skip: number): Promise<FeedPost[]> {
-    const posts = await this.feedPostRepository.findAndCount({ take, skip });
-    return <FeedPost[]>posts;
+  async findPosts(take = 10, skip: number): Promise<FeedPost[]> {
+    // const posts = await this.feedPostRepository.findAndCount({ take, skip });
+    // return <FeedPost[]>posts;
+    return this.feedPostRepository
+      .createQueryBuilder('post')
+      .innerJoinAndSelect('post.author', 'author')
+      .orderBy('post.createdAt', 'DESC')
+      .take(take)
+      .skip(skip)
+      .getMany();
   }
 
   findPostById(id: number): Promise<FeedPost> {
-    return this.feedPostRepository.findOne(id);
+    return this.feedPostRepository.findOne({ id }, { relations: ['author'] });
   }
 
   updatePost(

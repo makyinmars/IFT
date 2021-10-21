@@ -3,7 +3,6 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 
 import {
-  URL,
   DefaultStatus,
   DefaultUserInfo,
 } from "../../../src/constants/constants";
@@ -14,7 +13,7 @@ export const registerUser = createAsyncThunk(
   "auth/registerUser",
   async (registerResponse: RegisterResponse) => {
     const { data } = await axios.post<{ token: string }>(
-      `${URL}/api/auth/register`,
+      `${process.env.API_URL}/api/auth/register`,
       registerResponse
     );
 
@@ -30,7 +29,7 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (loginResponse: LoginResponse) => {
     const { data } = await axios.post<{ token: string }>(
-      `${URL}/api/auth/login`,
+      `${process.env.API_URL}/api/auth/login`,
       loginResponse
     );
 

@@ -44,19 +44,21 @@ export class FeedController {
 
   @Get()
   async findSelected(
-    @Query('take') take = 1,
-    @Query('skip') skip = 1,
+    @Query('take') take: number,
+    @Query('skip') skip: number,
   ): Promise<FeedPost[]> {
     // If take is 20 posts by default
     take = take > 20 ? 20 : take;
     return this.feedService.findPosts(take, skip);
   }
 
+  @UseGuards(JwtGuard)
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<FeedPost> {
     return await this.feedService.findPostById(id);
   }
 
+  @UseGuards(JwtGuard)
   @Put(':id')
   async update(
     @Param('id') id: number,
@@ -66,6 +68,7 @@ export class FeedController {
     return await this.feedService.updatePost(id, updateFeedPostDto);
   }
 
+  @UseGuards(JwtGuard)
   @Delete(':id')
   async delete(@Param('id') id: number): Promise<DeleteResult> {
     return await this.feedService.deletePost(id);
