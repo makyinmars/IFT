@@ -1,13 +1,13 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { User } from 'src/auth/models/user.interface';
-import { AuthService } from 'src/auth/services/auth.service';
+import { UserService } from 'src/auth/services/user.service';
 import { FeedService } from '../services/feed.service';
 
 @Injectable()
 export class IsCreatorGuard implements CanActivate {
   // Need the Id of the post and id of the author
   constructor(
-    private authService: AuthService,
+    private userService: UserService,
     private feedService: FeedService,
   ) {}
 
@@ -26,7 +26,7 @@ export class IsCreatorGuard implements CanActivate {
     const feedId = params.id;
 
     // If logged-in user is the same as the one who created the post
-    const userFound = await this.authService.findUserById(userId);
+    const userFound = await this.userService.findUserById(userId);
     const postFound = await this.feedService.findPostById(feedId);
 
     // if author id matches author post id, return true
