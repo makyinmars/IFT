@@ -41,18 +41,18 @@ export class FeedService {
       .getMany();
   }
 
-  findPostById(id: number): Promise<FeedPost> {
+  async findPostById(id: number): Promise<FeedPost> {
     return this.feedPostRepository.findOne({ id }, { relations: ['author'] });
   }
 
-  updatePost(
+  async updatePost(
     id: number,
     updateFeedPostDto: UpdateFeedPostDto,
   ): Promise<UpdateResult> {
     return this.feedPostRepository.update(id, updateFeedPostDto);
   }
 
-  deletePost(id: number): Promise<DeleteResult> {
+  async deletePost(id: number): Promise<DeleteResult> {
     return this.feedPostRepository.delete(id);
   }
 }

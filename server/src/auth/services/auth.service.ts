@@ -69,4 +69,16 @@ export class AuthService {
       throw new BadRequestException();
     }
   }
+
+  async findUserById(id: number): Promise<User> {
+    const user = await this.userRepository.findOne(
+      { id },
+      { relations: ['feedPosts'] },
+    );
+
+    if (user) {
+      delete user.password;
+      return user;
+    }
+  }
 }
