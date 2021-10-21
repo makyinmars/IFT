@@ -17,3 +17,16 @@ export interface UserResponse {
   exp: number;
   iat: number;
 }
+
+export interface FeedPosts {
+  id: number;
+  body: string;
+  createdAt: Date;
+  author: {
+    id: number;
+    role: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+  };
+}

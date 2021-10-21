@@ -61,7 +61,6 @@ const theme = extendTheme(
           }),
         },
       },
-
       Input: { ...inputSelectStyles },
       Select: { ...inputSelectStyles },
       Checkbox: {

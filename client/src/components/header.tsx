@@ -1,6 +1,4 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import localForage from "localforage";
 import {
   Button,
   Flex,
@@ -13,8 +11,6 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
-import { User, UserResponse } from "../interfaces/interfaces";
-import { DefaultUserInfo } from "../constants/constants";
 import Menu from "../components/menu";
 import { useAppSelector } from "../../app/hooks";
 

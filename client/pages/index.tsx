@@ -2,7 +2,8 @@ import { Heading, Box } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 
-// import Feed from "../src/components/feed";
+import { FeedPosts } from "../src/interfaces/interfaces";
+import Feed from "../src/components/feed";
 
 interface FeedProps {
   feedPosts: FeedPosts[];
@@ -11,7 +12,6 @@ interface FeedProps {
 const Home = ({
   feedPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
-  console.log(feedPosts);
   return (
     <>
       <Head>
@@ -25,30 +25,13 @@ const Home = ({
         <Heading align="center" pt={4}>
           IFT
         </Heading>
-        {feedPosts.map((post) => (
-          <Box key={post.id}>
-            <Heading>{post.createdAt}</Heading>
-          </Box>
-        ))}
+        <Feed feedPosts={feedPosts} />
       </main>
     </>
   );
 };
 
 export default Home;
-
-interface FeedPosts {
-  id: number;
-  body: string;
-  createdAt: Date;
-  author: {
-    id: number;
-    role: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
-}
 
 export const getServerSideProps: GetServerSideProps<FeedProps> = async () => {
   const res = await fetch(`${process.env.API_URL}/api/feed?take=10&skip=0`);
