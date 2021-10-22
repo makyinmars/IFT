@@ -5,24 +5,29 @@ import {
   Text,
   useColorModeValue,
   Center,
+  Image,
 } from "@chakra-ui/react";
 
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "../components/modal";
+import React from "react";
+import MenuEditPost from "./menu-edit-post";
 
 interface Props {
   feedPosts: FeedPosts[];
 }
 
 const Feed = ({ feedPosts }: Props) => {
-  const bg = useColorModeValue("brand.400", "brand.200");
+  const bg = useColorModeValue("brand.100", "brand.400");
+
+  const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
 
   return (
     <>
       <Center pt={4}>
         <Modal />
       </Center>
-      <SimpleGrid columns={{ sm: 2, md: 3 }} spacing={10} pt={6}>
+      <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={10} p={6}>
         {feedPosts.map((feedPost) => (
           <Box
             key={feedPost.id}
@@ -31,10 +36,18 @@ const Feed = ({ feedPosts }: Props) => {
             borderRadius="md"
             boxShadow="dark-lg"
           >
-            <Heading size="md">{`${feedPost.author.firstName} ${feedPost.author.lastName}`}</Heading>
-            <Text>{feedPost.body}</Text>
-            <Text>{feedPost.createdAt}</Text>
-            <Text>{`Role: ${feedPost.author.role}`}</Text>
+            <Image src="/images/site/bike.jpeg" alt="post" />
+            <Heading
+              size="md"
+              align="center"
+              p={2}
+            >{`By: ${feedPost.author.firstName} ${feedPost.author.lastName}`}</Heading>
+            <Box bg={bgBody} borderRadius="md" p={2}>
+              <Text>{feedPost.body}</Text>
+              <Text>{feedPost.createdAt}</Text>
+              <Text>{`Role: ${feedPost.author.role}`}</Text>
+            </Box>
+            <MenuEditPost />
           </Box>
         ))}
       </SimpleGrid>

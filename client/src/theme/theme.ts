@@ -51,12 +51,23 @@ const theme = extendTheme(
           primary: (props: any) => ({
             ...brandRing,
             color: mode("white", "gray.800")(props),
-            backgroundColor: mode("brand.500", "brand.300")(props),
+            backgroundColor: mode("brand.100", "brand.400")(props),
             _hover: {
-              backgroundColor: mode("brand.600", "brand.400")(props),
+              backgroundColor: mode("brand.600", "brand.500")(props),
             },
             _active: {
-              backgroundColor: mode("brand.700", "brand.500")(props),
+              backgroundColor: mode("brand.700", "brand.600")(props),
+            },
+          }),
+          secondary: (props: any) => ({
+            ...brandRing,
+            color: mode("white", "gray.800")(props),
+            backgroundColor: mode("brand.200", "brand.500")(props),
+            _hover: {
+              backgroundColor: mode("brand.600", "brand.500")(props),
+            },
+            _active: {
+              backgroundColor: mode("brand.700", "brand.600")(props),
             },
           }),
         },

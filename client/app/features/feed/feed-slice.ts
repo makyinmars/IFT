@@ -14,10 +14,10 @@ import { CreateResponse, UpdateResponse } from "./feed-response";
 
 export const createPost = createAsyncThunk(
   "feed/createPost",
-  async (createResponse: CreateResponse) => {
+  async (createResponse: CreateResponse, thunkAPI) => {
     // Get token from localStorage
-
     const token = localStorage.getItem("token");
+
     console.log(token);
     const config = {
       headers: {
@@ -36,26 +36,30 @@ export const createPost = createAsyncThunk(
   }
 );
 
-// TODO
-// export const updatePost = createAsyncThunk(
-//   "feed/updatePost",
-//   async (updateResponse: UpdateResponse, thunkAPI) => {
-//     // Get post id getState()
-//     const { feed } = thunkAPI.getState() as RootState;
+export const updatePost = createAsyncThunk(
+  "feed/updatePost",
+  async (updateResponse: UpdateResponse, thunkAPI) => {
+    // Get post id getState()
+    const state = thunkAPI.getState() as RootState;
+    const id = state.feed.feedPosts.id;
 
-//     const token = localStorage.getItem("token");
-//     const config = {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     };
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-//     const { data } = await axios.put<FeedPosts>(
-//       `${process.env.API_URL}/api/feed/${id}`
-//     );
-//   }
-// );
+    const { data } = await axios.put<FeedPosts>(
+      `${process.env.API_URL}/api/feed/${id}`,
+      updateResponse,
+      config
+    );
+
+    return data;
+  }
+);
 
 export interface FeedState {
   feedPosts: FeedResponse;
@@ -86,6 +90,21 @@ const feedSlice = createSlice({
       state.feedPosts = payload;
     });
     builder.addCase(createPost.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(updatePost.pending, (state) => {
+      state.status.isFetching = false;
+    });
+
+    builder.addCase(updatePost.fulfilled, (state, { payload }) => {
+      state.status.isSuccess = true;
+      state.status.isFetching = false;
+      state.feedPosts = payload;
+    });
+    builder.addCase(updatePost.rejected, (state, { error }) => {
       state.status.isFetching = false;
       state.status.isError = true;
       state.status.errorMessage = error.message || "";

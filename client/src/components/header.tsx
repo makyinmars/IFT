@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
-import Menu from "../components/menu";
+import MenuProfile from "./menu-profile";
 import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
@@ -41,7 +41,7 @@ const Header = () => {
       <Spacer />
 
       {isSuccess ? (
-        <Menu />
+        <MenuProfile />
       ) : (
         <Box>
           <Button mr="5" variant="primary" size="sm">

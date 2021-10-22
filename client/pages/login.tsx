@@ -1,7 +1,6 @@
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import {
-  Button,
   FormControl,
   FormLabel,
   GridItem,
@@ -14,7 +13,7 @@ import {
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { loginUser } from "../app/features/auth/auth-slice";
 import Spinner from "../src/components/spinner";
-import Alert from "../src/components/alert";
+import ButtonToast from "../src/components/button-toast";
 
 const userFormData = {
   email: "",
@@ -50,10 +49,8 @@ const Login = () => {
   useEffect(() => {
     if (isSuccess) {
       router.push("/");
-    } else {
-      <Alert status="error" description={errorMessage} />;
     }
-  }, [isSuccess, router, errorMessage]);
+  }, [isSuccess, router]);
 
   return (
     <VStack w="full" h="full" p={10}>
@@ -62,7 +59,6 @@ const Login = () => {
       </VStack>
 
       {isFetching && <Spinner />}
-      {isError && <Alert status="error" description={errorMessage} />}
       <form onSubmit={onSubmit}>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={2}>
@@ -88,9 +84,13 @@ const Login = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <Button w="full" variant="primary" type="submit">
+            <ButtonToast
+              title={isError ? "Try it again" : "Logged In!"}
+              description={isError ? "Have a great time!" : `${errorMessage}`}
+              status={isError ? "error" : "success"}
+            >
               Log In
-            </Button>
+            </ButtonToast>
           </GridItem>
         </SimpleGrid>
       </form>

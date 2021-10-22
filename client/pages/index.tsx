@@ -1,4 +1,4 @@
-import { Heading, Box } from "@chakra-ui/react";
+import { Heading } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 

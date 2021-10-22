@@ -15,9 +15,8 @@ import {
   clearStatus,
   clearUserInfo,
 } from "../../app/features/auth/auth-slice";
-import Modal from "../components/modal";
 
-const Menu = () => {
+const MenuProfile = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
@@ -34,12 +33,7 @@ const Menu = () => {
 
   return (
     <MenuChakra isLazy id="1">
-      <MenuButton
-        as={Button}
-        rightIcon={<ChevronDownIcon />}
-        color="brand.500"
-        bg="brand.200"
-      >
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant="primary">
         <Avatar size="sm" bg="brand.500" />
       </MenuButton>
       <MenuList>
@@ -49,4 +43,4 @@ const Menu = () => {
     </MenuChakra>
   );
 };
-export default Menu;
+export default MenuProfile;
