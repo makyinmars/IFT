@@ -12,13 +12,31 @@ import {
 import { RootState } from "../../store";
 import { CreateResponse, UpdateResponse } from "./feed-response";
 
+export const getPost = createAsyncThunk("feed/getPost", async (id: number) => {
+  // Get token from localStorage
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.get<FeedResponse>(
+    `${process.env.API_URL}/api/feed/${id}`,
+    config
+  );
+
+  return data;
+});
+
 export const createPost = createAsyncThunk(
   "feed/createPost",
   async (createResponse: CreateResponse) => {
     // Get token from localStorage
     const token = localStorage.getItem("token");
 
-    console.log(token);
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +69,7 @@ export const updatePost = createAsyncThunk(
       },
     };
 
-    const { data } = await axios.put<FeedPosts>(
+    const { data } = await axios.put<FeedResponse>(
       `${process.env.API_URL}/api/feed/${id}`,
       updateResponse,
       config
@@ -63,7 +81,11 @@ export const updatePost = createAsyncThunk(
 
 export const deletePost = createAsyncThunk(
   "feed/deletePost",
-  async (id: number) => {
+  async (_, thunkAPI) => {
+    // Get post id getState()
+    const state = thunkAPI.getState() as RootState;
+    const id = state.feed.feedPosts.id;
+
     const token = localStorage.getItem("token");
     const config = {
       headers: {
@@ -98,6 +120,20 @@ const feedSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getPost.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(getPost.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.feedPosts = payload;
+    });
+    builder.addCase(getPost.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
     builder.addCase(createPost.pending, (state) => {
       state.status.isFetching = true;
     });
