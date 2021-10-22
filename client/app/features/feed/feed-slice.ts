@@ -4,11 +4,7 @@ import {
   DefaultFeedPosts,
   DefaultStatus,
 } from "../../../src/constants/constants";
-import {
-  FeedPosts,
-  FeedResponse,
-  Status,
-} from "../../../src/interfaces/interfaces";
+import { FeedResponse, Status } from "../../../src/interfaces/interfaces";
 import { RootState } from "../../store";
 import { CreateResponse, UpdateResponse } from "./feed-response";
 

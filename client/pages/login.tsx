@@ -20,7 +20,7 @@ const userFormData = {
   password: "",
 };
 
-const Login = () => {
+const LoginPage = () => {
   const dispatch = useAppDispatch();
 
   const { isSuccess, isError, isFetching, errorMessage } = useAppSelector(
@@ -98,4 +98,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default LoginPage;

@@ -1,4 +1,5 @@
 import { useRouter } from "next/dist/client/router";
+import Link from "next/link";
 import {
   Menu as MenuChakra,
   MenuButton,
@@ -15,11 +16,16 @@ import {
   clearStatus,
   clearUserInfo,
 } from "../../app/features/auth/auth-slice";
+import {
+  clearStatus as clearStatusFeed,
+  clearFeedPost,
+} from "../../app/features/feed/feed-slice";
 
-const MenuProfile = () => {
+const MenuUser = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
+  const id = useAppSelector((state) => state.auth.userInfo.user.id);
   const { isSuccess } = useAppSelector((state) => state.auth.status);
 
   const onLogout = () => {
@@ -27,12 +33,15 @@ const MenuProfile = () => {
     if (isSuccess) {
       dispatch(clearStatus());
       dispatch(clearUserInfo());
+      dispatch(clearStatusFeed());
+      dispatch(clearFeedPost());
       router.push("/");
     }
   };
 
   return (
     <MenuChakra isLazy id="1">
+      {/* Property id=1 is needed otherwise will throw error */}
       <MenuButton
         as={Button}
         size="sm"
@@ -42,10 +51,12 @@ const MenuProfile = () => {
         <Avatar size="sm" bg="brand.500" />
       </MenuButton>
       <MenuList>
-        <MenuItem>Profile</MenuItem>
+        <MenuItem>
+          <Link href={`/profile/${id}`}>Profile</Link>
+        </MenuItem>
         <MenuItem onClick={onLogout}>Logout</MenuItem>
       </MenuList>
     </MenuChakra>
   );
 };
-export default MenuProfile;
+export default MenuUser;

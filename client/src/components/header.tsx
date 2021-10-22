@@ -5,13 +5,11 @@ import {
   Spacer,
   Box,
   Heading,
-  AspectRatio,
-  Image,
   useColorMode,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 
-import MenuProfile from "./menu-profile";
+import MenuUser from "./menu-user";
 import { useAppSelector } from "../../app/hooks";
 
 const Header = () => {
@@ -35,7 +33,7 @@ const Header = () => {
         <Link href="/posts">Community</Link>
       </Button>
       {isSuccess ? (
-        <MenuProfile />
+        <MenuUser />
       ) : (
         <Box>
           <Button mr="5" variant="primary" size="sm">

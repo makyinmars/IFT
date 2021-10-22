@@ -27,7 +27,7 @@ const userFormData = {
   password: "",
 };
 
-const Register: NextPage = () => {
+const RegisterPage: NextPage = () => {
   const dispatch = useAppDispatch();
 
   const { isFetching, isError, isSuccess, errorMessage } = useAppSelector(
@@ -131,4 +131,4 @@ const Register: NextPage = () => {
   );
 };
 
-export default Register;
+export default RegisterPage;

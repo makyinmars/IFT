@@ -12,6 +12,7 @@ import {
   FormControl,
   FormLabel,
   Textarea,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
