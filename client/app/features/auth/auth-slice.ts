@@ -89,7 +89,6 @@ const authSlice = createSlice({
 
     builder.addCase(loginUser.fulfilled, (state, { payload }) => {
       const decodedToken = jwtDecode<UserResponse>(payload);
-      console.log(decodedToken);
       state.userInfo = decodedToken;
       state.status.isSuccess = true;
       state.status.isFetching = false;

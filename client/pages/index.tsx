@@ -1,9 +1,10 @@
-import { Heading } from "@chakra-ui/react";
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import Head from "next/head";
 
 import { FeedPosts } from "../src/interfaces/interfaces";
 import Feed from "../src/components/feed";
+import React from "react";
+import MainLayout from "../src/components/main-layout";
 
 interface FeedProps {
   feedPosts: FeedPosts[];
@@ -21,12 +22,10 @@ const Home = ({
           content="Post your items you have found on the streets, house, anywhere!"
         />
       </Head>
-      <main>
-        <Heading align="center" pt={4}>
-          IFT
-        </Heading>
+
+      <MainLayout>
         <Feed feedPosts={feedPosts} />
-      </main>
+      </MainLayout>
     </>
   );
 };

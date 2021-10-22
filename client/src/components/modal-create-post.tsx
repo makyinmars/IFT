@@ -19,7 +19,7 @@ import { createPost } from "../../app/features/feed/feed-slice";
 import Alert from "./alert";
 import ButtonToast from "./button-toast";
 
-const Modal = () => {
+const ModalCreatePost = () => {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth.userInfo);
   const { isSuccess, isError, errorMessage } = useAppSelector(
@@ -39,7 +39,7 @@ const Modal = () => {
       {user.id !== 0 && (
         <>
           {isError && <Alert status="error" description={errorMessage} />}
-          <Button onClick={onOpen} variant="primary">
+          <Button onClick={onOpen} variant="primary" size="sm">
             Add new post
           </Button>
           <ModalChakra
@@ -86,4 +86,4 @@ const Modal = () => {
   );
 };
 
-export default Modal;
+export default ModalCreatePost;

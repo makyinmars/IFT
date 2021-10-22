@@ -21,23 +21,14 @@ const Header = () => {
 
   return (
     <Flex p="3">
-      <Box mr="2">
-        <AspectRatio ration={1} w={14}>
-          <Image src="/images/logo.png" alt="logo" />
-        </AspectRatio>
-      </Box>
-      <Box>
-        <Heading size="xl">
-          <Link href="/">Home</Link>
-        </Heading>
-      </Box>
-      <Spacer />
-
-      <Box>
+      <Flex>
         <Button variant="primary" size="sm" onClick={toggleColorMode}>
           {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
         </Button>
-      </Box>
+        <Heading size="lg" ml={3}>
+          <Link href="/">Home</Link>
+        </Heading>
+      </Flex>
       <Spacer />
 
       {isSuccess ? (

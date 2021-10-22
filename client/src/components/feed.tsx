@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 import { FeedPosts } from "../interfaces/interfaces";
-import Modal from "../components/modal";
+import Modal from "./modal-create-post";
 import React from "react";
 import MenuEditPost from "./menu-edit-post";
 
@@ -27,7 +27,7 @@ const Feed = ({ feedPosts }: Props) => {
       <Center pt={4}>
         <Modal />
       </Center>
-      <SimpleGrid columns={{ sm: 1, md: 2 }} spacing={10} p={6}>
+      <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={10} p={6}>
         {feedPosts.map((feedPost) => (
           <Box
             key={feedPost.id}
@@ -38,7 +38,7 @@ const Feed = ({ feedPosts }: Props) => {
           >
             <Image src="/images/site/bike.jpeg" alt="post" />
             <Heading
-              size="md"
+              size="sm"
               align="center"
               p={2}
             >{`By: ${feedPost.author.firstName} ${feedPost.author.lastName}`}</Heading>

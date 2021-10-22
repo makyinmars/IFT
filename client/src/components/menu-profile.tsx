@@ -33,7 +33,12 @@ const MenuProfile = () => {
 
   return (
     <MenuChakra isLazy id="1">
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />} variant="primary">
+      <MenuButton
+        as={Button}
+        size="sm"
+        rightIcon={<ChevronDownIcon />}
+        variant="primary"
+      >
         <Avatar size="sm" bg="brand.500" />
       </MenuButton>
       <MenuList>
