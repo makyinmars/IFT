@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Menu,
   MenuButton,
@@ -8,22 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  deletePost,
-  updatePost,
-  clearStatus,
-  clearFeedPost,
-} from "../../app/features/feed/feed-slice";
+interface Props {
+  id: number;
+}
 
-const MenuPost = () => {
-  const dispatch = useAppDispatch();
-  const id = useAppSelector((state) => state.feed.feedPosts.id);
-
-  // const onDeletePost = () => {
-  //   dispatch(deletePost(id));
-  // };
-
+const MenuPost = ({ id }: Props) => {
   return (
     <Center p={2}>
       <Menu>
@@ -36,8 +26,9 @@ const MenuPost = () => {
           Actions
         </MenuButton>
         <MenuList>
-          <MenuItem>Edit Post</MenuItem>
-          <MenuItem>Delete Post</MenuItem>
+          <MenuItem>
+            <Link href={`posts/post/${id}`}>Edit Post</Link>
+          </MenuItem>
         </MenuList>
       </Menu>
     </Center>

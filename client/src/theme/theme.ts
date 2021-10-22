@@ -50,8 +50,8 @@ const theme = extendTheme(
         variants: {
           primary: (props: any) => ({
             ...brandRing,
-            color: mode("white", "gray.800")(props),
-            backgroundColor: mode("brand.100", "brand.400")(props),
+            color: mode("whiteAlpha.800", "gray.800")(props),
+            backgroundColor: mode("brand.400", "brand.400")(props),
             _hover: {
               backgroundColor: mode("brand.600", "brand.500")(props),
             },
@@ -89,7 +89,7 @@ const theme = extendTheme(
   }),
   withDefaultVariant({
     variant: "filled",
-    components: ["Input", "Select"],
+    components: ["Input", "Select", "Textarea"],
   })
 );
 

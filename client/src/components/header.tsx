@@ -31,6 +31,9 @@ const Header = () => {
       </Flex>
       <Spacer />
 
+      <Button variant="primary" mr="5" size="sm">
+        <Link href="/posts">Community</Link>
+      </Button>
       {isSuccess ? (
         <MenuProfile />
       ) : (

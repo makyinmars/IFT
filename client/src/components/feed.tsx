@@ -18,7 +18,7 @@ interface Props {
 }
 
 const Feed = ({ feedPosts }: Props) => {
-  const bg = useColorModeValue("brand.100", "brand.400");
+  const bg = useColorModeValue("brand.400", "brand.400");
 
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
 
@@ -47,7 +47,7 @@ const Feed = ({ feedPosts }: Props) => {
               <Text>{feedPost.createdAt}</Text>
               <Text>{`Role: ${feedPost.author.role}`}</Text>
             </Box>
-            <MenuPost />
+            <MenuPost id={feedPost.id} />
           </Box>
         ))}
       </SimpleGrid>
