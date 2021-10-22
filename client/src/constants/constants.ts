@@ -17,3 +17,15 @@ export const DefaultUserInfo = {
   exp: 0,
   iat: 0,
 };
+
+export const DefaultFeedPosts = {
+  body: "",
+  author: {
+    id: 0,
+    firstName: "",
+    lastName: "",
+    email: "",
+    imagePath: "",
+    role: "",
+  },
+};

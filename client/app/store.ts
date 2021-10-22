@@ -8,9 +8,10 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage";
+import storage from "./sync_storage";
 
-import authSlice from "./features/auth/authSlice";
+import authSlice from "./features/auth/auth-slice";
+import feedSlice from "./features/feed/feed-slice";
 
 const persistConfig = {
   key: "root",
@@ -20,6 +21,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   auth: authSlice,
+  feed: feedSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

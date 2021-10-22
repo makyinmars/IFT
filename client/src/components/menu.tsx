@@ -1,4 +1,3 @@
-import { MouseEventHandler, useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import {
   Menu as MenuChakra,
@@ -15,7 +14,8 @@ import {
   logoutUser,
   clearStatus,
   clearUserInfo,
-} from "../../app/features/auth/authSlice";
+} from "../../app/features/auth/auth-slice";
+import Modal from "../components/modal";
 
 const Menu = () => {
   const dispatch = useAppDispatch();
@@ -44,7 +44,6 @@ const Menu = () => {
       </MenuButton>
       <MenuList>
         <MenuItem>Profile</MenuItem>
-        <MenuItem>Add new item</MenuItem>
         <MenuItem onClick={onLogout}>Logout</MenuItem>
       </MenuList>
     </MenuChakra>

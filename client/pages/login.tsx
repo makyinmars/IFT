@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { loginUser } from "../app/features/auth/authSlice";
+import { loginUser } from "../app/features/auth/auth-slice";
 import Spinner from "../src/components/spinner";
 import Alert from "../src/components/alert";
 

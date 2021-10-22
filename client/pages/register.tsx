@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { registerUser } from "../app/features/auth/authSlice";
+import { registerUser } from "../app/features/auth/auth-slice";
 import {
   VStack,
   Heading,

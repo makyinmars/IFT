@@ -9,7 +9,7 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Toast = ({ title, description, status, children }: Props) => {
+const ToastButton = ({ title, description, status, children }: Props) => {
   const toast = useToast();
 
   const onClickToast = () => {
@@ -29,4 +29,4 @@ const Toast = ({ title, description, status, children }: Props) => {
   );
 };
 
-export default Toast;
+export default ToastButton;

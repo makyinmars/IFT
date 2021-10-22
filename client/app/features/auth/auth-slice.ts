@@ -7,7 +7,7 @@ import {
   DefaultUserInfo,
 } from "../../../src/constants/constants";
 import { Status, UserResponse } from "../../../src/interfaces/interfaces";
-import { LoginResponse, RegisterResponse } from "./authResponse";
+import { LoginResponse, RegisterResponse } from "./auth-response";
 
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -16,6 +16,8 @@ export const registerUser = createAsyncThunk(
       `${process.env.API_URL}/api/auth/register`,
       registerResponse
     );
+
+    localStorage.setItem("token", data.token);
 
     return data.token;
   }
@@ -29,12 +31,15 @@ export const loginUser = createAsyncThunk(
       loginResponse
     );
 
+    localStorage.setItem("token", data.token);
+
     return data.token;
   }
 );
 
 export const logoutUser = createAsyncThunk("auth/logoutUser", async () => {
   localStorage.removeItem("userInfo");
+  localStorage.removeItem("token");
 });
 
 export interface AuthState {

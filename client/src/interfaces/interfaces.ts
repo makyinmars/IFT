@@ -19,15 +19,25 @@ export interface UserResponse {
   iat: number;
 }
 
+export interface Author {
+  id: number;
+  role: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  imagePath: string;
+}
+
+export interface FeedResponse {
+  id?: number;
+  body: string;
+  createdAt?: Date;
+  author: Author;
+}
+
 export interface FeedPosts {
   id: number;
   body: string;
   createdAt: Date;
-  author: {
-    id: number;
-    role: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-  };
+  author: Author;
 }
