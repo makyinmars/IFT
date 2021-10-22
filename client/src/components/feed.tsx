@@ -11,7 +11,7 @@ import {
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
 import React from "react";
-import MenuEditPost from "./menu-edit-post";
+import MenuPost from "./menu-post";
 
 interface Props {
   feedPosts: FeedPosts[];
@@ -47,7 +47,7 @@ const Feed = ({ feedPosts }: Props) => {
               <Text>{feedPost.createdAt}</Text>
               <Text>{`Role: ${feedPost.author.role}`}</Text>
             </Box>
-            <MenuEditPost />
+            <MenuPost />
           </Box>
         ))}
       </SimpleGrid>

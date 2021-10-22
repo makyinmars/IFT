@@ -14,7 +14,7 @@ import { CreateResponse, UpdateResponse } from "./feed-response";
 
 export const createPost = createAsyncThunk(
   "feed/createPost",
-  async (createResponse: CreateResponse, thunkAPI) => {
+  async (createResponse: CreateResponse) => {
     // Get token from localStorage
     const token = localStorage.getItem("token");
 
@@ -61,6 +61,21 @@ export const updatePost = createAsyncThunk(
   }
 );
 
+export const deletePost = createAsyncThunk(
+  "feed/deletePost",
+  async (id: number) => {
+    const token = localStorage.getItem("token");
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    await axios.delete<any>(`${process.env.API_URL}/api/feed/${id}`, config);
+  }
+);
+
 export interface FeedState {
   feedPosts: FeedResponse;
   status: Status;
@@ -77,6 +92,9 @@ const feedSlice = createSlice({
   reducers: {
     clearStatus: (state) => {
       state.status = DefaultStatus;
+    },
+    clearFeedPost: (state) => {
+      state.feedPosts = DefaultFeedPosts;
     },
   },
   extraReducers: (builder) => {
@@ -109,7 +127,22 @@ const feedSlice = createSlice({
       state.status.isError = true;
       state.status.errorMessage = error.message || "";
     });
+
+    builder.addCase(deletePost.pending, (state) => {
+      state.status.isFetching = false;
+    });
+
+    builder.addCase(deletePost.fulfilled, (state) => {
+      state.status.isSuccess = true;
+      state.status.isFetching = false;
+    });
+    builder.addCase(deletePost.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
   },
 });
 
+export const { clearStatus, clearFeedPost } = feedSlice.actions;
 export default feedSlice.reducer;
