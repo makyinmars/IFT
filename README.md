@@ -2,7 +2,7 @@
 
 Do you ever just find weird stuff on the street. Well, this is the perfect place to post it ;)
 
-#Techologies
+# Technologies
 
 ## Backend
 
@@ -14,4 +14,6 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 ## Frontend
 
 - NextJS
-- Chakar-UI
+- Chakra-UI
+
+## Todo

@@ -1,15 +1,16 @@
-export interface FeedPost {
-  id: number;
+export interface FeedPosts {
+  id?: number;
   body: string;
-  createdAt: Date;
+  createdAt?: Date;
 }
 
-export interface UserResponse {
+export interface GetUserResponse {
   id: number;
   firstName: string;
   lastName: string;
   email: string;
-  imagePath: string;
+  imagePath?: string;
   role: string;
-  feedPosts: FeedPost[];
+  feedPosts?: FeedPosts[];
 }
+

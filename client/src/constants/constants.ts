@@ -19,7 +19,9 @@ export const DefaultUserInfo = {
 };
 
 export const DefaultFeedPosts = {
+  id: 0,
   body: "",
+  createdAt: "",
   author: {
     id: 0,
     firstName: "",
@@ -28,4 +30,21 @@ export const DefaultFeedPosts = {
     imagePath: "",
     role: "",
   },
+};
+
+// Returns all posts of a single user
+export const DefaultAllFeedPosts = {
+  id: 0,
+  body: "",
+  createdAt: "",
+};
+
+export const DefaultUserAllInfo = {
+  id: 0,
+  firstName: "",
+  lastName: "",
+  email: "",
+  imagePath: "",
+  role: "",
+  feedPosts: new Array<typeof DefaultAllFeedPosts>(),
 };

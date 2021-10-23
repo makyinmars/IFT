@@ -12,6 +12,7 @@ import storage from "./sync-storage";
 
 import authSlice from "./features/auth/auth-slice";
 import feedSlice from "./features/feed/feed-slice";
+import userSlice from "./features/user/user-slice";
 
 const persistConfig = {
   key: "root",
@@ -23,6 +24,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   auth: authSlice,
   feed: feedSlice,
+  user: userSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

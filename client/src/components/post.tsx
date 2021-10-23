@@ -25,7 +25,7 @@ const Post = () => {
   const bg = useColorModeValue("gray.200", "gray.700");
 
   const dispatch = useAppDispatch();
-  const { body: bodyReduxState } = useAppSelector(
+  const { body: bodyReduxState, createdAt } = useAppSelector(
     (state) => state.feed.feedPosts
   );
 
@@ -77,6 +77,7 @@ const Post = () => {
                   }
                   placeholder={bodyReduxState}
                 />
+                <FormHelperText>Create At: {createdAt}</FormHelperText>
                 <FormHelperText>
                   Button disabled, update your post in order to enable button
                 </FormHelperText>

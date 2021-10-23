@@ -31,13 +31,32 @@ export interface Author {
 export interface FeedResponse {
   id?: number;
   body: string;
-  createdAt?: Date;
+  createdAt?: string;
   author: Author;
 }
 
 export interface FeedPosts {
   id: number;
   body: string;
-  createdAt: Date;
+  createdAt: string;
   author: Author;
+}
+
+// Returns individual post of the Author without the Author on the response
+export interface FeedPostsResponse {
+  id: number;
+  body: string;
+  createdAt: string;
+}
+
+// Different that UserResponse because this returns with FeedPosts from the Author
+// without the author parameter
+export interface UserAllResponse {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  imagePath?: string;
+  role: string;
+  feedPosts: FeedPostsResponse[];
 }

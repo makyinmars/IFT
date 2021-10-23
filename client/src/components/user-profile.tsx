@@ -16,9 +16,13 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { getAllUsers } from "../../app/features/user/user-slice";
 
 const UserProfile = () => {
+  const dispatch = useAppDispatch();
+  console.log(dispatch);
+
   const router = useRouter();
   const { id } = router.query;
   const [imageSelected, setImageSelected] = useState<File>(); // Also try <string | Blob>
