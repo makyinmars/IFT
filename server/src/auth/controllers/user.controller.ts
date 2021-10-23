@@ -15,6 +15,8 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
 import { UpdateResult, DeleteResult } from 'typeorm';
+import { Roles } from 'src/auth/decorators/roles.decorator';
+import { Role } from 'src/auth/models/role.enum';
 import { JwtGuard } from '../guards/jwt.guard';
 import {
   isFileExtensionSafe,
@@ -24,24 +26,28 @@ import {
 import { UpdateUserDto } from '../models/update-user.dto';
 import { User } from '../models/user.interface';
 import { UserService } from '../services/user.service';
+import { RolesGuard } from '../guards/roles.guard';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.ADMIN)
+  @UseGuards(JwtGuard, RolesGuard)
   @Get()
   async findUsers(): Promise<User[]> {
     return await this.userService.findAllUsers();
   }
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(JwtGuard, RolesGuard)
   @Get(':id')
   async findUser(@Param('id') id: number): Promise<User> {
     return this.userService.findUserById(id);
   }
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(JwtGuard, RolesGuard)
   @Put(':id')
   async update(
     @Param('id') id: number,
@@ -50,7 +56,8 @@ export class UserController {
     return await this.userService.updateUser(id, updateUserDto);
   }
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(JwtGuard, RolesGuard)
   @Delete('id')
   async delete(@Param('id') id: number): Promise<DeleteResult> {
     return await this.userService.deleteUser(id);
