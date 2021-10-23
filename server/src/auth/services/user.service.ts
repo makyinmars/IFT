@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import { UpdateUserDto } from '../models/update-user.dto';
 import { UserEntity } from '../models/user.entity';
 import { User } from '../models/user.interface';
 
@@ -10,6 +11,10 @@ export class UserService {
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
   ) {}
+
+  async findAllUsers(): Promise<User[]> {
+    return this.userRepository.find({ relations: ['feedPosts'] });
+  }
 
   async findUserById(id: number): Promise<User> {
     const user = await this.userRepository.findOne(
@@ -21,6 +26,17 @@ export class UserService {
       delete user.password;
       return user;
     }
+  }
+
+  async updateUser(
+    id: number,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UpdateResult> {
+    return this.userRepository.update(id, updateUserDto);
+  }
+
+  async deleteUser(id: number): Promise<DeleteResult> {
+    return this.userRepository.delete(id);
   }
 
   async updateUserImageById(
