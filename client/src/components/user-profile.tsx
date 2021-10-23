@@ -21,7 +21,9 @@ import { getAllUsers } from "../../app/features/user/user-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
-  console.log(dispatch);
+
+  const colSpan = useBreakpointValue({ base: 2, md: 1 });
+  const bg = useColorModeValue("gray.200", "gray.700");
 
   const router = useRouter();
   const { id } = router.query;
@@ -33,8 +35,14 @@ const UserProfile = () => {
     }
   };
 
-  const colSpan = useBreakpointValue({ base: 2, md: 1 });
-  const bg = useColorModeValue("gray.200", "gray.700");
+  const onUpdate = () => {
+    console.log("Updated");
+  };
+
+  const onDelete = () => {
+    console.log("deleted");
+  };
+
   return (
     <Flex justify="space-around" p={6}>
       <VStack
@@ -90,13 +98,13 @@ const UserProfile = () => {
           </GridItem>
 
           <GridItem colSpan={colSpan}>
-            <Button w="full" variant="primary" type="submit">
-              Sign Up
+            <Button w="full" variant="primary" type="submit" onClick={onUpdate}>
+              Update
             </Button>
           </GridItem>
           <GridItem colSpan={colSpan}>
-            <Button w="full" variant="primary" type="submit">
-              Sign Up
+            <Button w="full" variant="primary" type="submit" onClick={onDelete}>
+              Delete
             </Button>
           </GridItem>
         </SimpleGrid>

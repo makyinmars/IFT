@@ -4,8 +4,12 @@ import {
   DefaultStatus,
   DefaultUserAllInfo,
 } from "../../../src/constants/constants";
-import { Status, UserAllResponse } from "../../../src/interfaces/interfaces";
-import { GetUserResponse } from "./user-response";
+import {
+  Status,
+  User,
+  UserAllResponse,
+} from "../../../src/interfaces/interfaces";
+import { RootState } from "../../store";
 
 // Only admin has access to action
 export const getAllUsers = createAsyncThunk("user/getAllUsers", async () => {
@@ -14,20 +18,126 @@ export const getAllUsers = createAsyncThunk("user/getAllUsers", async () => {
 
   const config = {
     headers: {
-      "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
   };
-
-  console.log(token);
-  console.log(config);
-
   // Expecting an array of Users
   const { data } = await axios.get<UserAllResponse>(
     `${process.env.API_URL}/api/user}`,
     config
   );
-  console.log(data);
+
+  return data;
+});
+
+export const getUser = createAsyncThunk("user/getUser", async (id: number) => {
+  // Get token from user
+  const token = localStorage.getItem("token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  // Expecting a single user
+  const { data } = await axios.get<UserAllResponse>(
+    `${process.env.API_URL}/api/user/${id}`,
+    config
+  );
+
+  return data;
+});
+
+export const updateUser = createAsyncThunk(
+  "user/updateUser",
+  async (userResponse: User, thunkAPI) => {
+    // Get current user id
+    const state = thunkAPI.getState() as RootState;
+    const id = state.user.userAllInfo.id;
+
+    // Get toke from user
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.put<UserAllResponse>(
+      `${process.env.API_URL}/api/user/${id}`,
+      userResponse,
+      config
+    );
+
+    return data;
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (id: number) => {
+    // Get token from user
+    const token = localStorage.getItem("token");
+
+    // Config for user
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.delete<any>(
+      `${process.env.API_URL}/api/user/${id}`,
+      config
+    );
+
+    return data;
+  }
+);
+
+export const uploadUserImage = createAsyncThunk(
+  "user/uploadUserImage",
+  async (file: File, thunkAPI) => {
+    // Get token from user
+    const token = localStorage.getItem("token");
+
+    // Config for user
+    const config = {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.post<string>(
+      `${process.env.API_URL}/api/user/upload`,
+      file,
+      config
+    );
+
+    return data;
+  }
+);
+
+export const getUserImage = createAsyncThunk("user/getUserImage", async () => {
+  // Get token from user
+  const token = localStorage.getItem("token");
+
+  // Bearer token
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const { data } = await axios.get<string>(
+    `${process.env.API_URL}/api/user/image`,
+    config
+  );
 
   return data;
 });
@@ -64,6 +174,81 @@ const userSlice = createSlice({
       state.userAllInfo = payload;
     });
     builder.addCase(getAllUsers.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(getUser.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(getUser.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userAllInfo = payload;
+    });
+    builder.addCase(getUser.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(updateUser.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(updateUser.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userAllInfo = payload;
+    });
+    builder.addCase(updateUser.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(deleteUser.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(deleteUser.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userAllInfo = payload;
+    });
+    builder.addCase(deleteUser.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(uploadUserImage.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(uploadUserImage.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userAllInfo.imagePath = payload;
+    });
+    builder.addCase(uploadUserImage.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(getUserImage.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(getUserImage.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userAllInfo.imagePath = payload;
+    });
+    builder.addCase(getUserImage.rejected, (state, { error }) => {
       state.status.isFetching = false;
       state.status.isError = true;
       state.status.errorMessage = error.message || "";
