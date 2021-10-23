@@ -2,6 +2,7 @@ import {
   Controller,
   Post,
   UploadedFile,
+  Param,
   UseGuards,
   UseInterceptors,
   Request,
@@ -16,11 +17,18 @@ import {
   removeFile,
   saveImageToStorage,
 } from '../helpers/image-storage';
+import { User } from '../models/user.interface';
 import { UserService } from '../services/user.service';
 
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  @UseGuards(JwtGuard)
+  @Get(':id')
+  async findUser(@Param('id') id: number): Promise<User> {
+    return this.userService.findUserById(id);
+  }
 
   @UseGuards(JwtGuard)
   @Post('upload')

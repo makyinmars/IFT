@@ -8,7 +8,7 @@ import {
   PURGE,
   REGISTER,
 } from "redux-persist";
-import storage from "./sync_storage";
+import storage from "./sync-storage";
 
 import authSlice from "./features/auth/auth-slice";
 import feedSlice from "./features/feed/feed-slice";
