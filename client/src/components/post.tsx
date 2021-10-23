@@ -56,7 +56,7 @@ const Post = () => {
     <Flex justify="space-around" p={6}>
       <form>
         <VStack
-          w="xl"
+          w="auto"
           h="auto"
           p={10}
           bg={bg}
@@ -64,7 +64,7 @@ const Post = () => {
           boxShadow="dark-lg"
         >
           <Heading fontSize="xl">Post: {id}</Heading>
-          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="xl" p={6}>
+          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="auto" p={6}>
             <GridItem colSpan={2}>
               <FormControl id="post" isRequired>
                 <FormLabel>Post</FormLabel>
