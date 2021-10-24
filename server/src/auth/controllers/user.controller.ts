@@ -63,7 +63,8 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
-  @UseGuards(JwtGuard)
+  @Roles(Role.USER, Role.ADMIN)
+  @UseGuards(JwtGuard, RolesGuard)
   @Post('upload')
   @UseInterceptors(FileInterceptor('file', saveImageToStorage))
   uploadImage(@UploadedFile() file: Express.Multer.File, @Request() req): any {

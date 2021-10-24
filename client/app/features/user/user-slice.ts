@@ -101,7 +101,7 @@ export const deleteUser = createAsyncThunk(
 
 export const uploadUserImage = createAsyncThunk(
   "user/uploadUserImage",
-  async (file: File, thunkAPI) => {
+  async (file: File) => {
     // Get token from user
     const token = localStorage.getItem("token");
 
@@ -113,11 +113,13 @@ export const uploadUserImage = createAsyncThunk(
       },
     };
 
-    const { data } = await axios.post<string>(
+    const { data } = await axios.post<File>(
       `${process.env.API_URL}/api/user/upload`,
       file,
       config
     );
+
+    console.log("User slice:", data);
 
     return data;
   }

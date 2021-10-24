@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, MouseEvent } from "react";
+import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import {
   Flex,
@@ -17,7 +17,11 @@ import {
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { getAllUsers } from "../../app/features/user/user-slice";
+import {
+  getAllUsers,
+  uploadUserImage,
+  getUserImage,
+} from "../../app/features/user/user-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
@@ -42,6 +46,12 @@ const UserProfile = () => {
   const onDelete = () => {
     console.log("deleted");
   };
+
+  useEffect(() => {
+    if (imageSelected) {
+      dispatch(uploadUserImage(imageSelected));
+    }
+  }, [dispatch, imageSelected]);
 
   return (
     <Flex justify="space-around" p={6}>
