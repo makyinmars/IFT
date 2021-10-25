@@ -146,6 +146,8 @@ export const getUserImage = createAsyncThunk("user/getUserImage", async () => {
     config
   );
 
+  console.log("data", data);
+
   return data;
 });
 
