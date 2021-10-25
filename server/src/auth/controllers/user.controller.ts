@@ -12,12 +12,14 @@ import {
   Body,
   Delete,
 } from '@nestjs/common';
+import { diskStorage } from 'multer';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { join } from 'path';
+import path, { join } from 'path';
 import { UpdateResult, DeleteResult } from 'typeorm';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/role.enum';
 import { JwtGuard } from '../guards/jwt.guard';
+import { v4 as uuidv4 } from 'uuid';
 import {
   isFileExtensionSafe,
   removeFile,
@@ -31,6 +33,8 @@ import { RolesGuard } from '../guards/roles.guard';
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
+
+  // File storage
 
   @Roles(Role.ADMIN)
   @UseGuards(JwtGuard, RolesGuard)
@@ -63,6 +67,28 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(JwtGuard, RolesGuard)
+  // @Post('upload')
+  // @UseInterceptors(FileInterceptor('file', storage))
+  // uploadImage(@UploadedFile() file: Express.Multer.File, @Request() req): any {
+  //   const user: User = req.user;
+
+  //   return this.userService.updateUserImageById(user.id, file.filename);
+  // }
+
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(JwtGuard, RolesGuard)
+  // @Get('profile-image')
+  // async findProfileImage(@Request() req, @Res() res): Promise<string> {
+  //   const user: User = req.user;
+
+  //   const imageName: string = await this.userService.findImageNameByUserId(
+  //     user.id,
+  //   );
+
+  //   return res.sendFile(join(process.cwd(), 'uploads/profile' + imageName));
+  // }
   @Roles(Role.USER, Role.ADMIN)
   @UseGuards(JwtGuard, RolesGuard)
   @Post('upload')
