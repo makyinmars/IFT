@@ -109,7 +109,6 @@ export const uploadUserImage = createAsyncThunk(
     const formData = new FormData();
     formData.append("file", file);
     formData.append("name", file.name);
-    console.log("Form Data >>", formData);
 
     // Config for user
     const config = {
@@ -124,6 +123,8 @@ export const uploadUserImage = createAsyncThunk(
       formData,
       config
     );
+
+    console.log("Form Data", formData);
 
     // Returns file instead of data because data is not a string
     return file.name;

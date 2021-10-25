@@ -20,7 +20,7 @@ const validMimeTypes: validMimeType[] = [
 
 export const saveImageToStorage = {
   storage: diskStorage({
-    destination: './images',
+    destination: './images/profile-image/',
     filename: (req, file, cb) => {
       const fileExtension: string = path.extname(file.originalname);
       const fileName: string = uuidv4() + fileExtension;
