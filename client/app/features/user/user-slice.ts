@@ -101,27 +101,32 @@ export const deleteUser = createAsyncThunk(
 
 export const uploadUserImage = createAsyncThunk(
   "user/uploadUserImage",
-  async (file: File) => {
+  async (file: any) => {
     // Get token from user
     const token = localStorage.getItem("token");
+
+    // Form Data
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("name", file.name);
+    console.log("Form Data >>", formData);
 
     // Config for user
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     };
 
-    const { data } = await axios.post<File>(
+    await axios.post<File>(
       `${process.env.API_URL}/api/user/upload`,
-      file,
+      formData,
       config
     );
 
-    console.log("User slice:", data);
-
-    return data;
+    // Returns file instead of data because data is not a string
+    return file.name;
   }
 );
 

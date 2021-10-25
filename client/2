@@ -39,10 +39,6 @@ const UserProfile = () => {
     }
   };
 
-  const onUploadImage = () => {
-    dispatch(uploadUserImage(imageSelected));
-  };
-
   const onUpdate = () => {
     console.log("Updated");
   };
@@ -50,6 +46,12 @@ const UserProfile = () => {
   const onDelete = () => {
     console.log("deleted");
   };
+
+  useEffect(() => {
+    if (imageSelected) {
+      dispatch(uploadUserImage(imageSelected));
+    }
+  }, [dispatch, imageSelected]);
 
   return (
     <Flex justify="space-around" p={6}>
@@ -66,7 +68,7 @@ const UserProfile = () => {
           <GridItem colSpan={colSpan}>
             <FormControl id="avatar">
               <FormLabel htmlFor="avatar">Avatar</FormLabel>
-              <Input type="file" onChange={imageChange} accept="image/*" />
+              <Input type="file" onChange={imageChange} />
             </FormControl>
           </GridItem>
           <GridItem colSpan={colSpan} align="center">
@@ -80,7 +82,7 @@ const UserProfile = () => {
             )}
           </GridItem>
           <GridItem colSpan={2} align="center">
-            <Button onClick={onUploadImage}>Update image</Button>
+            <Button>Updata image</Button>
           </GridItem>
           <GridItem colSpan={colSpan}>
             <FormControl id="firstName">
