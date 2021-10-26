@@ -119,38 +119,39 @@ export const uploadUserImage = createAsyncThunk(
     };
 
     await axios.post<File>(
-      `${process.env.API_URL}/api/user/upload`,
+      `${process.env.API_URL}/api/user/profile-image`,
       formData,
       config
     );
-
-    console.log("Form Data", formData);
 
     // Returns file instead of data because data is not a string
     return file.name;
   }
 );
 
-export const getUserImage = createAsyncThunk("user/getUserImage", async () => {
-  // Get token from user
-  const token = localStorage.getItem("token");
+export const getUserImage = createAsyncThunk(
+  "user/getUserImage",
+  async (imageId: any) => {
+    // Get token from user
+    const token = localStorage.getItem("token");
 
-  // Bearer token
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
+    // Bearer token
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-  const { data } = await axios.get<string>(
-    `${process.env.API_URL}/api/user/image`,
-    config
-  );
+    const { data } = await axios.get<string>(
+      `${process.env.API_URL}/api/user/profile-image/${imageId}`,
+      config
+    );
 
-  console.log("data", data);
+    console.log("data", data);
 
-  return data;
-});
+    return data;
+  }
+);
 
 export interface UserState {
   userAllInfo: UserAllResponse;

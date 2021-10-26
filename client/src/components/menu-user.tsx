@@ -30,14 +30,9 @@ const MenuUser = () => {
   const id = useAppSelector((state) => state.auth.userInfo.user.id);
   const { isSuccess } = useAppSelector((state) => state.auth.status);
 
-  const imagePath = useAppSelector((state) => state.user.userAllInfo.imagePath);
-  console.log("image", imagePath);
-
-  useEffect(() => {
-    if (imagePath !== "") {
-      dispatch(getUserImage());
-    }
-  }, [imagePath, dispatch]);
+  const imagePath = useAppSelector(
+    (state) => state.auth.userInfo.user.imagePath
+  );
 
   const onLogout = () => {
     dispatch(logoutUser());
@@ -59,11 +54,11 @@ const MenuUser = () => {
         rightIcon={<ChevronDownIcon />}
         variant="primary"
       >
-        {imagePath ? (
-          <Avatar size="sm" bg="brand.500" src={imagePath} />
-        ) : (
-          <Avatar size="sm" bg="brand.500" />
-        )}
+        <Avatar
+          size="sm"
+          bg="brand.500"
+          src={`${process.env.API_URL}/api/user/profile-image/${imagePath}`}
+        />
       </MenuButton>
       <MenuList>
         <MenuItem>
