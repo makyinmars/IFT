@@ -17,10 +17,17 @@ import {
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { uploadUserImage } from "../../app/features/auth/auth-slice";
+import {
+  uploadUserImage,
+  findUserImage,
+} from "../../app/features/auth/auth-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
+
+  const { imagePath, firstName, lastName, email } = useAppSelector(
+    (state) => state.auth.userInfo.user
+  );
 
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
   const bg = useColorModeValue("gray.200", "gray.700");
@@ -47,6 +54,10 @@ const UserProfile = () => {
     console.log("deleted");
   };
 
+  useEffect(() => {
+    dispatch(findUserImage(Number(id)));
+  }, [dispatch, id]);
+
   return (
     <Flex justify="space-around" p={6}>
       <VStack
@@ -66,7 +77,14 @@ const UserProfile = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={colSpan} align="center">
-            {imageSelected && (
+            {imagePath !== "" ? (
+              <Image
+                src={imagePath}
+                borderRadius="full"
+                boxSize="100px"
+                alt="image"
+              />
+            ) : (
               <Image
                 src={URL.createObjectURL(imageSelected)}
                 borderRadius="full"
@@ -81,20 +99,20 @@ const UserProfile = () => {
           <GridItem colSpan={colSpan}>
             <FormControl id="firstName">
               <FormLabel htmlFor="firstName">First Name</FormLabel>
-              <Input type="text" placeholder="John" />
+              <Input type="text" placeholder={firstName} />
             </FormControl>
           </GridItem>
           <GridItem colSpan={colSpan}>
             <FormControl id="lastName">
               <FormLabel htmlFor="lastName">Last Name</FormLabel>
-              <Input type="text" placeholder="Doe" />
+              <Input type="text" placeholder={lastName} />
             </FormControl>
           </GridItem>
 
           <GridItem colSpan={2}>
             <FormControl id="email">
               <FormLabel htmlFor="email">Email</FormLabel>
-              <Input type="text" placeholder="Doe" />
+              <Input type="email" placeholder={email} />
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>

@@ -162,6 +162,27 @@ export const uploadUserImage = createAsyncThunk(
   }
 );
 
+export const findUserImage = createAsyncThunk(
+  "user/findUserImage",
+  async (id: number) => {
+    // Get token from user
+    const token = localStorage.getItem("token");
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const { data } = await axios.get<string>(
+      `${process.env.API_URL}/api/user/profile-upload/${id}`,
+      config
+    );
+
+    return data;
+  }
+);
+
 export interface AuthState {
   userInfo: UserResponse;
   status: Status;
@@ -309,6 +330,21 @@ const authSlice = createSlice({
       state.userInfo.user.imagePath = payload;
     });
     builder.addCase(uploadUserImage.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
+    });
+
+    builder.addCase(findUserImage.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
+    builder.addCase(findUserImage.fulfilled, (state, { payload }) => {
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      state.userInfo.user.imagePath = payload;
+    });
+    builder.addCase(findUserImage.rejected, (state, { error }) => {
       state.status.isFetching = false;
       state.status.isError = true;
       state.status.errorMessage = error.message || "";
