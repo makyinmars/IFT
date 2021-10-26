@@ -72,7 +72,6 @@ export class UserController {
     const user = req.user;
 
     user.imagePath = image.secure_url;
-    await this.userService.updateUser(user.id, user);
 
     return image.secure_url;
   }

@@ -5,9 +5,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FeedPostEntity } from './models/feed.entity';
 import { AuthModule } from 'src/auth/auth.module';
 import { IsCreatorGuard } from './guards/is-creator.guard';
+import { CloudinaryModule } from 'src/cloudinary/cloudinary.module';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([FeedPostEntity])],
+  imports: [
+    CloudinaryModule,
+    AuthModule,
+    TypeOrmModule.forFeature([FeedPostEntity]),
+  ],
   providers: [FeedService, IsCreatorGuard],
   controllers: [FeedController],
 })

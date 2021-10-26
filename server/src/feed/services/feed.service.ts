@@ -55,4 +55,16 @@ export class FeedService {
   async deletePost(id: number): Promise<DeleteResult> {
     return this.feedPostRepository.delete(id);
   }
+
+  async updatePostImageById(
+    id: number,
+    imagePath: string,
+  ): Promise<UpdateResult> {
+    const feed: FeedPost = new FeedPostEntity();
+
+    feed.id = id;
+    feed.imagePath = imagePath;
+
+    return this.feedPostRepository.update(id, feed);
+  }
 }

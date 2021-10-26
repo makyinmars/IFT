@@ -85,12 +85,14 @@ const UserProfile = () => {
                 alt="image"
               />
             ) : (
-              <Image
-                src={URL.createObjectURL(imageSelected)}
-                borderRadius="full"
-                boxSize="100px"
-                alt="image"
-              />
+              imageSelected && (
+                <Image
+                  src={URL.createObjectURL(imageSelected)}
+                  borderRadius="full"
+                  boxSize="100px"
+                  alt="image"
+                />
+              )
             )}
           </GridItem>
           <GridItem colSpan={2} align="center">

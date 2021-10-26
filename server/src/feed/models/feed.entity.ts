@@ -13,6 +13,9 @@ export class FeedPostEntity {
   id: number;
 
   @Column({ default: '' })
+  imagePath: string;
+
+  @Column({ default: '' })
   body: string;
 
   @CreateDateColumn()

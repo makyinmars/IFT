@@ -1,3 +1,4 @@
 export class UpdateFeedPostDto {
-  body: string;
+  imagePath?: string;
+  body?: string;
 }
