@@ -25,7 +25,7 @@ const MenuUser = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { id, imagePath } = useAppSelector((state) => state.user.userAllInfo);
+  const { id, imagePath } = useAppSelector((state) => state.auth.userInfo.user);
   const { isSuccess } = useAppSelector((state) => state.auth.status);
 
   const onLogout = () => {

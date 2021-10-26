@@ -5,6 +5,13 @@ export const DefaultStatus = {
   errorMessage: "",
 };
 
+// Returns all posts of a single user
+export const DefaultAllFeedPosts = {
+  id: 0,
+  body: "",
+  createdAt: "",
+};
+
 export const DefaultUserInfo = {
   user: {
     id: 0,
@@ -13,6 +20,7 @@ export const DefaultUserInfo = {
     email: "",
     imagePath: "",
     role: "",
+    feedPosts: new Array<typeof DefaultAllFeedPosts>(),
   },
   exp: 0,
   iat: 0,
@@ -30,13 +38,6 @@ export const DefaultFeedPosts = {
     imagePath: "",
     role: "",
   },
-};
-
-// Returns all posts of a single user
-export const DefaultAllFeedPosts = {
-  id: 0,
-  body: "",
-  createdAt: "",
 };
 
 export const DefaultUserAllInfo = {

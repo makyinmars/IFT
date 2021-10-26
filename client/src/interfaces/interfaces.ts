@@ -1,3 +1,17 @@
+export interface FeedPosts {
+  id: number;
+  body: string;
+  createdAt: string;
+  author: Author;
+}
+
+// Returns individual post of the Author without the Author on the response
+export interface FeedPostsResponse {
+  id: number;
+  body: string;
+  createdAt: string;
+}
+
 export interface Status {
   isFetching: boolean;
   isError: boolean;
@@ -12,6 +26,7 @@ export interface User {
   email: string;
   imagePath: string;
   role: string;
+  feedPosts?: FeedPostsResponse[];
 }
 export interface UserResponse {
   user: User;
@@ -33,20 +48,6 @@ export interface FeedResponse {
   body: string;
   createdAt?: string;
   author: Author;
-}
-
-export interface FeedPosts {
-  id: number;
-  body: string;
-  createdAt: string;
-  author: Author;
-}
-
-// Returns individual post of the Author without the Author on the response
-export interface FeedPostsResponse {
-  id: number;
-  body: string;
-  createdAt: string;
 }
 
 // Different that UserResponse because this returns with FeedPosts from the Author

@@ -126,7 +126,7 @@ export const uploadUserImage = createAsyncThunk(
 
     console.log(file);
     // Returns file instead of data because data is not a string
-    return data;
+    return file;
   }
 );
 

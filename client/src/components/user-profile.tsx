@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { uploadUserImage } from "../../app/features/user/user-slice";
+import { uploadUserImage } from "../../app/features/auth/auth-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
