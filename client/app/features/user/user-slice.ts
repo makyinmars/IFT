@@ -118,37 +118,14 @@ export const uploadUserImage = createAsyncThunk(
       },
     };
 
-    await axios.post<File>(
-      `${process.env.API_URL}/api/user/profile-image`,
+    const { data } = await axios.post<any>(
+      `${process.env.API_URL}/api/user/profile-upload`,
       formData,
       config
     );
 
+    console.log(file);
     // Returns file instead of data because data is not a string
-    return file.name;
-  }
-);
-
-export const getUserImage = createAsyncThunk(
-  "user/getUserImage",
-  async (imageId: any) => {
-    // Get token from user
-    const token = localStorage.getItem("token");
-
-    // Bearer token
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    const { data } = await axios.get<string>(
-      `${process.env.API_URL}/api/user/profile-image/${imageId}`,
-      config
-    );
-
-    console.log("data", data);
-
     return data;
   }
 );
@@ -245,21 +222,6 @@ const userSlice = createSlice({
       state.userAllInfo.imagePath = payload;
     });
     builder.addCase(uploadUserImage.rejected, (state, { error }) => {
-      state.status.isFetching = false;
-      state.status.isError = true;
-      state.status.errorMessage = error.message || "";
-    });
-
-    builder.addCase(getUserImage.pending, (state) => {
-      state.status.isFetching = true;
-    });
-
-    builder.addCase(getUserImage.fulfilled, (state, { payload }) => {
-      state.status.isFetching = false;
-      state.status.isSuccess = true;
-      state.userAllInfo.imagePath = payload;
-    });
-    builder.addCase(getUserImage.rejected, (state, { error }) => {
       state.status.isFetching = false;
       state.status.isError = true;
       state.status.errorMessage = error.message || "";

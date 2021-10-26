@@ -84,7 +84,7 @@ export class UserController {
       user.imagePath = image.secure_url;
     }
 
-    return image.secure_url && user;
+    return image.secure_url;
   }
 
   // @Roles(Role.ADMIN, Role.USER)

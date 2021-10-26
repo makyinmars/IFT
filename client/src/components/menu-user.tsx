@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useRouter } from "next/dist/client/router";
 import Link from "next/link";
 import {
@@ -21,18 +20,13 @@ import {
   clearStatus as clearStatusFeed,
   clearFeedPost,
 } from "../../app/features/feed/feed-slice";
-import { getUserImage } from "../../app/features/user/user-slice";
 
 const MenuUser = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const id = useAppSelector((state) => state.auth.userInfo.user.id);
+  const { id, imagePath } = useAppSelector((state) => state.user.userAllInfo);
   const { isSuccess } = useAppSelector((state) => state.auth.status);
-
-  const imagePath = useAppSelector(
-    (state) => state.auth.userInfo.user.imagePath
-  );
 
   const onLogout = () => {
     dispatch(logoutUser());
@@ -54,11 +48,11 @@ const MenuUser = () => {
         rightIcon={<ChevronDownIcon />}
         variant="primary"
       >
-        <Avatar
-          size="sm"
-          bg="brand.500"
-          src={`${process.env.API_URL}/api/user/profile-image/${imagePath}`}
-        />
+        {imagePath !== "" ? (
+          <Avatar size="sm" bg="brand.500" src={imagePath} />
+        ) : (
+          <Avatar size="sm" bg="brand.500" />
+        )}
       </MenuButton>
       <MenuList>
         <MenuItem>
