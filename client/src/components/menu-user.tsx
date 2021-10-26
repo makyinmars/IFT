@@ -7,6 +7,7 @@ import {
   Avatar,
   MenuList,
   MenuItem,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
@@ -28,6 +29,9 @@ const MenuUser = () => {
   const { id, imagePath } = useAppSelector((state) => state.auth.userInfo.user);
   const { isSuccess } = useAppSelector((state) => state.auth.status);
 
+  const size = useBreakpointValue({ base: "sm", md: "md", lg: "lg" });
+  const sizeImage = useBreakpointValue({ base: "sm", md: "sm", lg: "md" });
+
   const onLogout = () => {
     dispatch(logoutUser());
     if (isSuccess) {
@@ -44,14 +48,14 @@ const MenuUser = () => {
       {/* Property id=1 is needed otherwise will throw error */}
       <MenuButton
         as={Button}
-        size="sm"
+        size={size}
         rightIcon={<ChevronDownIcon />}
         variant="primary"
       >
         {imagePath !== "" ? (
-          <Avatar size="sm" bg="brand.500" src={imagePath} />
+          <Avatar size={sizeImage} bg="brand.500" src={imagePath} />
         ) : (
-          <Avatar size="sm" bg="brand.500" />
+          <Avatar size={sizeImage} bg="brand.500" />
         )}
       </MenuButton>
       <MenuList>
