@@ -71,7 +71,7 @@ export class UserController {
     const image = await this.cloudinaryService.uploadImage(file);
     const user = req.user;
 
-    user.imagePath = image.secure_url;
+    await this.userService.updateUser(user.id, { imagePath: image.url });
 
     return image.secure_url;
   }

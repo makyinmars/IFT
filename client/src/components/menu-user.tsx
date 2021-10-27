@@ -16,6 +16,7 @@ import {
   logoutUser,
   clearStatus,
   clearUserInfo,
+  findUserImage,
 } from "../../app/features/auth/auth-slice";
 import {
   clearStatus as clearStatusFeed,
@@ -59,6 +60,9 @@ const MenuUser = () => {
         )}
       </MenuButton>
       <MenuList>
+        <MenuItem>
+          <Link href="/posts">Community</Link>
+        </MenuItem>
         <MenuItem>
           <Link href={`/profile/${id}`}>Profile</Link>
         </MenuItem>
