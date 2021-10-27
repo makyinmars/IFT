@@ -1,6 +1,7 @@
 import {
   Controller,
   Get,
+  Response,
   Post,
   Body,
   Param,
@@ -11,7 +12,6 @@ import {
   Query,
   UseInterceptors,
   UploadedFile,
-  Req,
 } from '@nestjs/common';
 import { DeleteResult, UpdateResult } from 'typeorm';
 
@@ -26,12 +26,14 @@ import { RolesGuard } from 'src/auth/guards/roles.guard';
 import { IsCreatorGuard } from '../guards/is-creator.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
+import { UserService } from 'src/auth/services/user.service';
 
 @Controller('feed')
 export class FeedController {
   constructor(
     private readonly feedService: FeedService,
     private readonly cloudinaryService: CloudinaryService,
+    private readonly userService: UserService,
   ) {}
 
   // @Roles(Role.ADMIN, Role.USER)
@@ -88,22 +90,21 @@ export class FeedController {
   @Post('post-upload')
   async uploadPostImage(
     @UploadedFile() file: Express.Multer.File,
-    @Req() req: Request,
-  ): Promise<{ source: string }> {
+    @Request() req,
+  ): Promise<string> {
     const image = await this.cloudinaryService.uploadImage(file);
+
+    const postId = req.body.postId;
+
+    await this.feedService.updatePost(postId, { imagePath: image.url });
 
     return image.secure_url;
   }
 
   @UseGuards(JwtGuard)
   @Get('post-upload/:id')
-  async findPostImage(
-    @Param('id') id: number,
-    imagePath: string,
-  ): Promise<string> {
+  async findPostImage(@Param('id') id: number): Promise<string> {
     const feed = await this.feedService.findPostById(id);
-
-    feed.imagePath = imagePath;
 
     return feed.imagePath;
   }
