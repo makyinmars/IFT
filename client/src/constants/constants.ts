@@ -28,6 +28,7 @@ export const DefaultUserInfo = {
 
 export const DefaultFeedPosts = {
   id: 0,
+  imagePath: "",
   body: "",
   createdAt: "",
   author: {

@@ -21,6 +21,7 @@ const Feed = ({ feedPosts }: Props) => {
   const bg = useColorModeValue("brand.400", "brand.400");
 
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
+  console.log(feedPosts);
 
   return (
     <>
@@ -36,7 +37,17 @@ const Feed = ({ feedPosts }: Props) => {
             borderRadius="md"
             boxShadow="dark-lg"
           >
-            <Image src="/images/site/bike.jpeg" alt="post" />
+            <Center>
+              {feedPost.imagePath !== "" ? (
+                <Image src={feedPost.imagePath} alt="post" boxSize="390px" />
+              ) : (
+                <Image
+                  src="/images/site/bike.jpeg"
+                  alt="post"
+                  boxSize="390px"
+                />
+              )}
+            </Center>
             <Heading
               size="sm"
               align="center"

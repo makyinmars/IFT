@@ -1,5 +1,6 @@
 export interface FeedPosts {
   id: number;
+  imagePath: string;
   body: string;
   createdAt: string;
   author: Author;
@@ -45,6 +46,7 @@ export interface Author {
 
 export interface FeedResponse {
   id?: number;
+  imagePath?: string;
   body: string;
   createdAt?: string;
   author: Author;
