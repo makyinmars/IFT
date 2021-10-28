@@ -42,6 +42,7 @@ const Header = () => {
       </Flex>
       <Spacer />
 
+      {/* Checks if screen is small */}
       {burgerMenu === "sm" ? (
         <Menu>
           <MenuButton
@@ -53,6 +54,7 @@ const Header = () => {
             mr={2}
           />
           <MenuList>
+            {/* Checks if the user is Logged in */}
             {isSuccess ? (
               <Center>
                 <MenuUser />
@@ -73,7 +75,9 @@ const Header = () => {
           </MenuList>
         </Menu>
       ) : (
+        // Checks if screen is medium or large
         <>
+          {/* Checks if user is logged in for medium and large screens */}
           {isSuccess ? (
             <MenuUser />
           ) : (
@@ -91,6 +95,10 @@ const Header = () => {
           )}
         </>
       )}
+
+      <Button variant="primary" size={size} ml={2} onClick={toggleColorMode}>
+        {colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+      </Button>
     </Flex>
   );
 };
