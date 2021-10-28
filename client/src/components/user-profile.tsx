@@ -4,7 +4,6 @@ import {
   Flex,
   VStack,
   Heading,
-  Text,
   Image,
   Input,
   useColorModeValue,
@@ -20,6 +19,11 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   uploadUserImage,
   findUserImage,
+  updateUser,
+  deleteUser,
+  clearUserInfo,
+  clearStatus,
+  logoutUser,
 } from "../../app/features/auth/auth-slice";
 
 const UserProfile = () => {
@@ -33,7 +37,10 @@ const UserProfile = () => {
   const bg = useColorModeValue("gray.200", "gray.700");
 
   const router = useRouter();
+
+  // Get current user id
   const { id } = router.query;
+
   const [imageSelected, setImageSelected] = useState<File>(); // Also try <string | Blob>
 
   const imageChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +58,11 @@ const UserProfile = () => {
   };
 
   const onDelete = () => {
-    console.log("deleted");
+    dispatch(deleteUser(Number(id)));
+    dispatch(logoutUser());
+    dispatch(clearUserInfo());
+    dispatch(clearStatus());
+    router.push("/");
   };
 
   useEffect(() => {
