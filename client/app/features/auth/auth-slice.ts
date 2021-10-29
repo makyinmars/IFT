@@ -109,28 +109,29 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-export const deleteUser = createAsyncThunk(
-  "user/deleteUser",
-  async (id: number) => {
-    // Get token from user
-    const token = localStorage.getItem("token");
+// TODO : Fix in the server
+// export const deleteUser = createAsyncThunk(
+//   "user/deleteUser",
+//   async (id: number) => {
+//     // Get token from user
+//     const token = localStorage.getItem("token");
 
-    // Config for user
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    };
+//     // Config for user
+//     const config = {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     };
 
-    const { data } = await axios.delete<any>(
-      `${process.env.API_URL}/api/user/${id}`,
-      config
-    );
+//     const { data } = await axios.delete<any>(
+//       `${process.env.API_URL}/api/user/${id}`,
+//       config
+//     );
 
-    return data;
-  }
-);
+//     return data;
+//   }
+// );
 
 export const uploadUserImage = createAsyncThunk(
   "user/uploadUserImage",
@@ -305,20 +306,21 @@ const authSlice = createSlice({
       state.status.errorMessage = error.message || "";
     });
 
-    builder.addCase(deleteUser.pending, (state) => {
-      state.status.isFetching = true;
-    });
+    // TODO: Fix in the server
+    // builder.addCase(deleteUser.pending, (state) => {
+    //   state.status.isFetching = true;
+    // });
 
-    builder.addCase(deleteUser.fulfilled, (state, { payload }) => {
-      state.status.isFetching = false;
-      state.status.isSuccess = true;
-      state.userInfo.user = payload;
-    });
-    builder.addCase(deleteUser.rejected, (state, { error }) => {
-      state.status.isFetching = false;
-      state.status.isError = true;
-      state.status.errorMessage = error.message || "";
-    });
+    // builder.addCase(deleteUser.fulfilled, (state, { payload }) => {
+    //   state.status.isFetching = false;
+    //   state.status.isSuccess = true;
+    //   state.userInfo.user = payload;
+    // });
+    // builder.addCase(deleteUser.rejected, (state, { error }) => {
+    //   state.status.isFetching = false;
+    //   state.status.isError = true;
+    //   state.status.errorMessage = error.message || "";
+    // });
 
     builder.addCase(uploadUserImage.pending, (state) => {
       state.status.isFetching = true;

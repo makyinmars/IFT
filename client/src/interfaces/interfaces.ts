@@ -21,12 +21,13 @@ export interface Status {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
-  imagePath: string;
-  role: string;
+  password?: string;
+  imagePath?: string;
+  role?: string;
   feedPosts?: FeedPostsResponse[];
 }
 export interface UserResponse {

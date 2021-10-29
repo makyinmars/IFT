@@ -18,6 +18,7 @@ export const DefaultUserInfo = {
     firstName: "",
     lastName: "",
     email: "",
+    password: "",
     imagePath: "",
     role: "",
     feedPosts: new Array<typeof DefaultAllFeedPosts>(),

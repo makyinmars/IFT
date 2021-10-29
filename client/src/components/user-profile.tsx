@@ -1,4 +1,4 @@
-import { ChangeEvent, useState, MouseEvent, useEffect } from "react";
+import { ChangeEvent, useState, MouseEvent, useEffect, FormEvent } from "react";
 import { useRouter } from "next/dist/client/router";
 import {
   Flex,
@@ -20,18 +20,31 @@ import {
   uploadUserImage,
   findUserImage,
   updateUser,
-  deleteUser,
   clearUserInfo,
   clearStatus,
   logoutUser,
 } from "../../app/features/auth/auth-slice";
 
+const userFormData = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+};
+
 const UserProfile = () => {
   const dispatch = useAppDispatch();
 
-  const { imagePath, firstName, lastName, email } = useAppSelector(
-    (state) => state.auth.userInfo.user
-  );
+  const [formData, setFormData] = useState(userFormData);
+
+  const { firstName, lastName, email, password } = formData;
+
+  const {
+    imagePath,
+    firstName: firstNameState,
+    lastName: lastNameState,
+    email: emailState,
+  } = useAppSelector((state) => state.auth.userInfo.user);
 
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
   const bg = useColorModeValue("gray.200", "gray.700");
@@ -53,16 +66,17 @@ const UserProfile = () => {
     dispatch(uploadUserImage(imageSelected));
   };
 
-  const onUpdate = () => {
-    console.log("Updated");
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
   };
 
-  const onDelete = () => {
-    dispatch(deleteUser(Number(id)));
-    dispatch(logoutUser());
-    dispatch(clearUserInfo());
-    dispatch(clearStatus());
-    router.push("/");
+  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(updateUser({ firstName, lastName, email, password }));
+    setFormData(userFormData);
   };
 
   useEffect(() => {
@@ -70,84 +84,97 @@ const UserProfile = () => {
   }, [dispatch, id]);
 
   return (
-    <Flex justify="space-around" p={6}>
-      <VStack
-        w="xl"
-        h="auto"
-        p={10}
-        bg={bg}
-        borderRadius="md"
-        boxShadow="dark-lg"
-      >
-        <Heading size="md">{`Franklin's Profile`}</Heading>
-        <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
-          <GridItem colSpan={colSpan}>
-            <FormControl id="avatar">
-              <FormLabel htmlFor="avatar">Avatar</FormLabel>
-              <Input type="file" onChange={imageChange} accept="image/*" />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={colSpan} align="center">
-            {imagePath !== "" ? (
-              <Image
-                src={imagePath}
-                borderRadius="full"
-                boxSize="100px"
-                alt="image"
-              />
-            ) : (
-              imageSelected && (
+    <form onSubmit={onSubmit}>
+      <Flex justify="space-around" p={6}>
+        <VStack
+          w="xl"
+          h="auto"
+          p={10}
+          bg={bg}
+          borderRadius="md"
+          boxShadow="dark-lg"
+        >
+          <Heading size="md">{`Franklin's Profile`}</Heading>
+          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
+            <GridItem colSpan={colSpan}>
+              <FormControl id="avatar">
+                <FormLabel htmlFor="avatar">Avatar</FormLabel>
+                <Input type="file" onChange={imageChange} accept="image/*" />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={colSpan} align="center">
+              {imagePath !== "" ? (
                 <Image
-                  src={URL.createObjectURL(imageSelected)}
+                  src={imagePath}
                   borderRadius="full"
                   boxSize="100px"
                   alt="image"
                 />
-              )
-            )}
-          </GridItem>
-          <GridItem colSpan={2} align="center">
-            <Button onClick={onUploadImage}>Update image</Button>
-          </GridItem>
-          <GridItem colSpan={colSpan}>
-            <FormControl id="firstName">
-              <FormLabel htmlFor="firstName">First Name</FormLabel>
-              <Input type="text" placeholder={firstName} />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={colSpan}>
-            <FormControl id="lastName">
-              <FormLabel htmlFor="lastName">Last Name</FormLabel>
-              <Input type="text" placeholder={lastName} />
-            </FormControl>
-          </GridItem>
+              ) : (
+                imageSelected && (
+                  <Image
+                    src={URL.createObjectURL(imageSelected)}
+                    borderRadius="full"
+                    boxSize="100px"
+                    alt="image"
+                  />
+                )
+              )}
+            </GridItem>
+            <GridItem colSpan={2} align="center">
+              <Button onClick={onUploadImage}>Update image</Button>
+            </GridItem>
 
-          <GridItem colSpan={2}>
-            <FormControl id="email">
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input type="email" placeholder={email} />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={2}>
-            <FormControl>
-              <FormLabel>Password</FormLabel>
-              <Input type="password" placeholder="*****" />
-            </FormControl>
-          </GridItem>
+            <GridItem colSpan={colSpan}>
+              <FormControl id="firstName">
+                <FormLabel htmlFor="firstName">First Name</FormLabel>
+                <Input
+                  type="text"
+                  value={firstName}
+                  onChange={onChange}
+                  placeholder={firstNameState}
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={colSpan}>
+              <FormControl id="lastName">
+                <FormLabel htmlFor="last">Last Name</FormLabel>
+                <Input
+                  type="text"
+                  value={lastName}
+                  onChange={onChange}
+                  placeholder={lastNameState}
+                />
+              </FormControl>
+            </GridItem>
 
-          <GridItem colSpan={colSpan}>
-            <Button w="full" variant="primary" type="submit" onClick={onUpdate}>
-              Update
-            </Button>
-          </GridItem>
-          <GridItem colSpan={colSpan}>
-            <Button w="full" variant="primary" type="submit" onClick={onDelete}>
-              Delete
-            </Button>
-          </GridItem>
-        </SimpleGrid>
-      </VStack>
-    </Flex>
+            <GridItem colSpan={2}>
+              <FormControl id="email">
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  type="email"
+                  value={email}
+                  onChange={onChange}
+                  placeholder={emailState}
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl>
+                <FormLabel>Password</FormLabel>
+                <Input type="password" placeholder="*****" />
+              </FormControl>
+            </GridItem>
+
+            <GridItem colSpan={2}>
+              <Button w="full" variant="primary" type="submit">
+                Update Information
+              </Button>
+            </GridItem>
+          </SimpleGrid>
+        </VStack>
+      </Flex>
+    </form>
   );
 };
 
