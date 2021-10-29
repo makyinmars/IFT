@@ -16,10 +16,10 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 ## Todo
 
-[ ] Display all the posts in the profile page
+- [ ] Display all the posts in the profile page
 
-[ ] User should be able to delete and update any post
+- [ ] User should be able to delete and update any post
 
-[ ] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
+- [ ] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
 
-[ ] Add next-redux-wrapper for server side rendering
+- [ ] Add next-redux-wrapper for server side rendering
