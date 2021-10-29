@@ -15,3 +15,7 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 - Chakra-UI
 
 ## Todo
+
+[ ] - Display all the posts in the profile page
+[ ] - User should be able to delete and update any post
+[ ] - Add correct alert fo isFetching, isError, errorMessage, and isSuccess
