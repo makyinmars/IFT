@@ -49,8 +49,23 @@ export class UserController {
   async update(
     @Param('id') id: number,
     @Body() updateUserDto: UpdateUserDto,
-  ): Promise<UpdateResult> {
-    return await this.userService.updateUser(id, updateUserDto);
+    @Request() req,
+  ): Promise<User> {
+    const user = req.user;
+
+    await this.userService.updateUser(id, updateUserDto);
+
+    if (user) {
+      user.id = updateUserDto.id;
+      user.firstName = updateUserDto.firstName;
+      user.lastName = updateUserDto.lastName;
+      user.email = updateUserDto.email;
+      user.password = updateUserDto.password;
+      user.imagePath = updateUserDto.imagePath;
+      user.role = updateUserDto.role;
+      user.posts = updateUserDto.posts || user.posts;
+      return user;
+    }
   }
 
   @Roles(Role.ADMIN, Role.USER)

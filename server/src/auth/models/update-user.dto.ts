@@ -6,6 +6,7 @@ export class UpdateUserDto {
   firstName?: string;
   lastName?: string;
   email?: string;
+  password?: string;
   imagePath?: string;
   role?: Role;
   posts?: FeedPost[];
