@@ -12,12 +12,15 @@ import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
 import React from "react";
 import MenuPost from "./menu-post";
+import { useAppSelector } from "../../app/hooks";
 
 interface Props {
   feedPosts: FeedPosts[];
 }
 
 const Feed = ({ feedPosts }: Props) => {
+  const { id } = useAppSelector((state) => state.auth.userInfo.user);
+
   const bg = useColorModeValue("brand.400", "brand.400");
 
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
@@ -58,7 +61,7 @@ const Feed = ({ feedPosts }: Props) => {
               <Text>{feedPost.createdAt}</Text>
               <Text>{`Role: ${feedPost.author.role}`}</Text>
             </Box>
-            <MenuPost id={feedPost.id} />
+            {id !== 0 && <MenuPost id={feedPost.id} />}
           </Box>
         ))}
       </SimpleGrid>
