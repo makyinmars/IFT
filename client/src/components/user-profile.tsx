@@ -9,15 +9,18 @@ import {
   useColorModeValue,
   FormControl,
   FormLabel,
+  Text,
   SimpleGrid,
   GridItem,
   useBreakpointValue,
   Button,
-  Text,
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { uploadUserImage } from "../../app/features/auth/auth-slice";
+import {
+  uploadUserImage,
+  findUserImage,
+} from "../../app/features/auth/auth-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
@@ -29,10 +32,10 @@ const UserProfile = () => {
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
   const bg = useColorModeValue("gray.200", "gray.700");
 
-  // const router = useRouter();
+  const router = useRouter();
 
   // Get current user id
-  // const { id } = router.query;
+  const { id } = router.query;
 
   const [imageSelected, setImageSelected] = useState<File>(); // Also try <string | Blob>
 
@@ -45,6 +48,10 @@ const UserProfile = () => {
   const onUploadImage = () => {
     dispatch(uploadUserImage(imageSelected));
   };
+
+  useEffect(() => {
+    dispatch(findUserImage(Number(id)));
+  }, [dispatch, id]);
 
   return (
     <Flex justify="space-around" p={6}>

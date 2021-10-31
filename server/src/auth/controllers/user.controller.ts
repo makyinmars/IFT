@@ -63,7 +63,7 @@ export class UserController {
       user.password = updateUserDto.password;
       user.imagePath = updateUserDto.imagePath;
       user.role = updateUserDto.role;
-      user.posts = updateUserDto.posts || user.posts;
+      user.feedPosts = updateUserDto.posts || user.feedPosts;
       return user;
     }
   }

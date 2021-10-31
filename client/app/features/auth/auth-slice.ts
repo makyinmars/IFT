@@ -109,7 +109,7 @@ export const updateUser = createAsyncThunk(
   }
 );
 
-// TODO : Fix in the server
+// TODO : Fix server section
 // export const deleteUser = createAsyncThunk(
 //   "user/deleteUser",
 //   async (id: number) => {
