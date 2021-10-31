@@ -43,37 +43,39 @@ export class UserController {
     return this.userService.findUserById(id);
   }
 
-  @Roles(Role.ADMIN, Role.USER)
-  @UseGuards(JwtGuard, RolesGuard)
-  @Put(':id')
-  async update(
-    @Param('id') id: number,
-    @Body() updateUserDto: UpdateUserDto,
-    @Request() req,
-  ): Promise<User> {
-    const user = req.user;
+  // TODO: Fix
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(JwtGuard, RolesGuard)
+  // @Put(':id')
+  // async update(
+  //   @Param('id') id: number,
+  //   @Body() updateUserDto: UpdateUserDto,
+  //   @Request() req,
+  // ): Promise<User> {
+  //   const user = req.user;
 
-    await this.userService.updateUser(id, updateUserDto);
+  //   await this.userService.updateUser(id, updateUserDto);
 
-    if (user) {
-      user.id = updateUserDto.id;
-      user.firstName = updateUserDto.firstName;
-      user.lastName = updateUserDto.lastName;
-      user.email = updateUserDto.email;
-      user.password = updateUserDto.password;
-      user.imagePath = updateUserDto.imagePath;
-      user.role = updateUserDto.role;
-      user.feedPosts = updateUserDto.posts || user.feedPosts;
-      return user;
-    }
-  }
+  //   if (user) {
+  //     user.id = updateUserDto.id;
+  //     user.firstName = updateUserDto.firstName;
+  //     user.lastName = updateUserDto.lastName;
+  //     user.email = updateUserDto.email;
+  //     user.password = updateUserDto.password;
+  //     user.imagePath = updateUserDto.imagePath;
+  //     user.role = updateUserDto.role;
+  //     user.feedPosts = updateUserDto.posts || user.feedPosts;
+  //     return user;
+  //   }
+  // }
 
-  @Roles(Role.ADMIN, Role.USER)
-  @UseGuards(JwtGuard, RolesGuard)
-  @Delete('id')
-  async delete(@Param('id') id: number): Promise<DeleteResult> {
-    return await this.userService.deleteUser(id);
-  }
+  // TODO: Fix
+  // @Roles(Role.ADMIN, Role.USER)
+  // @UseGuards(JwtGuard, RolesGuard)
+  // @Delete('id')
+  // async delete(@Param('id') id: number): Promise<DeleteResult> {
+  //   return await this.userService.deleteUser(id);
+  // }
 
   @Roles(Role.ADMIN, Role.USER)
   @UseGuards(JwtGuard, RolesGuard)

@@ -35,21 +35,20 @@ export class FeedController {
     private readonly userService: UserService,
   ) {}
 
-  // @Roles(Role.ADMIN, Role.USER)
-  // @UseGuards(JwtGuard, RolesGuard)
+  @Roles(Role.ADMIN, Role.USER)
   @UseGuards(JwtGuard)
-  // @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file'))
   @Post()
   async create(
     @Body() createFeedPostDto: CreateFeedPostDto,
-    // @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
     @Request() req,
   ): Promise<CreateFeedPostDto> {
-    // const image = await this.cloudinaryService.uploadImage(file);
+    const image = await this.cloudinaryService.uploadImage(file);
 
-    // const imagePath = image.secure_url;
+    const imagePath = image.secure_url;
 
-    // createFeedPostDto.imagePath = imagePath;
+    createFeedPostDto.imagePath = imagePath;
 
     return await this.feedService.createPost(req.user, createFeedPostDto);
   }
@@ -77,17 +76,17 @@ export class FeedController {
   }
 
   @UseGuards(JwtGuard, IsCreatorGuard)
-  // @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file'))
   @Put(':id')
   async update(
     @Param('id') id: number,
-    // @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: Express.Multer.File,
     @Body()
     updateFeedPostDto: UpdateFeedPostDto,
   ): Promise<UpdateResult> {
-    // const image = await this.cloudinaryService.uploadImage(file);
+    const image = await this.cloudinaryService.uploadImage(file);
 
-    // updateFeedPostDto.imagePath = image.secure_url;
+    updateFeedPostDto.imagePath = image.secure_url;
     return await this.feedService.updatePost(id, updateFeedPostDto);
   }
 
