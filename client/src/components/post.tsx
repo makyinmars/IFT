@@ -25,6 +25,8 @@ const Post = () => {
   const bg = useColorModeValue("gray.200", "gray.700");
 
   const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth.userInfo);
+  const { author } = useAppSelector((state) => state.feed.feedPosts);
   const { body: bodyReduxState, createdAt } = useAppSelector(
     (state) => state.feed.feedPosts
   );
@@ -83,22 +85,31 @@ const Post = () => {
                 </FormHelperText>
               </FormControl>
             </GridItem>
-            <GridItem colSpan={1}>
-              <Button
-                variant="secondary"
-                size="sm"
-                w="full"
-                onClick={onUpdate}
-                disabled={body === "" ? true : false}
-              >
-                Update
-              </Button>
-            </GridItem>
-            <GridItem colSpan={1}>
-              <Button variant="secondary" size="sm" w="full" onClick={onDelete}>
-                Delete
-              </Button>
-            </GridItem>
+            {user.id === author.id && (
+              <>
+                <GridItem colSpan={1}>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    w="full"
+                    onClick={onUpdate}
+                    disabled={body === "" ? true : false}
+                  >
+                    Update
+                  </Button>
+                </GridItem>
+                <GridItem colSpan={1}>
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    w="full"
+                    onClick={onDelete}
+                  >
+                    Delete
+                  </Button>
+                </GridItem>
+              </>
+            )}
           </SimpleGrid>
         </VStack>
       </form>
