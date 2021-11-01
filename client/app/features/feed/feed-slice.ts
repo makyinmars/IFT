@@ -33,6 +33,14 @@ export const createPost = createAsyncThunk(
     // Get token from localStorage
     const token = localStorage.getItem("token");
 
+    const { imagePath, body } = createResponse;
+
+    // Form data for imagePath and body - file
+    const formData = new FormData();
+    formData.append("file", imagePath);
+    formData.append("name", imagePath.name);
+    formData.append("body", body);
+
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -42,7 +50,7 @@ export const createPost = createAsyncThunk(
 
     const { data } = await axios.post<FeedResponse>(
       `${process.env.API_URL}/api/feed`,
-      createResponse,
+      formData,
       config
     );
 

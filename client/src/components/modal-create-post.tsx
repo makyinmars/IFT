@@ -8,10 +8,13 @@ import {
   ModalHeader,
   ModalCloseButton,
   ModalBody,
+  Box,
   ModalFooter,
   FormControl,
   FormLabel,
   Textarea,
+  Input,
+  Image,
   useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -30,9 +33,17 @@ const ModalCreatePost = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [body, setBody] = useState<string>("");
 
+  const [imagePath, setImagePath] = useState<File>(); // Also try <string | Blob>
+
+  const imageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImagePath(e.target.files[0]);
+    }
+  };
+
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(createPost({ body }));
+    dispatch(createPost({ body, imagePath }));
   };
 
   return (
@@ -51,17 +62,40 @@ const ModalCreatePost = () => {
             <ModalOverlay />
             <ModalContent>
               <form onSubmit={onSubmit}>
-                <ModalHeader textAlign="center">Add your post</ModalHeader>
+                <ModalHeader textAlign="center">Add post</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
+                  <FormControl id="image" isRequired>
+                    <FormLabel htmlFor="image">Image</FormLabel>
+                    <Input
+                      name="image"
+                      id="image"
+                      type="file"
+                      onChange={imageChange}
+                      accept="image/*"
+                    />
+                  </FormControl>
+
+                  <Box align="center" p={2}>
+                    {imagePath && (
+                      <Image
+                        src={URL.createObjectURL(imagePath)}
+                        boxSize="400px"
+                        alt="image"
+                      />
+                    )}
+                  </Box>
+
                   <FormControl id="post" isRequired>
-                    <FormLabel>Post</FormLabel>
+                    <FormLabel htmlFor="post">Post</FormLabel>
                     <Textarea
+                      name="post"
+                      id="post"
                       value={body}
                       onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
                         setBody(e.target.value)
                       }
-                      placeholder="Body of your post"
+                      placeholder="Description"
                     />
                   </FormControl>
                 </ModalBody>

@@ -15,7 +15,6 @@ export class CloudinaryService {
           resolve(result);
         },
       );
-      console.log(file);
 
       Readable.from(file.buffer).pipe(upload);
     });

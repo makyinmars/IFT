@@ -47,7 +47,7 @@ export interface Author {
 
 export interface FeedResponse {
   id?: number;
-  imagePath?: string;
+  imagePath: string;
   body: string;
   createdAt?: string;
   author: Author;
