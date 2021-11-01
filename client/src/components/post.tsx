@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
 import {
   Flex,
@@ -12,6 +12,8 @@ import {
   GridItem,
   useColorModeValue,
   FormHelperText,
+  Input,
+  Image,
 } from "@chakra-ui/react";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -19,22 +21,27 @@ import {
   getPost,
   updatePost,
   deletePost,
+  clearStatus,
 } from "../../app/features/feed/feed-slice";
 
 const Post = () => {
   const bg = useColorModeValue("gray.200", "gray.700");
 
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth.userInfo);
-  const { author } = useAppSelector((state) => state.feed.feedPosts);
-  const { body: bodyReduxState, createdAt } = useAppSelector(
-    (state) => state.feed.feedPosts
-  );
+  const { feedPosts } = useAppSelector((state) => state.feed);
 
   const { isSuccess } = useAppSelector((state) => state.feed.status);
   const router = useRouter();
   const { id } = router.query;
   const [body, setBody] = useState("");
+
+  const [imagePath, setImagePath] = useState<File>(); // Also try <string | Blob>
+
+  const imageChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setImagePath(e.target.files[0]);
+    }
+  };
 
   const onDelete = () => {
     dispatch(deletePost());
@@ -44,75 +51,83 @@ const Post = () => {
   };
 
   const onUpdate = () => {
-    dispatch(updatePost({ body }));
+    dispatch(updatePost({ body, imagePath }));
+    // dispatch(createPost({ body, imagePath }));
     if (isSuccess) {
       router.push("/posts");
     }
   };
 
   useEffect(() => {
-    // query is type string, conversion to number id - db with number
     dispatch(getPost(Number(id)));
-  }, [dispatch, id]);
+  }, [dispatch, id, router]);
   return (
     <Flex justify="space-around" p={6}>
-      <form>
-        <VStack
-          w="auto"
-          h="auto"
-          p={10}
-          bg={bg}
-          borderRadius="md"
-          boxShadow="dark-lg"
-        >
-          <Heading fontSize="xl">Post: {id}</Heading>
-          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="auto" p={6}>
-            <GridItem colSpan={2}>
-              <FormControl id="post" isRequired>
-                <FormLabel>Post</FormLabel>
-
-                <Textarea
-                  value={body}
-                  isRequired
-                  onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                    setBody(e.target.value)
-                  }
-                  placeholder={bodyReduxState}
+      <VStack
+        w="auto"
+        h="auto"
+        p={10}
+        bg={bg}
+        borderRadius="md"
+        boxShadow="dark-lg"
+      >
+        <Heading fontSize="xl">Post: {id}</Heading>
+        <SimpleGrid columns={2} columnGap={3} rowGap={6} w="auto" p={6}>
+          <GridItem colSpan={2}>
+            <FormControl id="image">
+              <FormLabel htmlFor="image">
+                <Input
+                  type="file"
+                  id="image"
+                  name="image"
+                  onChange={imageChange}
                 />
-                <FormHelperText>Create At: {createdAt}</FormHelperText>
-                <FormHelperText>
-                  Button disabled, update your post in order to enable button
-                </FormHelperText>
-              </FormControl>
-            </GridItem>
-            {user.id === author.id && (
-              <>
-                <GridItem colSpan={1}>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    w="full"
-                    onClick={onUpdate}
-                    disabled={body === "" ? true : false}
-                  >
-                    Update
-                  </Button>
-                </GridItem>
-                <GridItem colSpan={1}>
-                  <Button
-                    variant="secondary"
-                    size="sm"
-                    w="full"
-                    onClick={onDelete}
-                  >
-                    Delete
-                  </Button>
-                </GridItem>
-              </>
+              </FormLabel>
+            </FormControl>
+          </GridItem>
+          <GridItem colSpan={2} align="center">
+            {feedPosts.imagePath !== "" ? (
+              <Image src={feedPosts.imagePath} boxSize="400px" alt="image" />
+            ) : (
+              imagePath && (
+                <Image
+                  src={URL.createObjectURL(imagePath)}
+                  boxSize="400px"
+                  alt="image"
+                />
+              )
             )}
-          </SimpleGrid>
-        </VStack>
-      </form>
+          </GridItem>
+          <GridItem colSpan={2}>
+            <FormControl id="post">
+              <FormLabel>Post</FormLabel>
+
+              <Textarea
+                value={body}
+                isRequired
+                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                  setBody(e.target.value)
+                }
+                placeholder={feedPosts.body}
+              />
+              <FormHelperText>Create At: {feedPosts.createdAt}</FormHelperText>
+              <FormHelperText>
+                Button disabled, update your post in order to enable button
+              </FormHelperText>
+            </FormControl>
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Button variant="secondary" size="sm" w="full" onClick={onUpdate}>
+              Update
+            </Button>
+          </GridItem>
+          <GridItem colSpan={1}>
+            <Button variant="secondary" size="sm" w="full" onClick={onDelete}>
+              Delete
+            </Button>
+          </GridItem>
+        </SimpleGrid>
+      </VStack>
     </Flex>
   );
 };

@@ -43,7 +43,8 @@ export const createPost = createAsyncThunk(
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
@@ -66,16 +67,26 @@ export const updatePost = createAsyncThunk(
     const id = state.feed.feedPosts.id;
 
     const token = localStorage.getItem("token");
+
+    const { imagePath, body } = updateResponse;
+
+    const formData = new FormData();
+    if (imagePath) {
+      formData.append("file", imagePath);
+    }
+    formData.append("body", body);
+
     const config = {
       headers: {
-        "Content-Type": "application/json",
+        // "Content-Type": "application/json",
+        "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${token}`,
       },
     };
 
     const { data } = await axios.put<FeedResponse>(
       `${process.env.API_URL}/api/feed/${id}`,
-      updateResponse,
+      formData,
       config
     );
 

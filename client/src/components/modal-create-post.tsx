@@ -15,7 +15,6 @@ import {
   Textarea,
   Input,
   Image,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
 import { useAppDispatch, useAppSelector } from "../../app/hooks";

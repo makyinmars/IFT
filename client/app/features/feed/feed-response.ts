@@ -5,5 +5,5 @@ export interface CreateResponse {
 
 export interface UpdateResponse {
   body: string;
-  imagePath?: string;
+  imagePath?: any;
 }

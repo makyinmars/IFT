@@ -11,6 +11,7 @@ import {
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
 import MenuPost from "./menu-post";
+import { useAppSelector } from "../../app/hooks";
 
 interface Props {
   feedPosts: FeedPosts[];
@@ -18,8 +19,11 @@ interface Props {
 
 const Feed = ({ feedPosts }: Props) => {
   const bg = useColorModeValue("brand.400", "brand.400");
-
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
+
+  // Fix in server side rendering
+  // const { user } = useAppSelector((state) => state.auth.userInfo);
+  // const { author } = useAppSelector((state) => state.feed.feedPosts);
 
   return (
     <>
