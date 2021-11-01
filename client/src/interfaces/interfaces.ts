@@ -21,11 +21,10 @@ export interface Status {
 }
 
 export interface User {
-  id: number;
+  id?: number;
   firstName: string;
   lastName: string;
   email: string;
-  password?: string;
   imagePath?: string;
   role?: string;
   feedPosts?: FeedPostsResponse[];

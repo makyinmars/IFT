@@ -9,24 +9,36 @@ import {
   useColorModeValue,
   FormControl,
   FormLabel,
-  Text,
   SimpleGrid,
   GridItem,
   useBreakpointValue,
   Button,
 } from "@chakra-ui/react";
 
+import Alert from "../components/alert";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   uploadUserImage,
-  findUserImage,
+  getUser,
+  updateUser,
 } from "../../app/features/auth/auth-slice";
 
 const UserProfile = () => {
   const dispatch = useAppDispatch();
 
-  const { imagePath, firstName, lastName, email } = useAppSelector(
-    (state) => state.auth.userInfo.user
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  const {
+    imagePath,
+    firstName: firstNameState,
+    lastName: lastNameState,
+    email: emailState,
+  } = useAppSelector((state) => state.auth.userInfo.user);
+
+  const { isSuccess, errorMessage, isError } = useAppSelector(
+    (state) => state.auth.status
   );
 
   const colSpan = useBreakpointValue({ base: 2, md: 1 });
@@ -34,7 +46,6 @@ const UserProfile = () => {
 
   const router = useRouter();
 
-  // Get current user id
   const { id } = router.query;
 
   const [imageSelected, setImageSelected] = useState<File>(); // Also try <string | Blob>
@@ -49,9 +60,13 @@ const UserProfile = () => {
     dispatch(uploadUserImage(imageSelected));
   };
 
+  const onUpdate = () => {
+    dispatch(updateUser({ firstName, lastName, email }));
+  };
+
   useEffect(() => {
-    dispatch(findUserImage(Number(id)));
-  }, [dispatch, id]);
+    dispatch(getUser(Number(id)));
+  }, [dispatch, id, isSuccess]);
 
   return (
     <Flex justify="space-around" p={6}>
@@ -63,7 +78,7 @@ const UserProfile = () => {
         borderRadius="md"
         boxShadow="dark-lg"
       >
-        <Heading size="md">{`${firstName}'s Profile`}</Heading>
+        <Heading size="md">{`${firstNameState}'s Profile`}</Heading>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={colSpan}>
             <FormControl id="avatar">
@@ -94,24 +109,51 @@ const UserProfile = () => {
             <Button onClick={onUploadImage}>Update image</Button>
           </GridItem>
 
-          <GridItem colSpan={1} align="center">
-            <Text>First Name</Text>
+          <GridItem colSpan={colSpan}>
+            <FormControl id="firstNameState">
+              <FormLabel htmlFor="firstNameState">First Name</FormLabel>
+              <Input
+                type="text"
+                placeholder={firstNameState}
+                value={firstName}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setFirstName(e.target.value)
+                }
+              />
+            </FormControl>
           </GridItem>
-          <GridItem colSpan={1} align="center">
-            <Text>{firstName}</Text>
+          <GridItem colSpan={colSpan}>
+            <FormControl id="lastNameState">
+              <FormLabel htmlFor="lastNameState">Last Name</FormLabel>
+              <Input
+                type="text"
+                placeholder={lastNameState}
+                value={lastName}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setLastName(e.target.value)
+                }
+              />
+            </FormControl>
           </GridItem>
 
-          <GridItem colSpan={1} align="center">
-            <Text>Last Name</Text>
+          <GridItem colSpan={2}>
+            <FormControl id="emailState">
+              <FormLabel htmlFor="emailState">Email</FormLabel>
+              <Input
+                type="email"
+                placeholder={emailState}
+                value={email}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  setEmail(e.target.value)
+                }
+              />
+            </FormControl>
           </GridItem>
-          <GridItem colSpan={1} align="center">
-            <Text>{lastName}</Text>
-          </GridItem>
-          <GridItem colSpan={1} align="center">
-            <Text>Email</Text>
-          </GridItem>
-          <GridItem colSpan={1} align="center">
-            <Text>{email}</Text>
+
+          <GridItem colSpan={2}>
+            <Button w="full" variant="primary" type="submit" onClick={onUpdate}>
+              Update Information
+            </Button>
           </GridItem>
         </SimpleGrid>
       </VStack>
