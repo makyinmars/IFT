@@ -9,8 +9,6 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
-import { useAppSelector } from "../../app/hooks";
-
 interface Props {
   id: number;
 }
