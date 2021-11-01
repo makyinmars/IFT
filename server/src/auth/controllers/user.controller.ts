@@ -43,31 +43,29 @@ export class UserController {
     return this.userService.findUserById(id);
   }
 
-  // TODO: Fix
-  // @Roles(Role.ADMIN, Role.USER)
-  // @UseGuards(JwtGuard, RolesGuard)
-  // @Put(':id')
-  // async update(
-  //   @Param('id') id: number,
-  //   @Body() updateUserDto: UpdateUserDto,
-  //   @Request() req,
-  // ): Promise<User> {
-  //   const user = req.user;
+  @Roles(Role.ADMIN, Role.USER)
+  @UseGuards(JwtGuard, RolesGuard)
+  @Put(':id')
+  async update(
+    @Param('id') id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<User> {
+    const user = await this.userService.findUserById(id);
 
-  //   await this.userService.updateUser(id, updateUserDto);
+    if (user) {
+      updateUserDto.id = updateUserDto.id || user.id;
+      updateUserDto.firstName = updateUserDto.firstName || user.firstName;
+      updateUserDto.lastName = updateUserDto.lastName || user.lastName;
+      updateUserDto.imagePath = user.imagePath;
+      updateUserDto.email = updateUserDto.email || user.email;
+      // updateUserDto.password = updateUserDto.password || user.password;
+      updateUserDto.role = updateUserDto.role || user.role;
+    }
 
-  //   if (user) {
-  //     user.id = updateUserDto.id;
-  //     user.firstName = updateUserDto.firstName;
-  //     user.lastName = updateUserDto.lastName;
-  //     user.email = updateUserDto.email;
-  //     user.password = updateUserDto.password;
-  //     user.imagePath = updateUserDto.imagePath;
-  //     user.role = updateUserDto.role;
-  //     user.feedPosts = updateUserDto.posts || user.feedPosts;
-  //     return user;
-  //   }
-  // }
+    await this.userService.updateUser(id, updateUserDto);
+
+    return updateUserDto;
+  }
 
   // TODO: Fix
   // @Roles(Role.ADMIN, Role.USER)
