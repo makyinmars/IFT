@@ -11,8 +11,8 @@ const logStream = fs.createWriteStream('api.log', {
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.use(morgan('tiny', { stream: logStream }));
   app.enableCors();
 

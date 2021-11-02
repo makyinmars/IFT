@@ -6,7 +6,7 @@ import { CreateFeedPostDto } from '../models/create-feed.dto';
 import { UpdateFeedPostDto } from '../models/update-feed.dto';
 import { FeedPostEntity } from '../models/feed.entity';
 import { FeedPost } from '../models/feed.interface';
-import { User } from 'src/auth/models/user.interface';
+import { User } from 'src/auth/models/user.class';
 
 @Injectable()
 export class FeedService {

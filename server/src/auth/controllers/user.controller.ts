@@ -17,7 +17,7 @@ import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/role.enum';
 import { JwtGuard } from '../guards/jwt.guard';
 import { UpdateUserDto } from '../models/update-user.dto';
-import { User } from '../models/user.interface';
+import { User } from '../models/user.class';
 import { UserService } from '../services/user.service';
 import { RolesGuard } from '../guards/roles.guard';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';

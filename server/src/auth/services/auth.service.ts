@@ -12,7 +12,7 @@ import { Repository } from 'typeorm';
 import { LoginUserDto } from '../models/login-user.dto';
 import { RegisterUserDto } from '../models/register-user.dto';
 import { UserEntity } from '../models/user.entity';
-import { User } from '../models/user.interface';
+import { User } from '../models/user.class';
 
 @Injectable()
 export class AuthService {
