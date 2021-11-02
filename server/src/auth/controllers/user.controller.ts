@@ -10,6 +10,8 @@ import {
   Put,
   Body,
   Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { UpdateResult, DeleteResult } from 'typeorm';
@@ -60,11 +62,19 @@ export class UserController {
       updateUserDto.email = updateUserDto.email || user.email;
       // updateUserDto.password = updateUserDto.password || user.password;
       updateUserDto.role = updateUserDto.role || user.role;
+
+      await this.userService.updateUser(id, updateUserDto);
+
+      return updateUserDto;
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
-
-    await this.userService.updateUser(id, updateUserDto);
-
-    return updateUserDto;
   }
 
   // TODO: Fix

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 import { UpdateUserDto } from '../models/update-user.dto';
@@ -25,6 +25,14 @@ export class UserService {
     if (user) {
       delete user.password;
       return user;
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'User not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
@@ -57,6 +65,14 @@ export class UserService {
     if (user) {
       delete user.password;
       return user.imagePath;
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Image not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }

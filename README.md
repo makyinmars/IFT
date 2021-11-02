@@ -20,7 +20,7 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [x] User should be able to delete and update any post
 
-- [ ] Error handling for each route
+- [x] Error handling for server
 
 - [ ] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
 

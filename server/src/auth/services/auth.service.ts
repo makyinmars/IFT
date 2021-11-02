@@ -45,6 +45,14 @@ export class AuthService {
     if (user) {
       // Create JWT - credentials
       return this.jwtService.signAsync({ user });
+    } else {
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Invalid Credentials',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 
