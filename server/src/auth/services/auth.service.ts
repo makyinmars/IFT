@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -74,7 +79,13 @@ export class AuthService {
       // Create JWT - credentials
       return this.jwtService.signAsync({ user });
     } else {
-      throw new BadRequestException();
+      throw new HttpException(
+        {
+          status: HttpStatus.NOT_FOUND,
+          error: 'Invalid Credentials',
+        },
+        HttpStatus.NOT_FOUND,
+      );
     }
   }
 }

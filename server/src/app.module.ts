@@ -10,6 +10,8 @@ import { Cloudinary } from './cloudinary';
 import config from '../ormconfig';
 import { MulterModule } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
+import { APP_FILTER } from '@nestjs/core';
+import { AllExceptionsFilter } from './core/all-exceptions.filter';
 
 @Module({
   imports: [
@@ -23,6 +25,13 @@ import { memoryStorage } from 'multer';
     CloudinaryModule,
   ],
   controllers: [AppController],
-  providers: [AppService, Cloudinary],
+  providers: [
+    AppService,
+    Cloudinary,
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
+    },
+  ],
 })
 export class AppModule {}
