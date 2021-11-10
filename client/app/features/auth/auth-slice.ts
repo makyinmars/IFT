@@ -216,6 +216,7 @@ const authSlice = createSlice({
       state.userInfo = decodedToken;
       state.status.isSuccess = true;
       state.status.isFetching = false;
+      state.status.isError = false;
     });
 
     builder.addCase(registerUser.rejected, (state, { error }) => {
@@ -234,6 +235,7 @@ const authSlice = createSlice({
       state.userInfo = decodedToken;
       state.status.isSuccess = true;
       state.status.isFetching = false;
+      state.status.isError = false;
     });
 
     builder.addCase(loginUser.rejected, (state, { error }) => {
@@ -251,6 +253,7 @@ const authSlice = createSlice({
       // Setting isSuccess to false to log out
       state.status.isSuccess = false;
       state.status.isFetching = false;
+      state.status.isError = false;
     });
 
     builder.addCase(logoutUser.rejected, (state) => {
@@ -266,6 +269,7 @@ const authSlice = createSlice({
     builder.addCase(getAllUsers.fulfilled, (state, { payload }) => {
       state.status.isFetching = false;
       state.status.isSuccess = true;
+      state.status.isError = false;
       state.userInfo.user = payload;
     });
     builder.addCase(getAllUsers.rejected, (state, { error }) => {
@@ -282,6 +286,7 @@ const authSlice = createSlice({
     builder.addCase(getUser.fulfilled, (state, { payload }) => {
       state.status.isFetching = false;
       state.status.isSuccess = true;
+      state.status.isError = false;
       state.userInfo.user = payload;
     });
     builder.addCase(getUser.rejected, (state, { error }) => {
@@ -298,6 +303,7 @@ const authSlice = createSlice({
     builder.addCase(updateUser.fulfilled, (state, { payload }) => {
       state.status.isFetching = false;
       state.status.isSuccess = true;
+      state.status.isError = false;
       state.userInfo.user = payload;
     });
     builder.addCase(updateUser.rejected, (state, { error }) => {
@@ -328,6 +334,7 @@ const authSlice = createSlice({
 
     builder.addCase(uploadUserImage.fulfilled, (state, { payload }) => {
       state.status.isFetching = false;
+      state.status.isError = false;
       state.status.isSuccess = true;
       state.userInfo.user.imagePath = payload;
     });
@@ -343,6 +350,7 @@ const authSlice = createSlice({
 
     builder.addCase(findUserImage.fulfilled, (state, { payload }) => {
       state.status.isFetching = false;
+      state.status.isError = false;
       state.status.isSuccess = true;
       state.userInfo.user.imagePath = payload;
     });

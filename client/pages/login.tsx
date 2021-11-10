@@ -8,12 +8,13 @@ import {
   Input,
   SimpleGrid,
   VStack,
+  Button,
 } from "@chakra-ui/react";
 
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { loginUser } from "../app/features/auth/auth-slice";
 import Spinner from "../src/components/spinner";
-import ButtonToast from "../src/components/button-toast";
+import Alert from "../src/components/alert";
 
 const userFormData = {
   email: "",
@@ -48,7 +49,7 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isSuccess) {
-      router.push("/");
+      router.push("/posts");
     }
   }, [isSuccess, router]);
 
@@ -59,6 +60,8 @@ const LoginPage = () => {
       </VStack>
 
       {isFetching && <Spinner />}
+      {isError && <Alert status="error" description={errorMessage} />}
+      {isSuccess && <Alert status="success" description="Welcome back!" />}
       <form onSubmit={onSubmit}>
         <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
           <GridItem colSpan={2}>
@@ -84,13 +87,9 @@ const LoginPage = () => {
             </FormControl>
           </GridItem>
           <GridItem colSpan={2}>
-            <ButtonToast
-              title={isError ? "Try it again" : "Logged In!"}
-              description={isError ? "Have a great time!" : `${errorMessage}`}
-              status={isError ? "error" : "success"}
-            >
-              Log In
-            </ButtonToast>
+            <Button w="full" variant="primary" type="submit">
+              Sign Up
+            </Button>
           </GridItem>
         </SimpleGrid>
       </form>
