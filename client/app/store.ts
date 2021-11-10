@@ -9,6 +9,9 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "./sync-storage";
+// next-redux-wrapper
+import { Action } from "redux";
+import { createWrapper, HYDRATE } from "next-redux-wrapper";
 
 import authSlice from "./features/auth/auth-slice";
 import feedSlice from "./features/feed/feed-slice";

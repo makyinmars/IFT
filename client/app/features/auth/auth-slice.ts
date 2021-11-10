@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import { HYDRATE } from "next-redux-wrapper";
 
 import {
   DefaultStatus,

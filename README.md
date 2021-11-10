@@ -22,8 +22,10 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [x] Error handling for server
 
-- [ ] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
+- [x] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
 
 - [ ] Add next-redux-wrapper for server side rendering
 
-- [ ] Refactor components
+- [x] Refactor components
+
+- [ ] Migrate postgres to heroku/aws
