@@ -7,6 +7,7 @@ import {
   Center,
   Image,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
@@ -24,6 +25,9 @@ const Feed = ({ feedPosts }: Props) => {
   // Fix in server side rendering
   // const { user } = useAppSelector((state) => state.auth.userInfo);
   // const { author } = useAppSelector((state) => state.feed.feedPosts);
+  const { isSuccess } = useAppSelector((state) => state.feed.status);
+  // Working on it!
+  // useEffect(() => {}, []);
 
   return (
     <>
