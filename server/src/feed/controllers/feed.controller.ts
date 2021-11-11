@@ -53,11 +53,10 @@ export class FeedController {
     return await this.feedService.createPost(req.user, createFeedPostDto);
   }
 
-  // Using pagination instead
-  // @Get()
-  // async findAll(): Promise<FeedPost[]> {
-  //   return await this.feedService.findAllPosts();
-  // }
+  @Get()
+  async findAll(): Promise<FeedPost[]> {
+    return await this.feedService.findAllPosts();
+  }
 
   @Get()
   async findSelected(
@@ -121,31 +120,5 @@ export class FeedController {
 
   //   updateFeedPostDto.imagePath = image.secure_url;
   //   return await this.feedService.updatePost(id, updateFeedPostDto);
-  // }
-
-  // Don't need it
-  // @UseGuards(JwtGuard)
-  // @UseInterceptors(FileInterceptor('file'))
-  // @Post('post-upload')
-  // async uploadPostImage(
-  //   @UploadedFile() file: Express.Multer.File,
-  //   @Request() req,
-  // ): Promise<string> {
-  //   const image = await this.cloudinaryService.uploadImage(file);
-
-  //   const postId = req.body.postId;
-
-  //   await this.feedService.updatePost(postId, { imagePath: image.url });
-
-  //   return image.secure_url;
-  // }
-
-  // Don't need it
-  // @UseGuards(JwtGuard)
-  // @Get('post-upload/:id')
-  // async findPostImage(@Param('id') id: number): Promise<string> {
-  //   const feed = await this.feedService.findPostById(id);
-
-  //   return feed.imagePath;
   // }
 }

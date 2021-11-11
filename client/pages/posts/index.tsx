@@ -22,7 +22,7 @@ const PostsPage = ({
 export default PostsPage;
 
 export const getServerSideProps: GetServerSideProps<FeedProps> = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/feed?take=10&skip=0`);
+  const res = await fetch(`${process.env.API_URL}/api/feed`);
   const feedPosts: FeedPosts[] = await res.json();
 
   return {

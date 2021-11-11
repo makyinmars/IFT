@@ -24,10 +24,13 @@ export class FeedService {
     return this.feedPostRepository.save(createFeedPostDto);
   }
 
-  // Using pagination instead
-  // findAllPosts(): Promise<FeedPost[]> {
-  //   return this.feedPostRepository.find();
-  // }
+  findAllPosts(): Promise<FeedPost[]> {
+    return this.feedPostRepository
+      .createQueryBuilder('post')
+      .innerJoinAndSelect('post.author', 'author')
+      .orderBy('post.createdAt', 'DESC')
+      .getMany();
+  }
 
   async findPosts(take = 10, skip: number): Promise<FeedPost[]> {
     // const posts = await this.feedPostRepository.findAndCount({ take, skip });

@@ -8,6 +8,14 @@ import { FeedResponse, Status } from "../../../src/interfaces/interfaces";
 import { RootState } from "../../store";
 import { CreateResponse, UpdateResponse } from "./feed-response";
 
+export const getPosts = createAsyncThunk("feed/getPosts", async () => {
+  const { data } = await axios.get<FeedResponse>(
+    `${process.env.API_URL}/api/feed`
+  );
+
+  return data;
+});
+
 export const getPost = createAsyncThunk("feed/getPost", async (id: number) => {
   // Get token from localStorage
   const token = localStorage.getItem("token");
@@ -135,6 +143,10 @@ const feedSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getPosts.fulfilled, (state, { payload }) => {
+      state.feedPosts = payload;
+    });
+
     builder.addCase(getPost.pending, (state) => {
       state.status.isFetching = true;
     });
