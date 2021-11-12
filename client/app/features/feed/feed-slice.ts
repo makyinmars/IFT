@@ -122,13 +122,13 @@ export const deletePost = createAsyncThunk(
 );
 
 export interface FeedState {
-  posts: FeedResponse[];
+  posts: Array<FeedResponse>;
   feedPosts: FeedResponse;
   status: Status;
 }
 
 const initialState: FeedState = {
-  posts: [],
+  posts: [DefaultFeedPosts],
   feedPosts: DefaultFeedPosts,
   status: DefaultStatus,
 };
