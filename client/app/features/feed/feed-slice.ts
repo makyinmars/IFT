@@ -122,11 +122,13 @@ export const deletePost = createAsyncThunk(
 );
 
 export interface FeedState {
+  posts: FeedResponse[];
   feedPosts: FeedResponse;
   status: Status;
 }
 
 const initialState: FeedState = {
+  posts: [],
   feedPosts: DefaultFeedPosts,
   status: DefaultStatus,
 };
@@ -143,8 +145,21 @@ const feedSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(getPosts.pending, (state) => {
+      state.status.isFetching = true;
+    });
+
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
-      state.feedPosts = payload;
+      state.status.isFetching = false;
+      state.status.isSuccess = true;
+      // Fills empty array with new posts
+      state.posts.fill(payload);
+    });
+
+    builder.addCase(getPosts.rejected, (state, { error }) => {
+      state.status.isFetching = false;
+      state.status.isError = true;
+      state.status.errorMessage = error.message || "";
     });
 
     builder.addCase(getPost.pending, (state) => {
