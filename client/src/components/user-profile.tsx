@@ -1,5 +1,6 @@
 import { ChangeEvent, useState, MouseEvent, useEffect, FormEvent } from "react";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import {
   Flex,
   VStack,
@@ -69,95 +70,106 @@ const UserProfile = () => {
   }, [dispatch, id, isSuccess]);
 
   return (
-    <Flex justify="space-around" p={6}>
-      <VStack
-        w="xl"
-        h="auto"
-        p={10}
-        bg={bg}
-        borderRadius="md"
-        boxShadow="dark-lg"
-      >
-        <Heading size="md">{`${firstNameState}'s Profile`}</Heading>
-        <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
-          <GridItem colSpan={colSpan}>
-            <FormControl id="avatar">
-              <FormLabel htmlFor="avatar">Avatar</FormLabel>
-              <Input type="file" onChange={imageChange} accept="image/*" />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={colSpan} align="center">
-            {imagePath !== "" ? (
-              <Image
-                src={imagePath}
-                borderRadius="full"
-                boxSize="100px"
-                alt="image"
-              />
-            ) : (
-              imageSelected && (
+    <>
+      <Head>
+        <title>{`${firstNameState}'s Profile'`} </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <Flex justify="space-around" p={6}>
+        <VStack
+          w="xl"
+          h="auto"
+          p={10}
+          bg={bg}
+          borderRadius="md"
+          boxShadow="dark-lg"
+        >
+          <Heading size="md">{`${firstNameState}'s Profile`}</Heading>
+          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
+            <GridItem colSpan={colSpan}>
+              <FormControl id="avatar">
+                <FormLabel htmlFor="avatar">Avatar</FormLabel>
+                <Input type="file" onChange={imageChange} accept="image/*" />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={colSpan} align="center">
+              {imagePath !== "" ? (
                 <Image
-                  src={URL.createObjectURL(imageSelected)}
+                  src={imagePath}
                   borderRadius="full"
                   boxSize="100px"
                   alt="image"
                 />
-              )
-            )}
-          </GridItem>
-          <GridItem colSpan={2} align="center">
-            <Button onClick={onUploadImage}>Update image</Button>
-          </GridItem>
+              ) : (
+                imageSelected && (
+                  <Image
+                    src={URL.createObjectURL(imageSelected)}
+                    borderRadius="full"
+                    boxSize="100px"
+                    alt="image"
+                  />
+                )
+              )}
+            </GridItem>
+            <GridItem colSpan={2} align="center">
+              <Button onClick={onUploadImage}>Update image</Button>
+            </GridItem>
 
-          <GridItem colSpan={colSpan}>
-            <FormControl id="firstNameState">
-              <FormLabel htmlFor="firstNameState">First Name</FormLabel>
-              <Input
-                type="text"
-                placeholder={firstNameState}
-                value={firstName}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setFirstName(e.target.value)
-                }
-              />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={colSpan}>
-            <FormControl id="lastNameState">
-              <FormLabel htmlFor="lastNameState">Last Name</FormLabel>
-              <Input
-                type="text"
-                placeholder={lastNameState}
-                value={lastName}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setLastName(e.target.value)
-                }
-              />
-            </FormControl>
-          </GridItem>
+            <GridItem colSpan={colSpan}>
+              <FormControl id="firstNameState">
+                <FormLabel htmlFor="firstNameState">First Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder={firstNameState}
+                  value={firstName}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setFirstName(e.target.value)
+                  }
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={colSpan}>
+              <FormControl id="lastNameState">
+                <FormLabel htmlFor="lastNameState">Last Name</FormLabel>
+                <Input
+                  type="text"
+                  placeholder={lastNameState}
+                  value={lastName}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setLastName(e.target.value)
+                  }
+                />
+              </FormControl>
+            </GridItem>
 
-          <GridItem colSpan={2}>
-            <FormControl id="emailState">
-              <FormLabel htmlFor="emailState">Email</FormLabel>
-              <Input
-                type="email"
-                placeholder={emailState}
-                value={email}
-                onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                  setEmail(e.target.value)
-                }
-              />
-            </FormControl>
-          </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl id="emailState">
+                <FormLabel htmlFor="emailState">Email</FormLabel>
+                <Input
+                  type="email"
+                  placeholder={emailState}
+                  value={email}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    setEmail(e.target.value)
+                  }
+                />
+              </FormControl>
+            </GridItem>
 
-          <GridItem colSpan={2}>
-            <Button w="full" variant="primary" type="submit" onClick={onUpdate}>
-              Update Information
-            </Button>
-          </GridItem>
-        </SimpleGrid>
-      </VStack>
-    </Flex>
+            <GridItem colSpan={2}>
+              <Button
+                w="full"
+                variant="primary"
+                type="submit"
+                onClick={onUpdate}
+              >
+                Update Information
+              </Button>
+            </GridItem>
+          </SimpleGrid>
+        </VStack>
+      </Flex>
+    </>
   );
 };
 

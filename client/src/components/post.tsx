@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useRouter } from "next/dist/client/router";
+import Head from "next/head";
 import {
   Flex,
   Button,
@@ -62,73 +63,81 @@ const Post = () => {
     dispatch(getPost(Number(id)));
   }, [dispatch, id, router]);
   return (
-    <Flex justify="space-around" p={6}>
-      <VStack
-        w="auto"
-        h="auto"
-        p={10}
-        bg={bg}
-        borderRadius="md"
-        boxShadow="dark-lg"
-      >
-        <Heading fontSize="xl">Post: {id}</Heading>
-        <SimpleGrid columns={2} columnGap={3} rowGap={6} w="auto" p={6}>
-          <GridItem colSpan={2}>
-            <FormControl id="image">
-              <FormLabel htmlFor="image">
-                <Input
-                  type="file"
-                  id="image"
-                  name="image"
-                  onChange={imageChange}
-                />
-              </FormLabel>
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={2} align="center">
-            {feedPosts.imagePath !== "" ? (
-              <Image src={feedPosts.imagePath} boxSize="400px" alt="image" />
-            ) : (
-              imagePath && (
-                <Image
-                  src={URL.createObjectURL(imagePath)}
-                  boxSize="400px"
-                  alt="image"
-                />
-              )
-            )}
-          </GridItem>
-          <GridItem colSpan={2}>
-            <FormControl id="post">
-              <FormLabel>Post</FormLabel>
+    <>
+      <Head>
+        <title>{`Post - ${id}`} </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <Flex justify="space-around" p={6}>
+        <VStack
+          w="auto"
+          h="auto"
+          p={10}
+          bg={bg}
+          borderRadius="md"
+          boxShadow="dark-lg"
+        >
+          <Heading fontSize="xl">Post: {id}</Heading>
+          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="auto" p={6}>
+            <GridItem colSpan={2}>
+              <FormControl id="image">
+                <FormLabel htmlFor="image">
+                  <Input
+                    type="file"
+                    id="image"
+                    name="image"
+                    onChange={imageChange}
+                  />
+                </FormLabel>
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2} align="center">
+              {feedPosts.imagePath !== "" ? (
+                <Image src={feedPosts.imagePath} boxSize="400px" alt="image" />
+              ) : (
+                imagePath && (
+                  <Image
+                    src={URL.createObjectURL(imagePath)}
+                    boxSize="400px"
+                    alt="image"
+                  />
+                )
+              )}
+            </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl id="post">
+                <FormLabel>Post</FormLabel>
 
-              <Textarea
-                value={body}
-                isRequired
-                onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
-                  setBody(e.target.value)
-                }
-                placeholder={feedPosts.body}
-              />
-              <FormHelperText>Create At: {feedPosts.createdAt}</FormHelperText>
-              <FormHelperText>
-                Button disabled, update your post in order to enable button
-              </FormHelperText>
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={1}>
-            <Button variant="secondary" size="sm" w="full" onClick={onUpdate}>
-              Update
-            </Button>
-          </GridItem>
-          <GridItem colSpan={1}>
-            <Button variant="secondary" size="sm" w="full" onClick={onDelete}>
-              Delete
-            </Button>
-          </GridItem>
-        </SimpleGrid>
-      </VStack>
-    </Flex>
+                <Textarea
+                  value={body}
+                  isRequired
+                  onChange={(e: ChangeEvent<HTMLTextAreaElement>) =>
+                    setBody(e.target.value)
+                  }
+                  placeholder={feedPosts.body}
+                />
+                <FormHelperText>
+                  Create At: {feedPosts.createdAt}
+                </FormHelperText>
+                <FormHelperText>
+                  Button disabled, update your post in order to enable button
+                </FormHelperText>
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Button variant="secondary" size="sm" w="full" onClick={onUpdate}>
+                Update
+              </Button>
+            </GridItem>
+            <GridItem colSpan={1}>
+              <Button variant="secondary" size="sm" w="full" onClick={onDelete}>
+                Delete
+              </Button>
+            </GridItem>
+          </SimpleGrid>
+        </VStack>
+      </Flex>
+    </>
   );
 };
 

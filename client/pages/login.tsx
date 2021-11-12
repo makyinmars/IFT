@@ -10,6 +10,7 @@ import {
   VStack,
   Button,
 } from "@chakra-ui/react";
+import Head from "next/head";
 
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { loginUser } from "../app/features/auth/auth-slice";
@@ -54,46 +55,52 @@ const LoginPage = () => {
   }, [isSuccess, router]);
 
   return (
-    <VStack w="full" h="full" p={10}>
-      <VStack spacing={4}>
-        <Heading>Log in to your account</Heading>
-      </VStack>
+    <>
+      <Head>
+        <title>Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
+      <VStack w="full" h="full" p={10}>
+        <VStack spacing={4}>
+          <Heading>Log in to your account</Heading>
+        </VStack>
 
-      {isFetching && <Spinner />}
-      {isError && <Alert status="error" description={errorMessage} />}
-      {isSuccess && <Alert status="success" description="Welcome back!" />}
-      <form onSubmit={onSubmit}>
-        <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
-          <GridItem colSpan={2}>
-            <FormControl id="email" isRequired>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Input
-                type="email"
-                placeholder="jonh@gmail.com"
-                value={email}
-                onChange={onChange}
-              />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={2}>
-            <FormControl id="password" isRequired>
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <Input
-                type="password"
-                placeholder="123456"
-                value={password}
-                onChange={onChange}
-              />
-            </FormControl>
-          </GridItem>
-          <GridItem colSpan={2}>
-            <Button w="full" variant="primary" type="submit">
-              Sign Up
-            </Button>
-          </GridItem>
-        </SimpleGrid>
-      </form>
-    </VStack>
+        {isFetching && <Spinner />}
+        {isError && <Alert status="error" description={errorMessage} />}
+        {isSuccess && <Alert status="success" description="Welcome back!" />}
+        <form onSubmit={onSubmit}>
+          <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
+            <GridItem colSpan={2}>
+              <FormControl id="email" isRequired>
+                <FormLabel htmlFor="email">Email</FormLabel>
+                <Input
+                  type="email"
+                  placeholder="jonh@gmail.com"
+                  value={email}
+                  onChange={onChange}
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <FormControl id="password" isRequired>
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <Input
+                  type="password"
+                  placeholder="123456"
+                  value={password}
+                  onChange={onChange}
+                />
+              </FormControl>
+            </GridItem>
+            <GridItem colSpan={2}>
+              <Button w="full" variant="primary" type="submit">
+                Sign Up
+              </Button>
+            </GridItem>
+          </SimpleGrid>
+        </form>
+      </VStack>
+    </>
   );
 };
 

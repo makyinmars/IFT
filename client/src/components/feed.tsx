@@ -7,6 +7,7 @@ import {
   Center,
   Image,
 } from "@chakra-ui/react";
+import Head from "next/head";
 
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
@@ -29,6 +30,10 @@ const Feed = ({ feedPosts }: Props) => {
 
   return (
     <>
+      <Head>
+        <title>Posts</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      </Head>
       <Center pt={4}>
         <Modal />
       </Center>
