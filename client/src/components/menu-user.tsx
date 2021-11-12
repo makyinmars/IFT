@@ -61,7 +61,7 @@ const MenuUser = () => {
       </MenuButton>
       <MenuList>
         <MenuItem>
-          <Link href="/posts">Community</Link>
+          <Link href="/posts">Posts</Link>
         </MenuItem>
         <MenuItem>
           <Link href={`/profile/${id}`}>Profile</Link>

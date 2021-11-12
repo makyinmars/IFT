@@ -7,12 +7,13 @@ import {
   Center,
   Image,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
 import MenuPost from "./menu-post";
 import { useAppSelector } from "../../app/hooks";
+import Alert from "./alert";
+import Spinner from "./spinner";
 
 interface Props {
   feedPosts: FeedPosts[];
@@ -22,18 +23,22 @@ const Feed = ({ feedPosts }: Props) => {
   const bg = useColorModeValue("brand.400", "brand.400");
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
 
-  // Fix in server side rendering
-  // const { user } = useAppSelector((state) => state.auth.userInfo);
-  // const { author } = useAppSelector((state) => state.feed.feedPosts);
-  const { isSuccess } = useAppSelector((state) => state.feed.status);
-  // Working on it!
-  // useEffect(() => {}, []);
+  const { isSuccess, isFetching, isError, errorMessage } = useAppSelector(
+    (state) => state.feed.status
+  );
 
   return (
     <>
       <Center pt={4}>
         <Modal />
       </Center>
+      <Box p={2}>
+        {isSuccess && (
+          <Alert status="success" description="Posts successfully loaded" />
+        )}
+        {isFetching && <Spinner />}
+        {isError && <Alert status="error" description={errorMessage} />}
+      </Box>
       <SimpleGrid columns={{ sm: 1, md: 2, lg: 3 }} spacing={10} p={6}>
         {feedPosts.map((feedPost) => (
           <Box

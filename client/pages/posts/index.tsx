@@ -1,9 +1,11 @@
 import { GetServerSideProps, InferGetServerSidePropsType } from "next";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { FeedPosts } from "../../src/interfaces/interfaces";
 import Feed from "../../src/components/feed";
 import MainLayout from "../../src/components/main-layout";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { getPosts } from "../../app/features/feed/feed-slice";
 
 interface FeedProps {
   feedPosts: FeedPosts[];
@@ -12,6 +14,12 @@ interface FeedProps {
 const PostsPage = ({
   feedPosts,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <MainLayout>
       <Feed feedPosts={feedPosts} />
