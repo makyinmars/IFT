@@ -24,8 +24,10 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [x] Add correct alert fo isFetching, isError, errorMessage, and isSuccess
 
-- [ ] Add next-redux-wrapper for server side rendering
+- [x] Add next-redux-wrapper for server side rendering
 
 - [x] Refactor components
 
-- [ ] Migrate postgres to heroku/aws
+- [ ] Migrate server/postgres to heroku/aws
+
+- [ ] Migrate client to vercel
