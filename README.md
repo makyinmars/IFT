@@ -28,6 +28,8 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [x] Refactor components
 
+- [ ] Add logos
+
 - [ ] Migrate server/postgres to heroku/aws
 
 - [ ] Migrate client to vercel
