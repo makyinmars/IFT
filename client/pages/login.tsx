@@ -94,7 +94,7 @@ const LoginPage = () => {
             </GridItem>
             <GridItem colSpan={2}>
               <Button w="full" variant="primary" type="submit">
-                Sign Up
+                Log In
               </Button>
             </GridItem>
           </SimpleGrid>
