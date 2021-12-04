@@ -28,7 +28,7 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [x] Refactor components
 
-- [ ] Add logos
+- [ ] Add logos to home/front page
 
 - [x] Migrate server/postgres to heroku/aws
 

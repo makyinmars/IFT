@@ -38,7 +38,7 @@ const UserProfile = () => {
     email: emailState,
   } = useAppSelector((state) => state.auth.userInfo.user);
 
-  const { isSuccess, errorMessage, isError } = useAppSelector(
+  const { isSuccess, errorMessage, isError, isFetching } = useAppSelector(
     (state) => state.auth.status
   );
 
@@ -67,7 +67,7 @@ const UserProfile = () => {
 
   useEffect(() => {
     dispatch(getUser(Number(id)));
-  }, [dispatch, id, isSuccess]);
+  }, [dispatch, id]);
 
   return (
     <>

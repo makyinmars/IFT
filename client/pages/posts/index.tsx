@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { FeedPosts } from "../../src/interfaces/interfaces";
 import Feed from "../../src/components/feed";
 import MainLayout from "../../src/components/main-layout";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { getPosts } from "../../app/features/feed/feed-slice";
 
 interface FeedProps {

@@ -9,7 +9,7 @@ import { RootState } from "../../store";
 import { CreateResponse, UpdateResponse } from "./feed-response";
 
 export const getPosts = createAsyncThunk("feed/getPosts", async () => {
-  const { data } = await axios.get<FeedResponse>(
+  const { data } = await axios.get<[FeedResponse]>(
     `${process.env.API_URL}/api/feed`
   );
 
@@ -150,10 +150,11 @@ const feedSlice = createSlice({
     });
 
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
+      console.log(payload);
       state.status.isFetching = false;
       state.status.isSuccess = true;
       // Fills empty array with new posts
-      state.posts.fill(payload);
+      state.posts = [...payload];
     });
 
     builder.addCase(getPosts.rejected, (state, { error }) => {
