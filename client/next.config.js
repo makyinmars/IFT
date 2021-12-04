@@ -2,6 +2,6 @@
 module.exports = {
   reactStrictMode: true,
   env: {
-    API_URL: "http://localhost:5000",
+    API_URL: "https://ift-server.herokuapp.com",
   },
 };
