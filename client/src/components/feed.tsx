@@ -8,11 +8,13 @@ import {
   Image,
 } from "@chakra-ui/react";
 import Head from "next/head";
+import { useEffect } from "react";
 
 import { FeedPosts } from "../interfaces/interfaces";
 import Modal from "./modal-create-post";
 import MenuPost from "./menu-post";
-import { useAppSelector } from "../../app/hooks";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { clearStatus } from "../../app/features/feed/feed-slice";
 import Alert from "./alert";
 import Spinner from "./spinner";
 
@@ -24,9 +26,17 @@ const Feed = ({ feedPosts }: Props) => {
   const bg = useColorModeValue("brand.400", "brand.400");
   const bgBody = useColorModeValue("whiteAlpha.700", "blackAlpha.500");
 
+  const dispatch = useAppDispatch();
+
   const { isSuccess, isFetching, isError, errorMessage } = useAppSelector(
     (state) => state.feed.status
   );
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearStatus());
+    }
+  }, [dispatch, isSuccess]);
 
   return (
     <>

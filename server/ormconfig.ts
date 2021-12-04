@@ -13,11 +13,11 @@ const config: PostgresConnectionOptions = {
   cli: {
     migrationsDir: 'src/db/migrations',
   },
-  // extra: {
-  //   ssl: {
-  //     rejectUnauthorized: false,
-  //   },
-  // },
+  extra: {
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  },
 };
 
 export default config;
