@@ -12,6 +12,8 @@ import { MulterModule } from '@nestjs/platform-express';
 import { memoryStorage } from 'multer';
 import { APP_FILTER } from '@nestjs/core';
 import { AllExceptionsFilter } from './core/all-exceptions.filter';
+import { UserEntity } from './auth/models/user.entity';
+import { FeedPostEntity } from './feed/models/feed.entity';
 
 @Module({
   imports: [
@@ -19,7 +21,11 @@ import { AllExceptionsFilter } from './core/all-exceptions.filter';
       storage: memoryStorage(),
     }),
     ConfigModule.forRoot({ isGlobal: true }),
-    TypeOrmModule.forRoot({ ...config, autoLoadEntities: true }),
+    TypeOrmModule.forRoot({
+      ...config,
+      entities: [UserEntity, FeedPostEntity],
+      autoLoadEntities: true,
+    }),
     FeedModule,
     AuthModule,
     CloudinaryModule,

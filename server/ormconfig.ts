@@ -8,13 +8,16 @@ const config: PostgresConnectionOptions = {
   database: process.env.DATABASE_NAME,
   password: process.env.DATABASE_PASSWORD,
   synchronize: false, // for production false
-  migrations: ['dist/src/db/migrations/*.js'],
+  entities: ['dist/src/**/models/*.entity.{js,ts}'],
+  migrations: ['dist/src/db/migrations/*.{js,ts}'],
   cli: {
     migrationsDir: 'src/db/migrations',
   },
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  // extra: {
+  //   ssl: {
+  //     rejectUnauthorized: false,
+  //   },
+  // },
 };
 
 export default config;
