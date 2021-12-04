@@ -1,7 +1,14 @@
 import UserProfile from "../../src/components/user-profile";
+import MainLayout from "../../src/components/main-layout";
 
 const ProfilePage = () => {
-  return <UserProfile />;
+  return (
+    <>
+      <MainLayout>
+        <UserProfile />
+      </MainLayout>
+    </>
+  );
 };
 
 export default ProfilePage;

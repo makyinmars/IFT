@@ -1,4 +1,5 @@
-import { Heading, Flex } from "@chakra-ui/react";
+import { Heading, Flex, Center, Link } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 import Logo from "./logo";
 
 interface Props {
@@ -15,6 +16,15 @@ const MainLayout = ({ children }: Props) => {
         <Logo />
       </Flex>
       {children}
+      <Center>
+        <Heading size="md">
+          Copyright &copy; 2021 IFT |{" "}
+          <Link href="https://github.com/makyfj/ift" isExternal>
+            Source Code
+            <ExternalLinkIcon mx="2px" />
+          </Link>
+        </Heading>
+      </Center>
     </>
   );
 };

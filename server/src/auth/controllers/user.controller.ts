@@ -9,12 +9,10 @@ import {
   Get,
   Put,
   Body,
-  Delete,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { UpdateResult, DeleteResult } from 'typeorm';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/models/role.enum';
 import { JwtGuard } from '../guards/jwt.guard';

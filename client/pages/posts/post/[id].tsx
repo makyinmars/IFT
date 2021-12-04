@@ -1,8 +1,13 @@
 import React from "react";
 import Post from "../../../src/components/post";
+import MainLayout from "../../../src/components/main-layout";
 
 const PostPage = () => {
-  return <Post />;
+  return (
+    <MainLayout>
+      <Post />
+    </MainLayout>
+  );
 };
 
 export default PostPage;
