@@ -30,6 +30,6 @@ Do you ever just find weird stuff on the street. Well, this is the perfect place
 
 - [ ] Add logos
 
-- [ ] Migrate server/postgres to heroku/aws
+- [x] Migrate server/postgres to heroku/aws
 
-- [ ] Migrate client to vercel
+- [x] Migrate client to vercel
