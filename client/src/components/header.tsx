@@ -62,7 +62,7 @@ const Header = () => {
             ) : (
               <>
                 <MenuItem>
-                  <Link href="/posts">Community</Link>
+                  <Link href="/posts">Posts</Link>
                 </MenuItem>
                 <MenuItem>
                   <Link href="/register">Register</Link>
@@ -83,7 +83,7 @@ const Header = () => {
           ) : (
             <Box>
               <Button variant="primary" mr="2" size={size}>
-                <Link href="/posts">Community</Link>
+                <Link href="/posts">Posts</Link>
               </Button>
               <Button variant="primary" mr="2" size={size}>
                 <Link href="/register">Register</Link>

@@ -17,7 +17,7 @@ const MainLayout = ({ children }: Props) => {
       </Flex>
       {children}
       <Center>
-        <Heading size="md">
+        <Heading size="md" mb={4}>
           Copyright &copy; 2021 IFT |{" "}
           <Link href="https://github.com/makyfj/ift" isExternal>
             Source Code

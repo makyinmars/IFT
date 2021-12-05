@@ -30,6 +30,7 @@ const Post = () => {
 
   const dispatch = useAppDispatch();
   const { feedPosts } = useAppSelector((state) => state.feed);
+  const { user } = useAppSelector((state) => state.auth.userInfo);
 
   const { isSuccess } = useAppSelector((state) => state.feed.status);
   const router = useRouter();
@@ -120,17 +121,29 @@ const Post = () => {
                   Create At: {feedPosts.createdAt}
                 </FormHelperText>
                 <FormHelperText>
-                  Button disabled, update your post in order to enable button
+                  Buttons disabled, If you are not the owner of this post
                 </FormHelperText>
               </FormControl>
             </GridItem>
             <GridItem colSpan={1}>
-              <Button variant="secondary" size="sm" w="full" onClick={onUpdate}>
+              <Button
+                variant="secondary"
+                size="sm"
+                w="full"
+                onClick={onUpdate}
+                disabled={user.id !== feedPosts.author.id}
+              >
                 Update
               </Button>
             </GridItem>
             <GridItem colSpan={1}>
-              <Button variant="secondary" size="sm" w="full" onClick={onDelete}>
+              <Button
+                variant="secondary"
+                size="sm"
+                w="full"
+                onClick={onDelete}
+                disabled={user.id !== feedPosts.author.id}
+              >
                 Delete
               </Button>
             </GridItem>

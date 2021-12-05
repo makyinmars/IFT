@@ -16,7 +16,6 @@ import {
   logoutUser,
   clearStatus,
   clearUserInfo,
-  findUserImage,
 } from "../../app/features/auth/auth-slice";
 import {
   clearStatus as clearStatusFeed,
