@@ -16,7 +16,9 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-import Alert from "../components/alert";
+import Spinner from "./spinner";
+import Notification from "./notification";
+import { toast } from "react-toastify";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import {
   uploadUserImage,
@@ -59,10 +61,26 @@ const UserProfile = () => {
 
   const onUploadImage = () => {
     dispatch(uploadUserImage(imageSelected));
+
+    if (isSuccess) {
+      toast.success("Image uploaded successfully");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
+    }
   };
 
   const onUpdate = () => {
     dispatch(updateUser({ firstName, lastName, email }));
+
+    if (isSuccess) {
+      toast.success("Information updated successfully");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
+    }
   };
 
   useEffect(() => {
@@ -75,6 +93,11 @@ const UserProfile = () => {
         <title>{`${firstNameState}'s Profile'`} </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+
+      {isSuccess && <Notification />}
+      {isFetching && <Spinner />}
+      {isError && <Notification />}
+
       <Flex justify="space-around" p={6}>
         <VStack
           w="xl"

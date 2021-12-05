@@ -22,8 +22,10 @@ import {
   getPost,
   updatePost,
   deletePost,
-  clearStatus,
 } from "../../app/features/feed/feed-slice";
+import Notification from "./notification";
+import Spinner from "./spinner";
+import { toast } from "react-toastify";
 
 const Post = () => {
   const bg = useColorModeValue("gray.200", "gray.700");
@@ -32,7 +34,9 @@ const Post = () => {
   const { feedPosts } = useAppSelector((state) => state.feed);
   const { user } = useAppSelector((state) => state.auth.userInfo);
 
-  const { isSuccess } = useAppSelector((state) => state.feed.status);
+  const { isSuccess, isError, isFetching, errorMessage } = useAppSelector(
+    (state) => state.feed.status
+  );
   const router = useRouter();
   const { id } = router.query;
   const [body, setBody] = useState("");
@@ -49,6 +53,11 @@ const Post = () => {
     dispatch(deletePost());
     if (isSuccess) {
       router.push("/posts");
+      toast.success("Post deleted successfully");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
     }
   };
 
@@ -57,6 +66,11 @@ const Post = () => {
     // dispatch(createPost({ body, imagePath }));
     if (isSuccess) {
       router.push("/posts");
+      toast.success("Post updated successfully");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
     }
   };
 
@@ -69,6 +83,11 @@ const Post = () => {
         <title>{`Post - ${id}`} </title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
+
+      {isSuccess && <Notification />}
+      {isFetching && <Spinner />}
+      {isError && <Notification />}
+
       <Flex justify="space-around" p={6}>
         <VStack
           w="auto"

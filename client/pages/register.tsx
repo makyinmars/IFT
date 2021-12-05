@@ -3,8 +3,6 @@ import Link from "next/link";
 import { useRouter } from "next/dist/client/router";
 import Head from "next/head";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { registerUser } from "../app/features/auth/auth-slice";
 import {
   VStack,
   Heading,
@@ -18,9 +16,14 @@ import {
   FormHelperText,
   Button,
 } from "@chakra-ui/react";
+
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { registerUser } from "../app/features/auth/auth-slice";
+import { toast } from "react-toastify";
 import Spinner from "../src/components/spinner";
 import Alert from "../src/components/alert";
 import MainLayout from "../src/components/main-layout";
+import Notification from "../src/components/notification";
 
 const userFormData = {
   firstName: "",
@@ -55,6 +58,13 @@ const RegisterPage: NextPage = () => {
     e.preventDefault();
     dispatch(registerUser({ firstName, lastName, email, password }));
     setFormData(userFormData);
+    if (isSuccess) {
+      toast.success("Account registered successfully");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
+    }
   };
 
   useEffect(() => {
@@ -82,8 +92,10 @@ const RegisterPage: NextPage = () => {
             </Text>
           </VStack>
 
+          {isSuccess && <Notification />}
           {isFetching && <Spinner />}
-          {isError && <Alert status="error" description={errorMessage} />}
+          {isError && <Notification />}
+
           <form onSubmit={onSubmit}>
             <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
               <GridItem colSpan={colSpan}>

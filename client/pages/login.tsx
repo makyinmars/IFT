@@ -14,8 +14,9 @@ import Head from "next/head";
 
 import { useAppSelector, useAppDispatch } from "../app/hooks";
 import { loginUser } from "../app/features/auth/auth-slice";
+import { toast } from "react-toastify";
+import Notification from "../src/components/notification";
 import Spinner from "../src/components/spinner";
-import Alert from "../src/components/alert";
 import MainLayout from "../src/components/main-layout";
 
 const userFormData = {
@@ -47,6 +48,14 @@ const LoginPage = () => {
     e.preventDefault();
     dispatch(loginUser({ email, password }));
     setFormData(userFormData);
+
+    if (isSuccess) {
+      toast.success("Login successful");
+    }
+
+    if (isError) {
+      toast.error(errorMessage);
+    }
   };
 
   useEffect(() => {
@@ -70,9 +79,9 @@ const LoginPage = () => {
             <Heading>Log in to your account</Heading>
           </VStack>
 
+          {isSuccess && <Notification />}
           {isFetching && <Spinner />}
-          {isError && <Alert status="error" description={errorMessage} />}
-          {isSuccess && <Alert status="success" description="Welcome back!" />}
+          {isError && <Notification />}
           <form onSubmit={onSubmit}>
             <SimpleGrid columns={2} columnGap={3} rowGap={6} w="full">
               <GridItem colSpan={2}>
