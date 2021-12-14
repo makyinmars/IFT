@@ -1,20 +1,13 @@
-import { GetServerSideProps, InferGetServerSidePropsType } from "next";
 import React, { useEffect } from "react";
 
-import { FeedPosts } from "../../src/interfaces/interfaces";
 import Feed from "../../src/components/feed";
 import MainLayout from "../../src/components/main-layout";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { getPosts } from "../../app/features/feed/feed-slice";
 
-interface FeedProps {
-  feedPosts: FeedPosts[];
-}
-
-const PostsPage = ({
-  feedPosts,
-}: InferGetServerSidePropsType<typeof getServerSideProps>) => {
+const PostsPage = () => {
   const dispatch = useAppDispatch();
+  const { posts } = useAppSelector((state) => state.feed);
 
   useEffect(() => {
     dispatch(getPosts());
@@ -22,20 +15,9 @@ const PostsPage = ({
 
   return (
     <MainLayout>
-      <Feed feedPosts={feedPosts} />
+      <Feed feedPosts={posts} />
     </MainLayout>
   );
 };
 
 export default PostsPage;
-
-export const getServerSideProps: GetServerSideProps<FeedProps> = async () => {
-  const res = await fetch(`${process.env.API_URL}/api/feed`);
-  const feedPosts: FeedPosts[] = await res.json();
-
-  return {
-    props: {
-      feedPosts,
-    },
-  };
-};

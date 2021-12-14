@@ -4,12 +4,16 @@ import {
   DefaultFeedPosts,
   DefaultStatus,
 } from "../../../src/constants/constants";
-import { FeedResponse, Status } from "../../../src/interfaces/interfaces";
+import {
+  FeedResponse,
+  Status,
+  FeedPosts,
+} from "../../../src/interfaces/interfaces";
 import { RootState } from "../../store";
 import { CreateResponse, UpdateResponse } from "./feed-response";
 
 export const getPosts = createAsyncThunk("feed/getPosts", async () => {
-  const { data } = await axios.get<[FeedResponse]>(
+  const { data } = await axios.get<[FeedPosts]>(
     `${process.env.API_URL}/api/feed`
   );
 
@@ -122,7 +126,7 @@ export const deletePost = createAsyncThunk(
 );
 
 export interface FeedState {
-  posts: Array<FeedResponse>;
+  posts: Array<FeedPosts>;
   feedPosts: FeedResponse;
   status: Status;
 }
@@ -150,7 +154,6 @@ const feedSlice = createSlice({
     });
 
     builder.addCase(getPosts.fulfilled, (state, { payload }) => {
-      console.log(payload);
       state.status.isFetching = false;
       state.status.isSuccess = true;
       // Fills empty array with new posts
